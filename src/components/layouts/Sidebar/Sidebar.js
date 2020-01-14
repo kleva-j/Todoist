@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   FaInbox,
   FaRegCalendarAlt,
@@ -7,9 +7,11 @@ import {
 
 import { SubSection } from './SubSection'
 import { SidebarStyles } from '../../../styles/layout';
+import { SettingsContext } from '../../../contexts';
 
 export const Sidebar = () => {
-  const Subsections = ['Projects', 'Labels', 'Filters'];
+  const { settings: { subsections } } = useContext(SettingsContext);
+  const Subsections = Object.keys(subsections);
 
   return (
     <SidebarStyles>
@@ -45,6 +47,7 @@ export const Sidebar = () => {
       <hr />
   
       <ul className="sidebar__projects">
+
       </ul>
     </SidebarStyles>
   );

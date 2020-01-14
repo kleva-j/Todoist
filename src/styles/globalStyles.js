@@ -20,7 +20,6 @@ export const GlobalStyle = createGlobalStyle`
     color: #202124;
     background: url(${bgImage});
     background-attachment: fixed;
-
     font-family: Lato, 'Roboto', Arial, sans-serif;
     font-size: 16px;
     overflow-x: hidden;

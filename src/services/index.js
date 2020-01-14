@@ -1,7 +1,7 @@
 import { Toastr } from './Toaster';
-import { Firebase } from './firebase';
+import FirebaseApp  from './firebase';
 
 export {
   Toastr,
-  Firebase
+  FirebaseApp
 };

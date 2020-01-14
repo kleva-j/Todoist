@@ -1,18 +1,31 @@
-import React, { useState, createContext } from 'react';
+import React, { createContext, useReducer } from 'react';
+import { SettingReducer } from '../Reducers';
 
 const defaultState = {
   isRow: true,
+
+  subsections: {
+    'Projects': {
+      hasChildren: false,
+      children: [],
+      length: 0,
+    },
+    'Labels': {
+      children: []
+    },
+    'Filters': {
+      children: ['Priority 1', 'Priority 2', 'Priority 3', 'Priority 4']
+    }
+  }
 }
 
-export const SettingsContext = createContext(defaultState);
+export const SettingsContext = createContext();
 
 export const SettingsContextProvider = (props) => {
-  const [state, setState] = useState(defaultState);
-
-  const setRow = () => setState({ ...state, isRow: !state.isRow })
+  const [settings, dispatch] = useReducer(SettingReducer, defaultState);
 
   return (
-    <SettingsContext.Provider value={{...state, setRow }}>
+    <SettingsContext.Provider value={{settings, dispatch}}>
       {props.children}
     </SettingsContext.Provider>
   );

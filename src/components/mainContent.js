@@ -1,12 +1,14 @@
 import React from 'react';
+
 import { MainContentWrapper } from '../styles/layout';
-import { TaskContainer } from './TaskContainer';
+import { TaskContainer } from './TaskContainer/TaskContainer';
+import { AddTask } from './AddTask';
 
 export const MainContent = () => {
   return (
-    <MainContentWrapper>    
+    <MainContentWrapper>
       <div className="main">
-        <input type="text" className="input__add__item" placeholder="+ Add new task" />
+        <AddTask />
         <TaskContainer />
       </div>
     </MainContentWrapper>
