@@ -1,5 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { App } from './App';
+import { AppRouting } from './Routes';
+import { FirebaseApp } from './services';
 
-render(<App />, document.getElementById('root'));
+FirebaseApp.auth.onAuthStateChanged(user =>
+  render(<AppRouting authUser={user} /> , document.getElementById('root'))
+);
