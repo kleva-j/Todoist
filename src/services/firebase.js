@@ -25,6 +25,28 @@ class FirebaseApp {
   getCurrentUser() {
     return this.auth.currentUser;
   }
+
+  fetchTask(successCallback, errorCallback, { uid }) {
+    return () => {
+      this.db
+        .collection('tasks')
+        .where('userId', '==', `${uid}`)
+        .where('deleted', '==', false)
+        .onSnapshot(successCallback, errorCallback);
+    }
+  }
+
+  updateTask(successCallback, errorCallback) {
+    return (taskId, id, payload) => {
+      this.db
+        .collection('tasks')
+        .doc(`${taskId}`)
+        .update(payload)
+        .then(successCallback(id))
+        .catch(errorCallback);
+
+    }
+  }
 }
 
 export default new FirebaseApp();

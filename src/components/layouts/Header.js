@@ -17,21 +17,20 @@ export const Header = withRouter((props) => {
   const [state, setState] = useState({
     showLogout: false,
   });
+
   const style = {
     color: 'white',
     fontSize: '22px',
     cursor: 'pointer',
   };
 
-  const toggleLogout = () => {
-    setState({ ...state, showLogout: !state.showLogout });
-  };
+  const toggleLogout = () => setState({ ...state, showLogout: !state.showLogout });
 
   const logout = () => {
     FirebaseApp.auth.signOut().then(() => {
       setCurrentUser(null);
       return props.history.push('/login');
-    }).catch(console.log);
+    });
   };
 
   return (

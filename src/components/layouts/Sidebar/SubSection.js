@@ -24,25 +24,29 @@ export const SubSection = withRouter(({ title, history }) => {
   const fetchProjects = () => {
     const title = state.title.toLowerCase();
     if (currentUser) {
-      FirebaseApp.db.collection(title).where('userId', '==', `${currentUser.uid}`).get().then((snapshot) => {
-        const snap = snapshot.docs.map(doc => doc.data());
-        const length = snap.length;
-        const snapTitles = snap.map(obj => obj.title);
-        dispatch({
-          type: 'SET_SECTIONS',
-          payload: {
-            key: state.title,
-            value: {
-              hasChildren: length>0 && true,
-              children: snapTitles,
-              length,
+      FirebaseApp.db
+        .collection(title)
+        .where('userId', '==', `${currentUser.uid}`)
+        .get()
+        .then((snapshot) => {
+          const snap = snapshot.docs.map(doc => doc.data());
+          const length = snap.length;
+          const snapTitles = snap.map(obj => obj.title);
+          dispatch({
+            type: 'SET_SECTIONS',
+            payload: {
+              key: state.title,
+              value: {
+                hasChildren: length>0 && true,
+                children: snapTitles,
+                length,
+              }
             }
-          }
+          });
+          setState({ ...state, children: snapTitles });
+        }).catch(error => {
+          Toastr.error(error.message);
         });
-        setState({ ...state, children: snapTitles });
-      }).catch(error => {
-        Toastr.error(error.message);
-      });
     }
   }
 

@@ -5,7 +5,8 @@ export const HeaderStyles = styled.header`
   background-color: #128277;
   position: fixed;
   top: 0;
-  width: 100%
+  width: 100%;
+  z-index: 10;
 
   .navbar__header {
     display: flex;

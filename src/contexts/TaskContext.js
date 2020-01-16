@@ -8,7 +8,7 @@ const defaultState = {
   activeTab: 'Inbox',
   prevActiveTab: 'Inbox',
   currentFilter: 'none',
-  task: fetchFromLocalStorage('task') || []
+  task: fetchFromLocalStorage('task') || [],
 };
 
 export const TaskContextProvider = ({ children }) => {

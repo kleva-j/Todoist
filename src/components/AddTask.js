@@ -31,7 +31,7 @@ export const AddTask = () => {
         title: task,
         id: uid.randomUUID(10),
         archived: false,
-        done: false
+        deleted: false
       });
       document.querySelector('.editable').textContent = '';
       setTask('');
@@ -45,7 +45,13 @@ export const AddTask = () => {
 
   return (
     <form className="input__add__item">
-      <div contentEditable="true" aria-multiline="true" role="textbox" tabIndex="0" spellCheck="false" className="editable" data-text="+ Add new task..." onInput={(event) => setTask(event.currentTarget.textContent)} onClick={handleClick}></div>
+
+      <input placeholder="+ Add new task..." value={task} spellCheck="false" className="editable"
+           onChange={({ target: { value }}) => setTask(value)} onClick={handleClick} />
+      {/* <div contentEditable="true" role="textbox" tabIndex="0"
+           spellCheck="false" className="editable" data-text="+ Add new task..."
+           onInput={(event) => setTask(event.currentTarget.textContent)} onClick={handleClick}></div> */}
+
       <div className="options">
         <div>
           <span className="add_project">
