@@ -1,7 +1,7 @@
 import React from 'react';
-import { AddModalStyles } from '../styles/layout/AddModalStyle';
+import { AddModalStyles } from '../../styles/modals';
 
-export const AddModal = ({ component }) => {
+export const AddModal = () => {
 
   return (
     <AddModalStyles>

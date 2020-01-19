@@ -9,8 +9,8 @@ export const TaskReducer = (state, action) => {
 
     case 'DELETE_TASK':
       const { taskId } = action.payload;
-      const taskList = state.tasks;
-      taskList.map(item => (item.id === taskId) && (item.archived = true));
+      let taskList = state.task;
+      taskList = taskList.filter(item => item.id !== taskId);
       return { ...state, task: [...taskList] }
 
     default:
