@@ -31,9 +31,6 @@ export const TaskContainer = () => {
   );
 
 
-  useEffect(() => {
-    fetchTaskFunc();
-  }, []);
 
   return (
     <TaskContainerStyles flex_direction={isRow ? 'row' : 'column'}>

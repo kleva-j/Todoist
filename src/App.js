@@ -1,28 +1,44 @@
-import React from 'react';
-import { IconContext } from 'react-icons';
+import React, { useState } from 'react';
+import { Layout } from 'antd';
 
-import { Header } from './components/layouts/Header';
-import { Container } from './components/layouts/container';
-import { TaskContextProvider } from './contexts/TaskContext';
-import { SettingsContextProvider } from './contexts/SettingsContext';
+import { SidebarComponent } from './components/layouts/Sidebar/Sidebar';
+import { HeaderComponent } from './components/layouts/Header/Header';
+import { FooterComponent } from './components/layouts/Footer/Footer';
+import { Container } from './components/layouts/Content/container';
+import { AppProvider } from './contexts/AppContext';
 
 export const App = () => {
 
-  const style = {
-    fontSize: '20px',
-    verticalAlign: 'middle',
-    cursor: 'pointer',
-    color: '#333'
+  const [state, setState] = useState({
+    collapsed: false,
+  });
+
+  const toggle = () => {
+    setState({
+      collapsed: !state.collapsed,
+    });
   };
 
   return (
-    <TaskContextProvider>
-      <SettingsContextProvider>
-        <IconContext.Provider value={{ style }}>
-          <Header />
-          <Container />
-        </IconContext.Provider>
-      </SettingsContextProvider>
-    </TaskContextProvider>
+    <AppProvider>
+      <Layout>
+        <HeaderComponent toggle={toggle} collapsed={state.collapsed} />
+
+        <Layout>
+
+          <SidebarComponent collapsed={state.collapsed} />
+          
+          <Layout>
+
+            <Container />
+            
+            <FooterComponent />
+
+          </Layout>
+
+        </Layout>
+
+      </Layout>
+    </AppProvider>
   );
 };

@@ -20,6 +20,9 @@ class FirebaseApp {
     app.initializeApp(firebaseConfig);
     this.auth = app.auth();
     this.db = app.firestore();
+    this.projectRef = this.db.collection('projects');
+    this.taskRef = this.db.collection('tasks');
+    this.app = app;
   }
 
   getCurrentUser() {
@@ -44,8 +47,35 @@ class FirebaseApp {
         .update(payload)
         .then(successCallback(id))
         .catch(errorCallback);
-
     }
+  }
+
+  fetchProjects() {
+    return this.projectRef;
+  }
+
+  loginUser(successCallback, errorCallback) {
+    return (authType) => {
+      const providers = [
+        { type: 'github', provider: new app.auth.GithubAuthProvider() },
+        { type: 'twitter', provider: new app.auth.TwitterAuthProvider() },
+        { type: 'facebook', provider: new app.auth.FacebookAuthProvider() },
+        { type: 'google', provider: new app.auth.GoogleAuthProvider() }
+      ];
+      const authProvider = providers.find(item => item.type === authType);
+      if (authProvider) {
+        const { provider } = authProvider;
+        this.auth.signInWithPopup(provider)
+          .then(successCallback)
+          .catch(errorCallback)
+      }
+    }
+
+  }
+
+  logoutUser(callback) {
+    this.auth.signOut();
+    if (callback) callback();
   }
 }
 

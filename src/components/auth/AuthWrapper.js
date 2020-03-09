@@ -1,16 +1,20 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { AuthContext } from '../../contexts';
+import { connect } from 'react-redux';
 
-export const AuthWrapper = ({ component: Component, redirect, ...rest }) => {
-  const { currentUser } = useContext(AuthContext);
+const Wrapper = ({ component: Component, redirect, isEmpty, ...rest }) => {
+
   return (
     <Route
       {...rest}
       render={(props) =>
-        !!currentUser
+        !isEmpty
           ? <Component {...props} />
-          : <Redirect to={{ pathname: redirect.pathname, state: { from: props.location} }} />
+          : <Redirect to={{ pathname: redirect.pathname, state: { from: props.location } }} />
       } />
   );
 };
+
+const mapStateToProps = ({ firebase: { auth: { isEmpty } } }) => ({ isEmpty });
+
+export const AuthWrapper = connect(mapStateToProps)(Wrapper);
