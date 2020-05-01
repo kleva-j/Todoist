@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { Layout } from 'antd';
 
-function App() {
+import { SidebarComponent } from './components/layouts/Sidebar/Sidebar';
+import { HeaderComponent } from './components/layouts/Header/Header';
+import { FooterComponent } from './components/layouts/Footer/Footer';
+import { Container } from './components/layouts/Content/container';
+import { AppProvider } from './contexts/AppContext';
+
+export const App = () => {
+
+  const [state, setState] = useState({
+    collapsed: false,
+  });
+
+  const toggle = () => {
+    setState({
+      collapsed: !state.collapsed,
+    });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <AppProvider>
+      <Layout>
+        <HeaderComponent toggle={toggle} collapsed={state.collapsed} />
 
-export default App;
+        <Layout>
+
+          <SidebarComponent collapsed={state.collapsed} />
+          
+          <Layout>
+
+            <Container />
+            
+            <FooterComponent />
+
+          </Layout>
+
+        </Layout>
+
+      </Layout>
+    </AppProvider>
+  );
+};

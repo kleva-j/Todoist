@@ -1,0 +1,71 @@
+.Calendar_container {
+  background: white;
+  margin: 15px 20px 0;
+  display: flex;
+  
+  .Left_article {
+    width: 200px;
+    box-sizing: border-box;
+  }
+  
+  .Right_article {
+    padding: 10px;
+    // border: 1px solid lightgrey;
+    background: rgb(250, 250, 250);
+    // margin-left: 20px;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    width: 600px;
+  }
+  
+  .Calendar {
+    // height: 800px;
+    // width: inherit;
+    
+  }
+}
+
+
+.Notes-month {
+  text-align: center;
+  
+  section {
+    font-size: 28px;
+  }
+}
+
+.events {
+  line-height: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  
+  li {
+    color: #999;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    span {
+      vertical-align: middle;
+    }
+
+    span:first-child {
+      font-size: 9px;
+      margin-right: 4px;
+    }
+  }
+
+  .event-warning {
+    color: #fac450;
+  }
+  
+  .event-normal {
+    color: #108ee9;
+  }
+  
+  .event-error {
+    color: #f50;
+  }
+}

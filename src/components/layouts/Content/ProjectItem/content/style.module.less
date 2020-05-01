@@ -1,0 +1,84 @@
+.Content-container {
+  margin: 10px 0;
+}
+
+.Taskbar-container {
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 20px;
+}
+
+.Settings-icon {
+  font-size: 20px;
+  border: 1px solid lightgrey;
+  color: lighten(grey, 10%);
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 6px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+
+  &:hover {
+    color: lighten(grey, 5%);
+    border-color: lighten(grey, 5%);
+    background-color: lighten(lightgrey, 20%);
+  }
+}
+
+.Task-content {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0;
+  padding: 10px 0;
+  align-items: flex-start;
+
+  .Taskcontent-container {
+    padding: 0 10px;
+    width: 300px;
+    background: #DDE0E7;
+    border-radius: 6px;
+
+    h3 {
+      padding: 10px;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding-bottom: 60px;
+
+      li {
+        cursor: pointer;
+        margin-bottom: 9px;
+        color: #172b4d;
+        border-radius: 3px;
+      }
+      
+      .Taskitem {
+        min-height: 20px;
+        box-shadow: 0 1px 0 rgba(9,30,66,.25);
+        background-color: #ffffff;
+        border-left: 4px solid red;
+        padding: 6px 8px 2px;
+      }
+      
+      .Add-card {
+        padding: 10px;
+        height: 42px;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        background: inherit;
+        
+        &:hover {
+          background: rgb(206, 211, 216);
+        }
+      }
+    }
+  }
+}
