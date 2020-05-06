@@ -9,7 +9,6 @@ const { Sider } = Layout;
 const { SubMenu } = Menu;
 
 export const SidebarComponent = ({ collapsed }) => {
-
   const projectList = useSelector(state => state.firestore.data?.projects);
   
   const projectTitles = projectList && Object.values(projectList)
@@ -35,6 +34,12 @@ export const SidebarComponent = ({ collapsed }) => {
           <Link to="/dashboard" />
         </Menu.Item>
 
+        <Menu.Item key="2">
+          <Icon type="calendar" style={{ fontSize: '20px', verticalAlign: 'middle' }} />
+          <span>Calendar</span>
+          <Link to="/calendar" />
+        </Menu.Item>
+
         <SubMenu
           key="sub1"
           title={
@@ -58,13 +63,13 @@ export const SidebarComponent = ({ collapsed }) => {
         <Menu.Item key="9">
           <Icon type="bell" style={{ fontSize: '20px', verticalAlign: 'middle' }} />
           <span>Notifications</span>
-          <Link to="/user/notification" />
+          <Link to="/settings/notifications" />
         </Menu.Item>
 
         <Menu.Item key="8">
           <Icon type="setting" style={{ fontSize: '20px', verticalAlign: 'middle' }} />
           <span>Settings</span>
-          <Link to="/user/settings" />
+          <Link to="/settings/profile" />
         </Menu.Item>
 
       </Menu>

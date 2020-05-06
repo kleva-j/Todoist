@@ -5,5 +5,5 @@ import { compose, withState } from "recompose";
 const Component = ComponentFromStreamWrapper(Notification);
 
 export const NotificationsWrapper = compose(
-  withState('state', 'setState', {})
+  withState('state', 'setState', { loading: false })
 )(Component);

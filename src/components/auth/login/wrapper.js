@@ -42,7 +42,7 @@ export const Login = compose(
     toggleModal: ({ setModalVisibility }) => () => setModalVisibility(true),
     handleReset: ({ setModalVisibility, updateState }) => (email) => {
       if (email) {
-        FirebaseApp.auth.sendPasswordResetEmail(email, { url: 'http://localhost:3000/login' })
+        FirebaseApp.auth.sendPasswordResetEmail(email, { url: 'http://localhost:3000/dashboard' })
           .then(() => {
             updateState({ alert: { isVisible: true, ...(getMessage('passwordReset')) } })
             setModalVisibility(false)
@@ -56,7 +56,7 @@ export const Login = compose(
       setForm({ isLogin: !isLogin });
     },
     loginUser: ({ history }) => FirebaseApp.loginWithSocials(
-      _ => history.push('/projects'),
+      _ => history.push('/dashboard'),
       ({ message }) => console.log(message, 'Login Error')
     ),
   })

@@ -14,7 +14,7 @@ export const EmptyContent = () => (
       </span>
     }
   >
-    <Link to={'/projects'}>
+    <Link to={'/project/all'}>
       <Button type="primary">Create Now</Button>
     </Link>
   </Empty>

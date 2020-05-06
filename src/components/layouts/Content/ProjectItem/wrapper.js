@@ -39,8 +39,8 @@ export const ProjectItemWrapper = compose(
 
   withHandlers({
     handleBack: ({ history, push }) => () => {
-      push('/projects');
-      history.push('/projects');
+      push('/project/all');
+      history.push('/project/all');
     }
   }),
 )(Component);

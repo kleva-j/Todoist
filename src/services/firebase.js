@@ -70,13 +70,13 @@ class FirebaseApp {
           prompt: 'select_account'
         });
         this.auth.signInWithPopup(provider)
-          .then(({ additionalUserInfo: { isNewUser }, user: { uid } }) => {
+          .then(({ additionalUserInfo: { isNewUser }, user: { uid, displayName } }) => {
             if (isNewUser) {
-              console.log('New User Signin')
+              const [firstname, lastname] = displayName.split(' ');
               this.userRef.doc(`${uid}`).set({
                 userId: uid,
-                firstname: '',
-                lastname: ''
+                firstname,
+                lastname,
               });
             }
             successCallback();
@@ -88,7 +88,7 @@ class FirebaseApp {
 
   loginWithCredentials(authType, credentials={}) {
     return (successCallback, errorCallback) => {
-      const { username, email, password } = credentials;
+      const { name, email, password } = credentials;
       if (authType === 'Log in') {
         this.auth.signInWithEmailAndPassword(email, password)
           .then(successCallback)
@@ -96,11 +96,11 @@ class FirebaseApp {
       } else {
         this.auth.createUserWithEmailAndPassword(email, password)
           .then(({ user: { uid } }) => {
+            const [firstname='', lastname=''] = name.split(' ');
             this.userRef.doc(`${uid}`).set({
               userId: uid,
-              username,
-              firstname: '',
-              lastname: ''
+              firstname,
+              lastname
             });
             successCallback();
           })

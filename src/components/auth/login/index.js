@@ -16,7 +16,7 @@ export const LoginComponent = (props) => {
   } = props;
 
   if (!isEmpty) {
-    return <Redirect to={{ pathname: '/projects' }} />
+    return <Redirect to={{ pathname: '/project/all' }} />
   };
 
   const title = isLogin ? 'Log in' : 'Sign up';
@@ -48,13 +48,14 @@ export const LoginComponent = (props) => {
             <Form onSubmit={handleSubmit(title)} className="login-form">
               {!isLogin && (
                 <Form.Item>
-                  {getFieldDecorator('username', {
-                    rules: [{ required: true, message: 'Username must be more than 3 character!', min: 3 }],
+                  {getFieldDecorator('name', {
+                    rules: [{ required: true, message: 'Your name must be more than 3 character!' }],
                   })(
                     <Input
                       type="text"
                       prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                      placeholder="Username"
+                      placeholder="Name"
+                      minLength={3}
                     />,
                   )}
                 </Form.Item>

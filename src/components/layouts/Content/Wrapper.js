@@ -3,7 +3,8 @@ import { useFirestoreConnect } from 'react-redux-firebase';
 import { useSelector } from 'react-redux';
 import { getUID } from '../../../selectors/user';
 
-export const ProjectWrapper = ({ children }) => {
+export const ProjectWrapper = (props) => {
+  const { children } = props;
   const uid = useSelector(getUID);
   
   useFirestoreConnect([{

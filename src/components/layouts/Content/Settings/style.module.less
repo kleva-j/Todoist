@@ -1,4 +1,29 @@
-.Settings {
-  margin: 25px 25px 0;
-  background: white;
+.Settings_container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 20px 0;
+  
+  .Left_article {
+    background: white;
+    width: 200px;
+    height: 100%;
+    box-sizing: border-box;
+    margin-right: 2px;
+
+    .Listitem {
+      cursor: pointer;
+
+      &:hover {
+        background-color: #e6f7ff;
+      }
+    }
+  }
+  
+  .Right_article {
+    border: .5px solid #eeeeee;
+    background: #ffffff;
+    width: 900px;
+    display: flex;
+    min-height: 70vh;
+  }
 }

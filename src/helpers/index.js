@@ -33,3 +33,11 @@ export const generateUniqueId = (length=13, config={}) => {
   const uid = new shortId(config);
   return uid.randomUUID(length);
 };
+
+export const isEmpty = (obj) => {
+  for(var key in obj) {
+    if(obj.hasOwnProperty(key))
+      return false;
+  }
+  return true;
+};

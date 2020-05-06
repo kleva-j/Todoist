@@ -1,9 +1,10 @@
-import { Dashboard } from ".";
-import { ComponentFromStreamWrapper } from "../../../Reuseables/Wrapper";
 import { compose, withState } from "recompose";
+import { Dashboard } from '.'
+
+import { ComponentFromStreamWrapper } from "../../../Reuseables/Wrapper";
 
 const Component = ComponentFromStreamWrapper(Dashboard);
 
 export const DashboardWrapper = compose(
-  withState('state', 'setState', {})
+  withState("state", "setState", { loading: false })
 )(Component);
