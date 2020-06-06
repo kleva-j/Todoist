@@ -9,12 +9,13 @@
     "@testing-library/user-event": "^7.1.2",
     "antd": "^3.26.11",
     "connected-react-router": "^6.7.0",
-    "firebase": "^7.6.0",
+    "firebase": "^7.14.3",
+    "framer-motion": "^1.11.0",
     "history": "^4.10.1",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
     "moment": "^2.24.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "normalise": "^10.0.0",
     "normalize.css": "^8.0.1",
     "react": "0.0.0-experimental-d7382b6c4",
@@ -35,7 +36,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
+    "test": "react-app-rewired test --runInBand",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -56,6 +57,9 @@
   "devDependencies": {
     "babel-plugin-import": "^1.13.0",
     "customize-cra": "^0.9.1",
-    "react-app-rewired": "^2.1.5"
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "react-app-rewired": "^2.1.5",
+    "react-test-renderer": "^16.13.1"
   }
 }

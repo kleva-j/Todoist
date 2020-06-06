@@ -50,4 +50,4 @@ export const ContentWrapper = compose(
       setState({ ...state, modalIsVisible: true, modal: { ...modal, ...updates } });
     },
   }),
-)(Component); 
+)(Component);

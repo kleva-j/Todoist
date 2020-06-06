@@ -1,6 +1,6 @@
 import React from "react";
 import { Icon, Input, Button, Avatar } from "antd";
-import { AlignLeftOutlined, BarsOutlined } from "@ant-design/icons";
+import { AlignLeftOutlined } from "@ant-design/icons";
 import styles from "./style.module.less";
 
 const { TextArea } = Input;
@@ -26,7 +26,7 @@ export const TaskItemModal = ({ photoURL, taskItemProps: { title } }) => {
           </div>
 
           <div className={styles["Second_row"]}>
-            <BarsOutlined style={{ fontSize: 20, marginRight: 10 }}  />
+            <Icon type="bars" style={{ fontSize: 20, marginRight: 10 }} />
             <h4><b>Activity</b></h4>
           </div>
 

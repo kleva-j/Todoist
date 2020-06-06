@@ -1,17 +1,17 @@
 import React from 'react';
-import { Modal } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { Modal, Icon } from 'antd';
 
 const { confirm } = Modal;
 
 export const ConfirmModal = ({
   title='Are you sure delete this?',
-  icon=<ExclamationCircleOutlined />,
+  icon=<Icon type="exclamation-circle-o" />,
   content='',
   ok={ text: 'Yes', type: 'danger' },
   cancel={ text: 'No' },
   successCb = () => console.log('Ok'),
   cancelCb = () => {},
+  ...rest
 }) => () => {
   return confirm({
     title,
@@ -20,6 +20,7 @@ export const ConfirmModal = ({
     okType: ok.type,
     cancelText: cancel.text,
     onOk: successCb,
-    onCancel: cancelCb
+    onCancel: cancelCb,
+    ...rest
   });
 };

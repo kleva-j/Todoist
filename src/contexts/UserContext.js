@@ -1,13 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { getUser, getProfile } from '../selectors/user'
+import { getUser, getProfile } from '../selectors/user';
 
 export const UserContext = React.createContext();
 
-const { Provider, Consumer } = UserContext;
-
-export const UserContextConsumer = Consumer;
+const { Provider } = UserContext;
 
 export const UserProvider = ({ children }) => {
   const {
@@ -26,8 +24,16 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <Provider value={{ user }}>
+    <Provider value={{ ...user }}>
       {children}
     </Provider>
   );
 };
+
+export const useUser = () => {
+  const user = React.useContext(UserContext);
+  if (!user) {
+    throw new Error('Cannot use `useUserContext` outside of a User Provider (UserProvider)');
+  }
+  return user;
+}

@@ -1,4 +1,78 @@
 .Dashboard_container {
   margin: 20px 20px 0;
+  padding: 20px;
+  min-height: 1000px;
   background: white;
+  position: relative;
+
+  .Blue_container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 400px;
+    width: 100%;
+    background: #1890ff;
+    z-index: 0;
+  }
+  
+  .Dashboard_article {
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 900px;
+    margin: 100px auto 0;
+
+    .FlexButton_container {
+      display: flex;
+      justify-content: flex-start;
+      margin: 50px 0 30px;
+
+      .Goto_project, .Create_project {
+        background: transparent;
+        color: rgba(255, 255, 255, 0.805);
+        border: 2px solid rgba(255, 255, 255, 0.805);
+        max-width: 150px;
+        outline: none;
+        padding: 7px 12px;
+        border-radius: 18px;
+        text-transform: uppercase;
+        text-decoration: none;
+        text-align: center;
+        cursor: pointer;
+        z-index: 100;
+        width: 300px;
+
+        &:hover {
+          color: white;
+          border: 2px solid white;
+        }
+      }
+      
+      .Create_project {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-right: 20px;
+      }
+    }
+
+    .Flex_container {
+      display: flex;
+      justify-content: space-between;
+  
+      .Article_item {
+        z-index: 100;
+        height: 320px;
+        background: salmon;
+        min-width: 390px;
+        max-width: 450px;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: hsla(206, 6%, 25%, 0.3) 0px 1px 2px 0px;
+        display: flex;
+        background: hsla(0, 0%, 100%);
+      }
+    }
+  }
 }

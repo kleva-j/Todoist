@@ -1,7 +1,26 @@
-import { compose, withState } from "recompose"
-import { ComponentFromStreamWrapper } from "../Wrapper";
-import { CustomModal } from "./CustomModal";
+import React from "react";
+import { Modal } from "antd";
 
-const Component = ComponentFromStreamWrapper(CustomModal);
-
-export const Modal = compose(withState('state', 'setState', {}))(Component);
+export const CustomModal = ({
+  width = 500,
+  isVisible,
+  children,
+  title,
+  handleOk,
+  handleCancel,
+  ...rest
+}) => {
+  return (
+    <Modal
+      width={width}
+      title={title}
+      visible={isVisible}
+      onOk={handleOk}
+      onCancel={handleCancel}
+      footer={null}
+      {...rest}
+    >
+      {children}
+    </Modal>
+  );
+};

@@ -1,11 +1,11 @@
 import React from 'react';
-import { Typography, Input } from 'antd';
-import { SettingOutlined } from '@ant-design/icons'
+import { Typography, Input, Icon } from 'antd';
+import { useSelector } from 'react-redux';
+
 import styles from './style.module.less';
 import { TaskContainerWrapper } from './TaskContainer/wrapper';
-import { Modal } from '../../../../Reuseables/Modals';
+import { CustomModal as Modal } from '../../../../Reuseables/Modals';
 import { TaskItemModal } from '../../../../Reuseables/Modals/TaskItem';
-import { useSelector } from 'react-redux';
 
 const { Title } = Typography;
 const { Search } = Input;
@@ -28,7 +28,7 @@ export const Content = (props) => {
           loading={false}
           onSearch={handleSearch}
         />
-        <SettingOutlined className={styles['Settings-icon']} />
+        <Icon type="setting" className={styles['Settings-icon']} />
       </div>
 
       <div className={styles['Task-content']}>

@@ -1,5 +1,6 @@
 import { Form, message } from 'antd';
 import { compose, withState, withHandlers } from 'recompose';
+
 import { Profile } from '.';
 import { ComponentFromStreamWrapper } from '../../Reuseables/Wrapper';
 import { getBase64 } from '../../../helpers'

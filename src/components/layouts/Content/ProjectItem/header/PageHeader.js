@@ -1,6 +1,5 @@
 import React from 'react';
-import { PageHeader, Descriptions, Tag, Skeleton, Avatar, Button } from 'antd';
-import { PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons'
+import { PageHeader, Descriptions, Tag, Skeleton, Avatar, Button, Icon } from 'antd';
 import styles from './style.module.less';
 import { ConfirmModal } from '../../../../Reuseables/Modals/confirmation';
 
@@ -26,7 +25,7 @@ export const ProjectItemHeader = (props) => {
           extra={[
             <Button key="1" className={styles['Delete-button']} onClick={ConfirmDelete}>
               Delete
-              <DeleteOutlined title="Delete Project" />
+              <Icon type="delete" title="Delete Project" />
             </Button>,
           ]}
         >
@@ -42,7 +41,7 @@ export const ProjectItemHeader = (props) => {
               {crtb.slice(0, 4).map((item, index) => (
                 <Avatar src={item} key={index} style={{ height: 20, width: 20 }} />
               ))}
-              <PlusCircleOutlined style={{ color: '#1890FF', opacity: .5, fontSize: 20 }} />
+              <Icon type="plus-circle-o" style={{ color: '#1890FF', opacity: .5, fontSize: 20 }} />
 
             </Descriptions.Item>
           </Descriptions>

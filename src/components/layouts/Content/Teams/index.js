@@ -1,12 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { Button, Divider, List, Typography } from 'antd';
 
 import styles from './style.module.less'
 
 export const TeamsComponent = () => {
   return (
-    <section className={styles["Teams_container"]}>
+    <motion.section
+      initial={{
+        opacity: 0,
+      }}
+      animate={{
+        opacity: 1,
+      }}
+      className={styles["Teams_container"]}>
       <article className={styles["Article"]}>
         <h2>Teams</h2>
         <Button>New Team</Button>
@@ -44,6 +52,6 @@ export const TeamsComponent = () => {
         />
       </aside>
 
-    </section>
+    </motion.section>
   );
 };

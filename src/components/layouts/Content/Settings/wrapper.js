@@ -59,22 +59,16 @@ export const SettingsWrapper = compose(
         </article>
 
         <article className={styles["Right_article"]}>
-          <Switch>
-            <Route exact={true} path="/settings/profile">
-              <UserProvider><ProfileWrapper /></UserProvider>
-            </Route>
-
-            <Route exact={true} path="/settings/account">
-              <UserProvider>
-                <AccountWrapper />
-              </UserProvider>
-            </Route>
-
-            <Route exact={true} path="/settings/notifications" component={NotificationsWrapper} />
-            <Route exact={true} path="/settings/teams"         component={TeamsWrapper}         />
-            <Route exact={true} path="/settings/security"      component={SecurityWrapper} />
-            <Route component={NoContentFound} />
-          </Switch>
+          <UserProvider>
+            <Switch>
+              <Route exact={true} path="/settings/profile"       component={ProfileWrapper} />
+              <Route exact={true} path="/settings/account"       component={AccountWrapper} />
+              <Route exact={true} path="/settings/notifications" component={NotificationsWrapper} />
+              <Route exact={true} path="/settings/teams"         component={TeamsWrapper}         />
+              <Route exact={true} path="/settings/security"      component={SecurityWrapper} />
+              <Route component={NoContentFound} />
+            </Switch>
+          </UserProvider>
         </article>
       </section>
     );

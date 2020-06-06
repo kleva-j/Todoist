@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Layout } from 'antd';
+import { motion } from 'framer-motion';
 
 import { SidebarComponent } from './components/layouts/Sidebar/Sidebar';
 import { HeaderComponent } from './components/layouts/Header/Header';
@@ -21,24 +22,26 @@ export const App = () => {
 
   return (
     <AppProvider>
-      <Layout>
-        <HeaderComponent toggle={toggle} collapsed={state.collapsed} />
-
+      <motion.div initial="initial" animate="animate" exit={{ opacity: 0 }}>
         <Layout>
+          <HeaderComponent toggle={toggle} collapsed={state.collapsed} />
 
-          <SidebarComponent collapsed={state.collapsed} />
-          
           <Layout>
 
-            <Container />
+            <SidebarComponent collapsed={state.collapsed} />
             
-            <FooterComponent />
+            <Layout>
+
+              <Container />
+              
+              <FooterComponent />
+
+            </Layout>
 
           </Layout>
 
         </Layout>
-
-      </Layout>
+      </motion.div>
     </AppProvider>
   );
 };

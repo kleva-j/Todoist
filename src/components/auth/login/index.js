@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Form, Icon, Input, Button, Checkbox, Divider } from 'antd';
 import styles from '../style.module.less';
-import { Modal } from '../../Reuseables/Modals';
+import { CustomModal as Modal } from '../../Reuseables/Modals';
 import { EmailPrompt } from '../passwordReset/emailPrompt';
 import { CustomAlert } from '../../Reuseables/Alerts';
 
@@ -16,7 +16,7 @@ export const LoginComponent = (props) => {
   } = props;
 
   if (!isEmpty) {
-    return <Redirect to={{ pathname: '/project/all' }} />
+    return <Redirect to={{ pathname: '/dashboard' }} />
   };
 
   const title = isLogin ? 'Log in' : 'Sign up';
