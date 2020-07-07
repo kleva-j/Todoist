@@ -1,11 +1,10 @@
 import React from 'react';
 import { Layout } from 'antd';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import { CalenderComponent } from './Calender/calender'
 import { ProjectWrapper } from './Wrapper';
-import { NoContentFound } from './NoContent';
-// import { ProfileWrapper } from './Profile/wrapper';
+// import { NoContentFound } from './NoContent';
 import { ProjectItemWrapper } from './ProjectItem/wrapper';
 import { ProjectListWrapper } from './ProjectList/ProjectWrapper';
 import { DashboardWrapper } from './Dashboard/wrapper';
@@ -32,13 +31,15 @@ export const Container = () => {
 
               <Route exact={true} path="/project/:id" component={ProjectItemWrapper} />
 
-              <Route component={NoContentFound} />
+              {/* <Route component={NoContentFound} /> */}
+              <Redirect to={{ pathname: '/project/all' }} />
 
             </Switch>
           </ProjectWrapper>
         </Route>
 
-        <Route component={NoContentFound} />
+        {/* <Route component={NoContentFound} /> */}
+        <Redirect to={{ pathname: '/dashboard' }} />
 
       </Switch>
     </Content>

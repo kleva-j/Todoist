@@ -17,12 +17,8 @@ export const Settings = (props) => {
 
   return (
     <motion.section
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
       className={styles["Settings"]}>
       <Switch>
         <Route exact={true} path="/settings/:component">

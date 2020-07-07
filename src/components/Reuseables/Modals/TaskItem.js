@@ -1,13 +1,22 @@
 import React from "react";
 import { Icon, Input, Button, Avatar } from "antd";
 import { AlignLeftOutlined } from "@ant-design/icons";
+
 import styles from "./style.module.less";
+import { ConfirmModal } from "./confirmation";
 
 const { TextArea } = Input;
 
 export const TaskModal = () => {};
 
-export const TaskItemModal = ({ photoURL, taskItemProps: { title } }) => {
+const ConfirmDelete = (callback) => ConfirmModal({
+  title: 'Are you sure you want to delete this task',
+  ok: { text: 'Delete', type: 'danger' },
+  cancel: { text: 'Cancel' },
+  successCb: () => callback({ deleted: true }),
+});
+
+export const TaskItemModal = ({ photoURL, taskItemProps: { title }, isLoading, updateTask }) => {
   return (
     <section className={styles["CreateTask-modal"]}>
       <div className={styles["Top-row"]}>
@@ -64,7 +73,7 @@ export const TaskItemModal = ({ photoURL, taskItemProps: { title } }) => {
               {" "}
               <b>Copy</b>
             </Button>
-            <Button block style={{ textAlign: 'start' }}>
+            <Button block style={{ textAlign: 'start' }} onClick={ConfirmDelete(updateTask)}>
               <Icon type="delete" />
               {" "}
               <b>Delete</b>

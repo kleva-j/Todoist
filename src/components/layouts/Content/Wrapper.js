@@ -1,20 +1,15 @@
 import React from 'react';
-import { useFirestoreConnect } from 'react-redux-firebase';
 import { useSelector } from 'react-redux';
+import { useFirestoreConnect } from 'react-redux-firebase';
+
 import { getUID } from '../../../selectors/user';
 
 export const ProjectWrapper = (props) => {
   const { children } = props;
-  const uid = useSelector(getUID);
-  
+  const { uid } = useSelector(getUID);
   useFirestoreConnect([{
     collection: 'projects',
-    where: ['creator_id', '==', `${uid}`]
-  }]);
-
-  useFirestoreConnect([{
-    collection: 'tasks',
-    where: ['creator_id', '==', `${uid}`]
+    where: ['members', 'array-contains', `${uid}`],
   }]);
 
   return <>{children}</>;

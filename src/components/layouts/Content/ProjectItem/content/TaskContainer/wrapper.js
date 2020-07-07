@@ -1,9 +1,11 @@
 import { message } from 'antd'
-import { ComponentFromStreamWrapper } from "../../../../../Reuseables/Wrapper";
-import { TaskContainer } from "./TaskContainer";
-import { compose, withState, withHandlers } from "recompose";
 import { withFirestore } from "react-redux-firebase";
+import { compose, withState, withHandlers } from "recompose";
+
+import { TaskContainer } from "./TaskContainer";
+import { FirebaseApp } from '../../../../../../services';
 import { generateUniqueId } from "../../../../../../helpers";
+import { ComponentFromStreamWrapper } from "../../../../../Reuseables/Wrapper";
 
 const Component = ComponentFromStreamWrapper(TaskContainer);
 
@@ -23,27 +25,26 @@ export const TaskContainerWrapper = compose(
       project: { id: project_id }
     }) => ({ title, stage }) => {
       if (title) {
+        const creator = {
+          img_url: photoURL,
+          uid,
+          name: user_name,
+        };
         const newTask = {
           id: generateUniqueId(15),
           title,
           stage,
+          creator,
           project_id,
-          userId: uid,
-          creator_id: uid,
-          deleted: false,
-          archived: false,
-          assignee: [
-            {
-              img_url: photoURL,
-              name: user_name,
-            },
-          ],
+          assignee: [ creator ],
           created_on: (new Date().getTime()),
         };        
         setPopover(false);
         return firestore
           .add({ collection: 'tasks' }, newTask)
-          .then(() => message.success('New task created successfully.'))
+          .then(_ => {
+            FirebaseApp.analytics.logEvent('create_task', { title, stage });
+          })
           .catch(err => message.error(err.message));
       }
     },

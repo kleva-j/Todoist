@@ -35,6 +35,7 @@ export const ProjectItemHeader = (props) => {
               <a href="#task">{tasks}</a>
             </Descriptions.Item>
             <Descriptions.Item label="Created On">{date}</Descriptions.Item>
+            <Descriptions.Item label="Started On">{date}</Descriptions.Item>
             <Descriptions.Item label="Expected to Complete">2017-10-10</Descriptions.Item>
             <Descriptions.Item label="Contributors/Collaborators">
 

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 
 import styles from "./style.module.less";
 import { useUser } from "../../../contexts/UserContext";
+import { SEOHeader } from "../../Reuseables/Header";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -35,6 +36,7 @@ export const Profile = (props) => {
       }}
       className={styles["Profile_container"]}
     >
+      <SEOHeader pageTitle="Profile" pageDesc="Taskaider profile page" currentURL="/settings/profile" />
       <h2>Public Profile</h2>
       <Divider style={{ margin: 0 }} />
 

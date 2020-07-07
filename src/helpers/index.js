@@ -41,3 +41,29 @@ export const isEmpty = (obj) => {
   }
   return true;
 };
+
+export const genRandColor = () => {
+  const colorList = [
+    "magenta","red", "volcano",
+    "orange", "gold","lime",
+    "green", "cyan", "blue",
+    "geekblue", "purple", "#f50",
+    "#2db7f5", "#87d068", "#108ee9"
+  ];
+  return colorList[Math.trunc(Math.random() * colorList.length)];
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

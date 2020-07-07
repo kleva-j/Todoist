@@ -1,15 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { withHandlers } from 'recompose';
+import { useSelector } from 'react-redux';
 import { Layout, Icon, Avatar, Dropdown, Menu } from 'antd';
 
 import styles from './style.module.less';
 import { FirebaseApp } from '../../../services';
-import { useSelector } from 'react-redux';
 
 const { Header } = Layout;
 
-export const HeaderComponent = (props) => {
-  const { toggle, collapsed } = props;
+export const HeaderComponent = withHandlers({
+  handleLogOut: () => () => {
+    FirebaseApp.analytics.logEvent('logout');
+    return FirebaseApp.logoutUser();
+  }
+})((props) => {
+  const { toggle, collapsed, handleLogOut } = props;
   const { photoURL } = useSelector(state => state.firebase.auth)
   
   const DropdownMenu = (
@@ -30,7 +36,7 @@ export const HeaderComponent = (props) => {
         </Link>
       </Menu.Item>
       <Menu.Item>
-        <Link to="" onClick={() => FirebaseApp.logoutUser()}>
+        <Link to="" onClick={handleLogOut}>
           Signout
         </Link>
       </Menu.Item>
@@ -59,4 +65,4 @@ export const HeaderComponent = (props) => {
       </div>
     </Header>
   )
-};
+});

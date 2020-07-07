@@ -1,46 +1,43 @@
-import { compose, withHandlers, mapProps } from 'recompose';
-import { ProjectItem } from './ProjectItem';
-import { ComponentFromStreamWrapper } from '../../../Reuseables/Wrapper';
+import React from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { push } from 'connected-react-router';
+import { useFirestoreConnect } from 'react-redux-firebase';
+import { compose, withHandlers, mapProps } from 'recompose';
+
+import { ProjectItem } from './ProjectItem';
+import { ComponentFromStreamWrapper } from '../../../Reuseables/Wrapper';
 import { selectProject, selectTasks } from '../../../../selectors/projects';
 
-const Component = ComponentFromStreamWrapper(ProjectItem);
-
-const getId = (_state, props) => parseInt(props.match.params.id);
+const getId = (_, { id }) => id;
 
 const projectSelector = createSelector(
   [selectProject, getId, selectTasks],
-  (projects, id, tasks) => {
-    const projectItem = Object.values(projects).filter(item => +item.id === +id)[0];
-    const taskItems = Object.values(tasks).filter(item => +item.project_id === +id);
+  (project, id, tasks) => {
+    const projectItem = Object.values(project || {}).filter(item => item.id === id)[0];
+    const taskItems = Object.entries(tasks || {}).map(([uid, data]) => ({ uid, ...data }));
     return { project: projectItem, tasks: taskItems.length >= 1 ? taskItems : null };
   },
 );
 
-const mapProjectData = (props) => {
-  const { data: { project }} = props;
-  const result = { ...props };
-  result.data.project = {
-    ...project,
-    date: (new Date(project.created_on.seconds * 1000).toUTCString()),
-  };
-  return result;
-};
+const mapStateToProps = (state, props) => ({ ...projectSelector(state, props) });
 
-const mapState = (state, props) => ({ data: projectSelector(state, props) });
-
-const connectToStore = connect(mapState, { push });
+const connectToStore = connect(mapStateToProps, { push });
 
 export const ProjectItemWrapper = compose(
+  mapProps((props) => {
+    const { match: { params: { id }}} = props;
+    useFirestoreConnect([{
+      collection: 'tasks',
+      where: ['project_id', '==', `${id}`]
+    }]);
+    return ({ ...props, id })
+  }),
   connectToStore,
-  mapProps(mapProjectData),
-
   withHandlers({
     handleBack: ({ history, push }) => () => {
       push('/project/all');
       history.push('/project/all');
     }
   }),
-)(Component);
+)(ComponentFromStreamWrapper((props) => (<ProjectItem {...props} />)))

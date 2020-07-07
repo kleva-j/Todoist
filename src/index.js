@@ -29,7 +29,7 @@ const rrfProps = {
   },
   dispatch: store.dispatch,
   createFirestoreInstance
-}
+};
 
 render(
   <Provider store={store}>
@@ -40,4 +40,4 @@ render(
     </ConnectedRouter>
   </Provider>
   , rootNode
-)
+);

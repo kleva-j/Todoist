@@ -1,5 +1,8 @@
+// import { message } from 'antd';
+import { withFirestore } from "react-redux-firebase";
 import { withHandlers, compose, withState, mapProps } from "recompose";
-import { Content } from './index';
+
+import { Content } from '.';
 import { ComponentFromStreamWrapper } from "../../../../Reuseables/Wrapper";
 
 const Component = ComponentFromStreamWrapper(Content);
@@ -29,7 +32,8 @@ const reduceTask = (tasks) => {
 const taskMenus = Object.keys(taskMenuItems);
 
 export const ContentWrapper = compose(
-  withState('state', 'setState', { taskMenus, modalIsVisible: false, modal: {} }),
+  withFirestore,
+  withState('state', 'setState', { taskMenus, modalIsVisible: false, modal: {}, loadingUpdate: false }),
   mapProps((props) => {
     const { tasks } = props;
     const newTasks = tasks ? reduceTask(tasks) : taskMenuItems;
@@ -37,9 +41,15 @@ export const ContentWrapper = compose(
     return result;
   }),
   withHandlers({
-    setModalVisibility: ({ state, setState}) => (value) => {
+    setModalVisibility: ({ state, setState }) => (value) => {
       setState({ ...state, modalIsVisible: value });
     },
+    handleTaskUpdate: ({ state: { modal: { id } }, firestore }) => (action) => (updates) => {
+      // return firestore
+      //   .runTransaction(t => t.get('tasks'))
+      //   .then(doc => console.log(doc))
+      //   .catch(err => console.error(err.message));
+    }
   }),
   withHandlers({
     handleSearch: ({ setState }) => value => setState(value),

@@ -1,8 +1,10 @@
 import React from 'react';
 import { Divider, Button, Modal } from 'antd';
+import { motion } from 'framer-motion';
 
 import { useUser } from '../../../../contexts/UserContext';
 import styles from './style.module.less';
+import { SEOHeader } from '../../../Reuseables/Header';
 
 export const SecurityComponent = (props) => {
   const { handleCancel, handleReset, setModalVisibility,
@@ -10,8 +12,11 @@ export const SecurityComponent = (props) => {
   } = props;
   const { email } = useUser();
   return (
-    <section className={styles["Security_container"]}>
-      
+    <motion.section
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className={styles["Security_container"]}>
+      <SEOHeader pageTitle="Security" pageDesc="Taskaider security page" currentURL="/settings/security" />
       <article className={styles["Article"]}>
         <h2>Password Reset</h2>
         <Divider style={{ margin: 0 }} />
@@ -34,6 +39,6 @@ export const SecurityComponent = (props) => {
         </div>
       </article>
       
-    </section>
+    </motion.section>
   );
 };

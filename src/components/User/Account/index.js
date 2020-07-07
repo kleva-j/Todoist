@@ -3,6 +3,7 @@ import { Divider, Button, Input } from 'antd';
 import { motion } from 'framer-motion';
 
 import styles from './style.module.less';
+import { SEOHeader } from '../../Reuseables/Header';
 
 export const Account = () => {
   return (
@@ -14,6 +15,7 @@ export const Account = () => {
         opacity: 1
       }}
       className={styles["Account_container"]}>
+        <SEOHeader pageTitle="Account" pageDesc="Account settings" currentURL="/settings/account" />
       <article>
         <h2>Change / Reset Email</h2>
         <Divider style={{ margin: 0 }} />

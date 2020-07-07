@@ -1,63 +1,77 @@
-import { Form } from 'antd';
-import { connect } from 'react-redux';
-import { compose, withState, withHandlers } from 'recompose';
-import { LoginComponent } from './index';
-import { ComponentFromStreamWrapper } from '../../Reuseables/Wrapper';
-import { FirebaseApp } from '../../../services';
-import { isEmpty } from '../../../selectors/user';
-import { getMessage } from '../../../constants/alertMessages';
+import { Form } from "antd";
+import { connect } from "react-redux";
+import { compose, withState, withHandlers } from "recompose";
+
+import { ComponentFromStreamWrapper } from "../../Reuseables/Wrapper";
+import { getMessage } from "../../../constants/alertMessages";
+import { isEmpty } from "../../../selectors/user";
+import { FirebaseApp } from "../../../services";
+import { LoginComponent } from ".";
 
 const Component = ComponentFromStreamWrapper(LoginComponent);
 
-const mapStoreToProps = connect(isEmpty);
-
 export const Login = compose(
-  withState('form_', 'setForm', { isLogin: true, showResetModal: false }),
-  withState('state', 'setState', {
-    alert: { type: undefined, message: undefined, description: undefined, isVisible: false },
+  withState("form_", "setForm", { isLogin: true }),
+  withState("state", "setState", {
+    alert: {
+      type: undefined,
+      message: undefined,
+      description: undefined,
+      isVisible: false,
+    },
   }),
-  mapStoreToProps,
-  Form.create({ name: 'login_form' }),
+  connect(isEmpty),
+  Form.create({ name: "login_form" }),
   withHandlers({
-    setModalVisibility: ({ form_, setForm }) => visibility => setForm({ ...form_, showResetModal: visibility }),
-    updateState: ({ state, setState }) => (update) => {
-      setState({ ...state, ...update });
+    updateState: ({ setState }) => (newState) => {
+      setState((state) => ({ ...state, ...newState }));
     },
   }),
   withHandlers({
-    handleSubmit: ({ form, updateState }) => authType => event => {
-      event.preventDefault(); 
+    handleSubmit: ({ form, updateState }) => (authType) => (event) => {
+      event.preventDefault();
       form.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values);
+          console.log("Received values of form: ", values);
           return FirebaseApp.loginWithCredentials(authType, values)(
-            () => updateState({ alert: { isVisible: true, ...(getMessage('loginSuccess')) } }),
-            ({ code }) => updateState({ alert: { isVisible: true, ...(getMessage(code)) } })
+            () =>
+              updateState({
+                alert: { isVisible: true, ...getMessage("loginSuccess") },
+              }),
+            ({ code }) =>
+              updateState({ alert: { isVisible: true, ...getMessage(code) } })
           );
         } else {
-          updateState({ alert: { isVisible: true, ...(getMessage('loginValidation')) } });
+          updateState({
+            alert: { isVisible: true, ...getMessage("loginValidation") },
+          });
         }
       });
     },
-    toggleModal: ({ setModalVisibility }) => () => setModalVisibility(true),
-    handleReset: ({ setModalVisibility, updateState }) => (email) => {
+    handleReset: ({ updateState }) => (email, callback) => {
       if (email) {
-        FirebaseApp.auth.sendPasswordResetEmail(email, { url: 'http://localhost:3000/dashboard' })
-          .then(() => {
-            updateState({ alert: { isVisible: true, ...(getMessage('passwordReset')) } })
-            setModalVisibility(false)
+        FirebaseApp.auth
+          .sendPasswordResetEmail(email, {
+            url: "http://localhost:3000/dashboard",
           })
-          .catch(({ code }) => updateState({ alert: { isVisible: true, ...(getMessage(code)) } }) );
+          .then(() => {
+            updateState({ alert: { isVisible: true, ...getMessage("passwordReset") }});
+            callback();
+          })
+          .catch(({ code }) => {
+            updateState({ alert: { isVisible: true, ...getMessage(code) } });
+            callback();
+          });
       }
     },
-    handleCancel: ({ setModalVisibility }) => () => setModalVisibility(false),
-    switchForm: ({ setForm, form_: { isLogin }}) => (event) => {
+    switchForm: ({ setForm, form_: { isLogin } }) => (event) => {
       event.preventDefault();
       setForm({ isLogin: !isLogin });
     },
-    loginUser: ({ history }) => FirebaseApp.loginWithSocials(
-      _ => history.push('/dashboard'),
-      ({ message }) => console.log(message, 'Login Error')
-    ),
+    loginUser: ({ history }) =>
+      FirebaseApp.loginWithSocials(
+        (_) => history.push("/dashboard"),
+        ({ message }) => console.log(message, "Login Error")
+      ),
   })
 )(Component);

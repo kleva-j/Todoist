@@ -1,6 +1,7 @@
+import { compose, withState } from "recompose";
+
 import { Recent } from ".";
 import { ComponentFromStreamWrapper } from "../../../Reuseables/Wrapper";
-import { compose, withState } from "recompose";
 
 const Component = ComponentFromStreamWrapper(Recent);
 

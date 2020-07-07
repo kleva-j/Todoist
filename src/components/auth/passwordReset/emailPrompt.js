@@ -1,28 +1,43 @@
-import React, { useRef } from "react";
-import { Input, Button } from "antd";
+import React from "react";
+import { Input, Button, Icon, Form } from "antd";
 
 const { Group } = Input;
 
-export const EmailPrompt = ({ handleSubmit }) => {
-  const inputRef = useRef(null);
-
+export const EmailPrompt = (props) => {
+  const {
+    handleFormSubmit,
+    form: { getFieldDecorator },
+  } = props;
   return (
-    <Group compact style={{ display: "flex" }}>
-      <Input
-        type="text"
-        size="large"
-        width={{ width: "80%" }}
-        ref={inputRef}
-        placeholder="Enter Email."
-      />
-      <Button
-        size="large"
-        type="primary"
-        style={{ width: "20%" }}
-        onClick={() => handleSubmit(inputRef.current.state.value)}
-      >
-        Enter
-      </Button>
-    </Group>
+    <Form onSubmit={handleFormSubmit}>
+      <Group compact style={{ display: "flex" }}>
+        <Form.Item style={{ margin: 0, width: "80%" }}>
+          {getFieldDecorator("email", {
+            rules: [
+              {
+                required: true,
+                message: "Please enter your email!",
+              },
+            ],
+          })(
+            <Input
+              type="email"
+              size="large"
+              prefix={<Icon type="mail" style={{ color: "rgba(0,0,0,.25)" }} />}
+              placeholder="Enter Email"
+              allowClear
+            />
+          )}
+        </Form.Item>
+        <Button
+          size="large"
+          type="primary"
+          style={{ width: "20%" }}
+          htmlType="submit"
+        >
+          Enter
+        </Button>
+      </Group>
+    </Form>
   );
 };

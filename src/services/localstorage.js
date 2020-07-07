@@ -19,4 +19,8 @@ export const saveState = (state) => {
   }
 };
 
+export const saveToLocalStorage = (key, value) => localStorage.setItem(key, value);
+
+export const getToken = () => localStorage.getItem('fcmToken');
+
 export const clearStorage = () => localStorage.clear();

@@ -17,7 +17,7 @@ export const TaskContainer = (props) => {
       <h3>{title}</h3>
       <ul style={{ paddingBottom: isPopoverVisible ? '120px' : '50px'}}>
         {
-          listitems.map(({ title, assignee }, index) => (<TaskItem title={title} key={index} assignee={assignee} toggleModal={toggleModal} />))
+          listitems.map(({ id, title, assignee }) => (<TaskItem id={id} title={title} key={id} assignee={assignee} toggleModal={toggleModal} />))
         }
         <Popover
           title={''}

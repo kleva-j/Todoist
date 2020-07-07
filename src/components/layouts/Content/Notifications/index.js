@@ -3,6 +3,7 @@ import { Divider, Card, Checkbox } from "antd";
 import { motion } from "framer-motion";
 
 import styles from "./style.module.less";
+import { SEOHeader } from "../../../Reuseables/Header";
 
 export const Notification = () => {
   return (
@@ -15,6 +16,7 @@ export const Notification = () => {
       }}
       className={styles["Notification_container"]}
     >
+      <SEOHeader pageTitle="Notifications" pageDesc="Taskaider notifications page" currentURL="/settings/notification" />
       <article className={styles["Article"]}>
         <h2>Notifications</h2>
         <Divider style={{ margin: 0 }} />

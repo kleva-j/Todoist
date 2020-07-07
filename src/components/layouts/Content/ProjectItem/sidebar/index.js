@@ -2,7 +2,7 @@ import React from 'react';
 import { Timeline, Icon, Skeleton } from 'antd';
 import styles from './style.module.less'
 
-export const Sidebar = ({ timeline, loading=false }) => {
+export const Sidebar = ({ loading=false }) => {
 
   return (
     <div className={styles['Sidebar-container']}>

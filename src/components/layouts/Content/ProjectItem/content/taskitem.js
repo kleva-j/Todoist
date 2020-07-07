@@ -2,10 +2,10 @@ import React from 'react';
 import { Progress, Avatar } from 'antd';
 import styles from './style.module.less';
 
-export const TaskItem = ({ title, assignee, toggleModal }) => {
+export const TaskItem = ({ id, title, assignee, toggleModal }) => {
 
   return (
-    <li className={styles['Taskitem']} onClick={() => toggleModal({ title, assignee })}>
+    <li className={styles['Taskitem']} onClick={() => toggleModal({ id, title, assignee })}>
       <div>
         <p>{title}</p>
       </div>

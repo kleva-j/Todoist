@@ -1,8 +1,8 @@
-import app from 'firebase/app';
+import * as app from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
-
-require('dotenv').config();
+import 'firebase/messaging';
+import 'firebase/analytics';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCyFvPHW4Ed4cGiwfvRTiWcPP8IhVcgsw4",
@@ -20,6 +20,10 @@ class FirebaseApp {
     app.initializeApp(firebaseConfig);
     this.auth = app.auth();
     this.db = app.firestore();
+    if (process.env.NODE_ENV !== 'test') {
+      this.messaging = app.messaging();
+    }
+    this.analytics = app.analytics();
     this.projectRef = this.db.collection('projects');
     this.taskRef = this.db.collection('tasks');
     this.userRef = this.db.collection('users');
@@ -71,6 +75,7 @@ class FirebaseApp {
         });
         this.auth.signInWithPopup(provider)
           .then(({ additionalUserInfo: { isNewUser }, user: { uid, displayName } }) => {
+            this.analytics.logEvent('login');
             if (isNewUser) {
               const [firstname, lastname] = displayName.split(' ');
               this.userRef.doc(`${uid}`).set({
@@ -91,11 +96,15 @@ class FirebaseApp {
       const { name, email, password } = credentials;
       if (authType === 'Log in') {
         this.auth.signInWithEmailAndPassword(email, password)
-          .then(successCallback)
+          .then(() => {
+            this.analytics.logEvent('login');
+            successCallback();
+          })
           .catch(errorCallback);
       } else {
         this.auth.createUserWithEmailAndPassword(email, password)
           .then(({ user: { uid } }) => {
+            this.analytics.logEvent('sign_up');
             const [firstname='', lastname=''] = name.split(' ');
             this.userRef.doc(`${uid}`).set({
               userId: uid,

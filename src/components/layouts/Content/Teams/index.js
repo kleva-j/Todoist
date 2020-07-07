@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button, Divider, List, Typography } from 'antd';
 
-import styles from './style.module.less'
+import styles from './style.module.less';
+import { SEOHeader } from '../../../Reuseables/Header';
 
 export const TeamsComponent = () => {
   return (
@@ -15,6 +16,7 @@ export const TeamsComponent = () => {
         opacity: 1,
       }}
       className={styles["Teams_container"]}>
+      <SEOHeader pageTitle="Teams" pageDesc="Taskaider teams page" currentURL="/settings/team" />
       <article className={styles["Article"]}>
         <h2>Teams</h2>
         <Button>New Team</Button>
