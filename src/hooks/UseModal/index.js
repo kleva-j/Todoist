@@ -3,20 +3,25 @@ import { Modal } from "antd";
 
 export const UseModal = ({ successCb, cancelCb, ...rest }) => {
   const [state, setState] = useState({ isVisible: false, loading: false });
-  const toggleVisibleState = (visibleState) =>
+  const toggleVisibleState = (visibleState, callback) => {
     setState((iState) => ({
       ...iState,
       isVisible: visibleState || !iState.isVisible,
     }));
+    if (callback) callback();
+  };
+
   const setLoading = (isLoading) =>
     setState((iState) => ({
       ...iState,
       loading: isLoading || !iState.loading,
     }));
+
   const handleSuccess = (callback) => {
     if (callback) callback();
     toggleVisibleState(false);
   };
+
   const handleCancel = (callback) => {
     if (callback) callback();
     toggleVisibleState(false);

@@ -24,6 +24,10 @@ const messages = {
     type: 'success',
     message: 'Successful Signup',
   },
+  'auth/networkError': {
+    type: 'error',
+    message: 'Network error, Please check your network connection.'
+  },
   "defaultMessage": {
     type: 'Info',
     message: ''

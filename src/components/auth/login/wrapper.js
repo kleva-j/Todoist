@@ -1,4 +1,4 @@
-import { Form } from "antd";
+import { Form, message } from "antd";
 import { connect } from "react-redux";
 import { compose, withState, withHandlers } from "recompose";
 
@@ -32,7 +32,6 @@ export const Login = compose(
       event.preventDefault();
       form.validateFields((err, values) => {
         if (!err) {
-          console.log("Received values of form: ", values);
           return FirebaseApp.loginWithCredentials(authType, values)(
             () =>
               updateState({
@@ -71,7 +70,7 @@ export const Login = compose(
     loginUser: ({ history }) =>
       FirebaseApp.loginWithSocials(
         (_) => history.push("/dashboard"),
-        ({ message }) => console.log(message, "Login Error")
+        () => message.error('Network error, Please check your network connection.', 4),
       ),
   })
 )(Component);

@@ -5,9 +5,9 @@ import { Typography, Input, Icon } from 'antd';
 
 import styles from './style.module.less';
 import { TaskContainerWrapper } from './TaskContainer/wrapper';
-import { CustomModal as Modal } from '../../../../Reuseables/Modals';
 import { TaskItemModal } from '../../../../Reuseables/Modals/TaskItem';
 import { SEOHeader } from '../../../../Reuseables/Header';
+import { UseModal } from '../../../../../hooks/UseModal';
 
 const { Title } = Typography;
 const { Search } = Input;
@@ -15,12 +15,15 @@ const { Search } = Input;
 export const Content = (props) => {
   const { photoURL, uid, displayName } = useSelector(state => state.firebase.auth);
   const {
-    tasks, toggleTaskModal, project,
-    handleSearch, handleOk, handleCancel,
-    state: { taskMenus, modalIsVisible, modal },
-    handleTaskUpdate, loadingUpdate
+    state: { taskMenus, modal },
+    tasks, project, setModalProp,
+    handleSearch, handleTaskUpdate,
   } = props;
-  
+  const [ModalH, { toggleVisibleState }] = UseModal({
+    footer: null,
+    width: 700,
+  });
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -46,7 +49,9 @@ export const Content = (props) => {
                 key={index}
                 title={item}
                 listitems={tasks[item]}
-                toggleModal={toggleTaskModal}
+                toggleModal={() => {
+                  toggleVisibleState(true);
+                }}
                 user={{
                   uid, user_name: displayName, photoURL
                 }}
@@ -55,21 +60,9 @@ export const Content = (props) => {
             ))
         }
       </div>
-      {
-        modalIsVisible
-          && 
-        (
-          <Modal
-            isVisible={modalIsVisible}
-            handleOk={handleOk}
-            handleCancel={handleCancel}
-            width={700}
-            footer={null}
-          >
-            <TaskItemModal photoURL={photoURL} taskItemProps={modal} updateTask={handleTaskUpdate('update')} isLoading={loadingUpdate} />
-          </Modal>
-        )
-      }
+      <ModalH>
+        <TaskItemModal photoURL={photoURL} taskItemProps={modal} updateTask={handleTaskUpdate('update')} />
+      </ModalH>
     </motion.div>
   );
 };

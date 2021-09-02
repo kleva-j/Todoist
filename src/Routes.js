@@ -1,11 +1,11 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
+import { AuthWrapper } from './components/auth/AuthWrapper';
 import { Login } from './components/auth/login/wrapper';
 import { NotFound } from './components/NotFound';
 import { App } from './App';
-import { AuthWrapper } from './components/auth/AuthWrapper';
 
 export const AppRouting = () => {
   return (

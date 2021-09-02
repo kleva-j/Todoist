@@ -27,7 +27,14 @@ export const CreateWrapper = compose(
           if (values.contributors) {
             contributors = values.contributors.trim().split(" @").map((name) => ({ name }));
           }
-          setTimeout(() => setState((prevState) => ({ ...prevState, loading: true })), 5000)
+          setTimeout(() => {
+            setState((prevState) => ({ ...prevState, loading: false }))
+            toggleModal(false);
+            message.success({
+              content: "New project created successfully!",
+              key: "updatable",
+            });
+          }, 5000)
           // firestore
           //   .add({ collection: "projects" }, {
           //       id: generateUniqueId(20),

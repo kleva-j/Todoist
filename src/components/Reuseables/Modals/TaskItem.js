@@ -16,7 +16,7 @@ const ConfirmDelete = (callback) => ConfirmModal({
   successCb: () => callback({ deleted: true }),
 });
 
-export const TaskItemModal = ({ photoURL, taskItemProps: { title }, isLoading, updateTask }) => {
+export const TaskItemModal = ({ photoURL, taskItemProps: { title = 'Some Title' }, updateTask }) => {
   return (
     <section className={styles["CreateTask-modal"]}>
       <div className={styles["Top-row"]}>

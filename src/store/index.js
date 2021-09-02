@@ -1,7 +1,8 @@
-import { applyMiddleware, compose, createStore } from 'redux';
-import logger from 'redux-logger';
-import { createEpicMiddleware } from 'redux-observable';
 import { routerMiddleware } from 'connected-react-router/immutable';
+import { applyMiddleware, compose, createStore } from 'redux';
+import { createEpicMiddleware } from 'redux-observable';
+import logger from 'redux-logger';
+
 import { createRootReducer } from './rootReducer';
 import { rootEpic } from './rootEpic';
 
@@ -13,10 +14,10 @@ const DevToolsProps = {
 
 const epicMiddleware = createEpicMiddleware();
 
-const composeEnhancer = 
+const composeEnhancer =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(DevToolsProps)
-    : compose  
+    : compose
 
 export const configureStore = (initialState = {}, history) => {
   const middlewares = [
