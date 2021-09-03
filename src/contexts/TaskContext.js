@@ -1,8 +1,9 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
 import { TaskReducer } from '../Reducers';
 import { fetchFromLocalStorage } from '../helpers';
 
 export const TaskContext = createContext();
+export const UseTaskContext = () => useContext(TaskContext);
 
 const defaultState = {
   activeTab: 'Inbox',

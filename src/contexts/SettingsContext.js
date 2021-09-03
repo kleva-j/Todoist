@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
 import { SettingReducer } from '../Reducers';
 
 const defaultState = {
@@ -20,6 +20,7 @@ const defaultState = {
 }
 
 export const SettingsContext = createContext();
+export const UseSettingsContext = () => useContext(SettingsContext);
 
 export const SettingsContextProvider = (props) => {
   const [settings, dispatch] = useReducer(SettingReducer, defaultState);
