@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "dotenv": "^8.2.0",
+    "dotenv": "^8.6.0",
     "firebase": "^7.6.0",
     "node-sass": "^4.14.1",
     "react": "^16.12.0",
