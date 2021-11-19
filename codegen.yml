@@ -7,7 +7,7 @@ schema:
 documents: "lib/graphql/*.ts"
 
 generates:
-  generated/index.tsx:
+  lib/generated/index.tsx:
     config:
       reactApolloVersion: 3
       withHooks: true
