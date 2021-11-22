@@ -10,8 +10,7 @@ const Home: NextPage = () => {
   return (
     <Layout>
       <Header />
-      <Container>
-      </Container>
+      <Container bg="teal.200" height="500px" />
     </Layout>
   );
 };

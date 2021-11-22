@@ -1,10 +1,23 @@
-import { signIn, signOut, useSession } from "next-auth/client";
 import { Stack, Box, Avatar, AvatarBadge, Button } from "@chakra-ui/react";
-import React, { ReactNode } from "react";
-import { Flex, HStack } from "@chakra-ui/layout";
+import { signIn, signOut, useSession } from "next-auth/client";
+import { Flex } from "@chakra-ui/layout";
+import {
+  Menu,
+  MenuList,
+  MenuItem,
+  MenuButton,
+  MenuDivider,
+} from "@chakra-ui/menu";
+import { ReactNode } from "react";
 
-import HamburgerMenu from "../Hamburger";
-import { SearchIcon, MenuGridIcon } from "../../../icons";
+import {
+  SearchIcon,
+  MenuGridIcon,
+  SettingsIcon,
+  Profile,
+} from "../../../icons";
+
+// import HamburgerMenu from "../Hamburger";
 
 interface props {
   children: ReactNode;
@@ -22,8 +35,8 @@ export default function NavBar({ children, isOpen, toggle, ...props }: props) {
       wrap="wrap"
       w="100%"
       borderY="3px"
-      mb={8}
-      p={4}
+      height="60px"
+      px={4}
       bg="white"
       color="#a9b1bc"
       {...props}
@@ -42,19 +55,32 @@ export default function NavBar({ children, isOpen, toggle, ...props }: props) {
             direction={["column", "row", "row", "row"]}
             pt={[4, 4, 0, 0]}
           >
-            <SearchIcon />
-            <MenuGridIcon />
-            <Avatar
-              loading="lazy"
-              size="xs"
-              src="https://img.icons8.com/fluency/48/000000/cat-profile.png"
-              name="Oshigaki Kisame"
-            >
-              <AvatarBadge boxSize="1em" bg="green.500" />
-            </Avatar>
+            <SearchIcon focusable fontSize />
+            <MenuGridIcon fontSize="24px" focusable={true} />
+
+            <Menu isLazy>
+              <MenuButton>
+                <Avatar
+                  loading="lazy"
+                  size="xs"
+                  src="https://img.icons8.com/fluency/48/000000/cat-profile.png"
+                  name="Oshigaki Kisame"
+                >
+                  <AvatarBadge boxSize="1em" bg="green.500" />
+                </Avatar>
+              </MenuButton>
+              <MenuList color="gray.500" fontSize="15px">
+                <MenuItem icon={<Profile />}>Profile</MenuItem>
+                <MenuItem icon={<SettingsIcon />}>Settings</MenuItem>
+                <MenuDivider />
+                <MenuItem onClick={() => signOut()}>Sign out</MenuItem>
+              </MenuList>
+            </Menu>
           </Stack>
         ) : (
-          <Button size="xs" variant="outline" onClick={() => signIn()}>Sign in</Button>
+          <Button size="xs" variant="outline" onClick={() => signIn()}>
+            Sign in
+          </Button>
         )}
       </Box>
     </Flex>

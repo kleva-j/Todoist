@@ -5,13 +5,15 @@ import { FiSearch } from "react-icons/fi";
 import { CgMenuGridO } from "react-icons/cg";
 import { RiGridFill } from "react-icons/ri";
 import { IconType } from "react-icons/lib";
-
+import { IoSettingsOutline } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
 interface IconProps {
   w?: number;
   viewBox?: string;
   color?: string;
   focusable?: boolean;
   children?: React.ReactElement;
+  [key: string]: any;
 }
 
 interface ButtonProps {
@@ -27,12 +29,13 @@ interface ButtonProps {
   iconProps?: IconProps;
 }
 
-const generateIcon = (icon: IconType) => (props: IconProps) => (
-  <Icon {...props} as={icon} />
-)
+const generateIcon = (icon: IconType) => (props: IconProps) =>
+  <Icon as={icon} fontSize="18px" {...props} />;
 
+export const Profile = generateIcon(CgProfile);
 export const SearchIcon = generateIcon(FiSearch);
 export const MenuGridIcon = generateIcon(CgMenuGridO);
+export const SettingsIcon = generateIcon(IoSettingsOutline);
 
 export const SearchIconButton = (props: ButtonProps) => (
   <IconButton
