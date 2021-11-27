@@ -46,7 +46,7 @@ export default function Menubar({ isOpen }: Props) {
         align="end"
         justify="space-between"
         direction="row"
-        minW="350px"
+        minW="380px"
       >
         {NAV_ITEMS.map(({ label, href }) => (
           <NavItem

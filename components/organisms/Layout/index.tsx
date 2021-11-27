@@ -7,7 +7,7 @@ interface props {
 
 export default function Layout({ children, ...rest }: props) {
   return (
-    <Flex direction="column" bg="#fafcff" minH="100vh" maxH="100vh" {...rest}>
+    <Flex direction="column" bg="#fafcff" minH="100vh" {...rest}>
       {children}
     </Flex>
   );

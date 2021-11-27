@@ -9,7 +9,7 @@ import {
   useColorModeValue,
   Flex,
 } from "@chakra-ui/react";
-import { SiFacebook } from "react-icons/si";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { GetServerSideProps } from "next";
 import { FcGoogle } from "react-icons/fc";
 import { BsGithub } from "react-icons/bs";
@@ -20,8 +20,9 @@ interface props {
 
 const IconMap = {
   google: <FcGoogle />,
-  facebook: <SiFacebook />,
+  facebook: <FaFacebook />,
   github: <BsGithub />,
+  instagram: <FaInstagram />,
 };
 
 export default function SignIn({ providers }: props) {
@@ -47,6 +48,7 @@ export default function SignIn({ providers }: props) {
               if (id === "google") Icon = IconMap["google"];
               if (id === "github") Icon = IconMap["github"];
               if (id === "facebook") Icon = IconMap["facebook"];
+              if (id === "instagram") Icon = IconMap["instagram"];
 
               return (
                 <Button
@@ -55,7 +57,7 @@ export default function SignIn({ providers }: props) {
                   variant="outline"
                   colorScheme={id}
                   leftIcon={Icon}
-                  onClick={() => signIn(id, { callbackUrl: "localhost:3000" })}
+                  onClick={() => signIn(id, { callbackUrl: "localhost:4000" })}
                 >
                   <Center>
                     <Text>Sign in with {name}</Text>
@@ -70,9 +72,7 @@ export default function SignIn({ providers }: props) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const providers = await getProviders();
-  return {
-    props: { providers },
-  };
+  return { props: { providers } };
 };

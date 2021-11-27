@@ -17,10 +17,14 @@ export default NextAuth({
     Providers.Facebook({
       clientId: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
-    })
+    }),
+    Providers.Instagram({
+      clientId: process.env.INSTAGRAM_APP_ID,
+      clientSecret: process.env.INSTAGRAM_APP_SECRET,
+    }),
   ],
   pages: {
-    signIn: '/auth/signin',
+    signIn: "/auth/signin",
   },
   // jwt: {
   //   encode: async (params: JWTEncodeParams | undefined) => {

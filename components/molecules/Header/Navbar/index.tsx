@@ -63,8 +63,8 @@ export default function NavBar({ children, isOpen, toggle, ...props }: props) {
                 <Avatar
                   loading="lazy"
                   size="xs"
-                  src="https://img.icons8.com/fluency/48/000000/cat-profile.png"
-                  name="Oshigaki Kisame"
+                  src={session.user?.image ?? ""}
+                  name={session.user?.name ?? ""}
                 >
                   <AvatarBadge boxSize="1em" bg="green.500" />
                 </Avatar>

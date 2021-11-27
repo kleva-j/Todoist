@@ -4,13 +4,13 @@ import { getDataFromTree } from "@apollo/client/react/ssr";
 import WithApollo from "../lib/Apollo";
 import Header from "../components/molecules/Header";
 import Layout from "../components/organisms/Layout";
-import { Container } from "@chakra-ui/layout";
+import Footer from "../components/molecules/Footer";
 
 const Home: NextPage = () => {
   return (
     <Layout>
       <Header />
-      <Container bg="teal.200" height="500px" />
+      <Footer />
     </Layout>
   );
 };
