@@ -22,6 +22,10 @@ export default NextAuth({
       clientId: process.env.INSTAGRAM_APP_ID,
       clientSecret: process.env.INSTAGRAM_APP_SECRET,
     }),
+    Providers.Twitter({
+      clientId: process.env.TWITTER_CLIENT_ID,
+      clientSecret: process.env.TWITTER_CLIENT_SECRET,
+    }),
   ],
   pages: {
     signIn: "/auth/signin",

@@ -9,7 +9,7 @@ import {
   useColorModeValue,
   Flex,
 } from "@chakra-ui/react";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 import { GetServerSideProps } from "next";
 import { FcGoogle } from "react-icons/fc";
 import { BsGithub } from "react-icons/bs";
@@ -23,6 +23,7 @@ const IconMap = {
   facebook: <FaFacebook />,
   github: <BsGithub />,
   instagram: <FaInstagram />,
+  twitter: <FaTwitter />,
 };
 
 export default function SignIn({ providers }: props) {
@@ -49,6 +50,7 @@ export default function SignIn({ providers }: props) {
               if (id === "github") Icon = IconMap["github"];
               if (id === "facebook") Icon = IconMap["facebook"];
               if (id === "instagram") Icon = IconMap["instagram"];
+              if (id === "twitter") Icon = IconMap["twitter"];
 
               return (
                 <Button
@@ -57,7 +59,7 @@ export default function SignIn({ providers }: props) {
                   variant="outline"
                   colorScheme={id}
                   leftIcon={Icon}
-                  onClick={() => signIn(id, { callbackUrl: "localhost:4000" })}
+                  onClick={() => signIn(id, { callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_URL })}
                 >
                   <Center>
                     <Text>Sign in with {name}</Text>
