@@ -1,4 +1,11 @@
-import { Stack, Box, Avatar, AvatarBadge, Button } from "@chakra-ui/react";
+import {
+  Stack,
+  Box,
+  Avatar,
+  AvatarBadge,
+  Button,
+  chakra,
+} from "@chakra-ui/react";
 import { signIn, signOut, useSession } from "next-auth/client";
 import { Flex } from "@chakra-ui/layout";
 import {
@@ -16,6 +23,7 @@ import {
   SettingsIcon,
   Profile,
 } from "../../../icons";
+import { useRouter } from "next/router";
 
 // import HamburgerMenu from "../Hamburger";
 
@@ -27,6 +35,7 @@ interface props {
 
 export default function NavBar({ children, isOpen, toggle, ...props }: props) {
   const [session] = useSession();
+  const router = useRouter();
   return (
     <Flex
       as="nav"
@@ -71,7 +80,7 @@ export default function NavBar({ children, isOpen, toggle, ...props }: props) {
               </MenuButton>
               <MenuList color="gray.500" fontSize="15px">
                 <MenuItem icon={<Profile />}>Profile</MenuItem>
-                <MenuItem icon={<SettingsIcon />}>Settings</MenuItem>
+                <MenuItem onClick={() => router.push("/settings")} icon={<SettingsIcon />}>Settings</MenuItem>
                 <MenuDivider />
                 <MenuItem onClick={() => signOut()}>Sign out</MenuItem>
               </MenuList>

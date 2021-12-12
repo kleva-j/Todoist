@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "codegen": "graphql-codegen --config codegen.yml -r dotenv/config"
+    "codegen": "graphql-codegen --config codegen.yml -r dotenv/config",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run --browser chrome"
   },
   "dependencies": {
     "@apollo/client": "^3.4.17",
@@ -36,6 +38,7 @@
     "@graphql-codegen/typescript-react-apollo": "^3.2.1",
     "@types/node": "16.11.6",
     "@types/react": "17.0.34",
+    "cypress": "^9.1.1",
     "eslint": "7",
     "eslint-config-next": "12.0.3",
     "typescript": "4.4.4"

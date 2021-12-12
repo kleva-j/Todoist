@@ -1,16 +1,21 @@
 import type { NextPage } from "next";
+import { useSession } from "next-auth/client";
 import { getDataFromTree } from "@apollo/client/react/ssr";
+
+import UnAuthenticated from "../layout/unauthenticated";
+import Authenticated from "../layout/authenticated";
 
 import WithApollo from "../lib/Apollo";
 import Header from "../components/molecules/Header";
 import Layout from "../components/organisms/Layout";
-import Footer from "../components/molecules/Footer";
 
 const Home: NextPage = () => {
+  const [session] = useSession();
+
   return (
     <Layout>
       <Header />
-      <Footer />
+      {!session ? <UnAuthenticated /> : <Authenticated />}
     </Layout>
   );
 };

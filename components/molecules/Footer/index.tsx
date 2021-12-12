@@ -16,12 +16,10 @@ const SocialButton = ({
   children,
   label,
   href,
-  colorScheme,
 }: {
   children: ReactNode;
   label: string;
   href: string;
-  colorScheme?: string;
 }) => {
   return (
     <chakra.button
@@ -68,21 +66,18 @@ export default function Footer() {
         <Stack direction={"row"} spacing={6}>
           <SocialButton
             label={"Github"}
-            colorScheme="github"
             href={`${process.env.NEXT_PUBLIC_GITHUB_PROFILE_URL}`}
           >
             <BsGithub />
           </SocialButton>
           <SocialButton
             label={"Linkedin"}
-            colorScheme="linkedin"
             href={`${process.env.NEXT_PUBLIC_LINKEDIN_PROFILE_URL}`}
           >
             <FaLinkedin />
           </SocialButton>
           <SocialButton
             label={"Facebook"}
-            colorScheme="facebook"
             href={`${process.env.NEXT_PUBLIC_FACEBOOK_PROFILE_URL}`}
           >
             <FaFacebook />
