@@ -2,7 +2,7 @@ overwrite: true
 schema:
   - https://taskaider.hasura.app/v1/graphql:
       headers:
-        "x-hasura-admin-secret": "YCdImmjN4fVP3HJN0mwCzakRoKR1nPNILQO5wM2AcGBt9JA5UWHMw0ilGjHDaceb"
+        "x-hasura-admin-secret": ${HASURA_ADMIN_SECRET}
 
 documents: "lib/graphql/*.ts"
 

@@ -8,7 +8,7 @@ import {
   VisuallyHidden,
 } from "@chakra-ui/react";
 import { FaLinkedin, FaFacebook } from "react-icons/fa";
-import { useSession } from "next-auth/client";
+import { useSession } from "next-auth/react";
 import { BsGithub } from "react-icons/bs";
 import React, { ReactNode } from "react";
 
@@ -45,7 +45,7 @@ const SocialButton = ({
 };
 
 export default function Footer() {
-  const [session] = useSession();
+  const { data: session} = useSession();
 
   return !session ? (
     <Box

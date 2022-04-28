@@ -1,4 +1,4 @@
-import { getProviders, signIn, ClientSafeProvider } from "next-auth/client";
+import { getProviders, signIn, ClientSafeProvider } from "next-auth/react";
 import {
   Button,
   Center,
@@ -62,7 +62,7 @@ export default function SignIn({ providers }: props) {
                   onClick={() => signIn(id, { callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_URL })}
                 >
                   <Center>
-                    <Text>Sign in with {name}</Text>
+                    <Text>Sign in with {id[0].toUpperCase() + id.slice(1)}</Text>
                   </Center>
                 </Button>
               );

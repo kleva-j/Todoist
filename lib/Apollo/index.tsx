@@ -12,7 +12,7 @@ import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import ws from "ws";
 
-const HASURA_SECRET = process.env.NEXT_PUBLIC_HASURA_SECRET;
+const HASURA_SECRET = process.env.HASURA_ADMIN_SECRET || "";
 const HTTP_URI = process.env.NEXT_PUBLIC_HTTP_URL || "";
 const WSS_URI = process.env.NEXT_PUBLIC_WSS_URL || "";
 

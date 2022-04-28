@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { HStack } from "@chakra-ui/react";
-import { useSession } from "next-auth/client";
+import { useSession } from "next-auth/react";
 
 import Logo from "./Logo";
 import NavBar from "./Navbar";
@@ -10,7 +10,7 @@ interface props {}
 
 export default function Header(props: props) {
   const [isOpen, setIsOpen] = useState<Boolean>(false);
-  const [session] = useSession();
+  const { data: session } = useSession();
 
   const toggle = () => setIsOpen(!isOpen);
 

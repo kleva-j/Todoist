@@ -6,7 +6,7 @@ import {
   Button,
   chakra,
 } from "@chakra-ui/react";
-import { signIn, signOut, useSession } from "next-auth/client";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { Flex } from "@chakra-ui/layout";
 import {
   Menu,
@@ -34,7 +34,7 @@ interface props {
 }
 
 export default function NavBar({ children, isOpen, toggle, ...props }: props) {
-  const [session] = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
   return (
     <Flex
