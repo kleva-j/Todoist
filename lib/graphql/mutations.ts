@@ -26,7 +26,7 @@ export const UPDATE_USER = gql`
 `;
 
 export const UPDATE_USER_BY_PK = gql`
-  mutation updateUserByPk($id: String!, $user: users_set_input = {}) {
+  mutation updateUserByPk($id: Int!, $user: users_set_input = {}) {
     update_users_by_pk(pk_columns: { id: $id }, _set: $user) {
       id
       name
@@ -49,7 +49,7 @@ export const DELETE_USER_BY_EMAIL = gql`
 `;
 
 export const DELETE_USER_BY_PK = gql`
-  mutation deleteUserByPk($id: String!) {
+  mutation deleteUserByPk($id: Int!) {
     delete_users_by_pk(id: $id) {
       id
       name
@@ -62,11 +62,13 @@ export const LINK_ACCOUNT = gql`
   mutation linkAccount($account: accounts_insert_input!) {
     insert_accounts_one(object: $account) {
       id
+      scope
+      id_token
+      token_type
       user_id
       provider_id
       provider_type
       provider_account_id
-      refresh_token
       access_token
       access_token_expires
     }

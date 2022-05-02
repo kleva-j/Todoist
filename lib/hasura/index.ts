@@ -15,9 +15,8 @@ export const hasuraQuery: QueryResolver<any, any> = async (query, variables) => 
     body: JSON.stringify({ query, variables }),
   }).then((res) => res.json());
   if (!result || !result.data) {
-    console.error(result);
+    console.error("<<<<<<< error start", result, "error end >>>>>>>");
     return [];
   }
   return result.data;
 };
-hasuraQuery

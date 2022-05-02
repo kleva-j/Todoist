@@ -3,7 +3,7 @@ import { gql } from "@apollo/client";
 /*****************  QUERIES  **************** */
 
 export const GET_USER_QUERY = gql`
-  query getSingleUser($id: String!) {
+  query getSingleUser($id: Int!) {
     users_by_pk(id: $id) {
       id
       name
@@ -67,22 +67,19 @@ export const GET_USER_BY_ACCOUNT = gql`
     $provider_account_id: String! = ""
     $provider_id: String! = ""
   ) {
-    users(
+    accounts(
       where: {
-        _and: {
-          accounts: {
-            provider_account_id: { _eq: $provider_account_id }
-            provider_id: { _eq: $provider_id }
-          }
-        }
+        provider_account_id: { _eq: $provider_account_id }
+        provider_id: { _eq: $provider_id }
       }
     ) {
-      id
-      name
-      email
-      accounts {
-        provider_id
-        provider_account_id
+      user {
+        id
+        name
+        image
+        email
+        user_id
+        email_verified
       }
     }
   }

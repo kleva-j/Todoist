@@ -11,12 +11,13 @@ CREATE TYPE status AS ENUM ('in progress', 'rejected', 'blocked', 'accepted', 'c
 CREATE TABLE accounts
   (
     id                   BIGSERIAL,
-    compound_id          VARCHAR(255),
+    scope                VARCHAR(255),
+    token_type           VARCHAR(255),
+    id_token             VARCHAR(255),
     user_id              UUID NOT NULL,
     provider_type        VARCHAR(255) NOT NULL,
     provider_id          VARCHAR(255) NOT NULL,
     provider_account_id  VARCHAR(255) NOT NULL,
-    refresh_token        TEXT,
     access_token         TEXT,
     access_token_expires TIMESTAMPTZ,
     created_at           TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -30,7 +31,7 @@ CREATE TABLE sessions
     user_id         UUID NOT NULL,
     expires         TIMESTAMPTZ NOT NULL,
     session_token   VARCHAR(255) NOT NULL,
-    access_token    VARCHAR(255) NOT NULL,
+    access_token    VARCHAR(255),
     created_at      TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at      TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
@@ -38,7 +39,7 @@ CREATE TABLE sessions
 
 CREATE TABLE users
   (
-    id             VARCHAR(22) NOT NULL default: nextval('users_id_seq'::regclass),
+    id             SERIAL NOT NULL,
     user_id        UUID NOT NULL UNIQUE DEFAULT gen_random_uuid(),
     name           VARCHAR(255) NOT NULL,
     email          VARCHAR(255) NOT NULL,
@@ -98,8 +99,8 @@ CREATE TABLE verification_requests
     PRIMARY KEY (id)
   );
 
-CREATE UNIQUE INDEX compound_id
-  ON accounts(compound_id);
+CREATE UNIQUE INDEX id_token
+  ON accounts(id_token);
 
 CREATE INDEX provider_account_id
   ON accounts(provider_account_id);
@@ -142,3 +143,5 @@ ALTER TABLE verification_requests
   ADD FOREIGN KEY (user_id) REFERENCES users (user_id)
   ON DELETE CASCADE;
 
+ALTER TABLE accounts
+  ALTER COLUMN id_token TYPE TEXT NOT NULL;

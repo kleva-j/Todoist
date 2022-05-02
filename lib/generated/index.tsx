@@ -15,6 +15,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  bigint: any;
   date: any;
   smallint: any;
   status: any;
@@ -74,13 +75,14 @@ export type Accounts = {
   __typename?: 'accounts';
   access_token?: Maybe<Scalars['String']>;
   access_token_expires?: Maybe<Scalars['timestamptz']>;
-  compound_id?: Maybe<Scalars['String']>;
   created_at: Scalars['timestamptz'];
-  id: Scalars['Int'];
+  id: Scalars['bigint'];
+  id_token?: Maybe<Scalars['String']>;
   provider_account_id: Scalars['String'];
   provider_id: Scalars['String'];
   provider_type: Scalars['String'];
-  refresh_token?: Maybe<Scalars['String']>;
+  scope?: Maybe<Scalars['String']>;
+  token_type?: Maybe<Scalars['String']>;
   updated_at: Scalars['timestamptz'];
   /** An object relationship */
   user: Users;
@@ -135,7 +137,7 @@ export type Accounts_Aggregate_Order_By = {
 /** input type for inserting array relation for remote table "accounts" */
 export type Accounts_Arr_Rel_Insert_Input = {
   data: Array<Accounts_Insert_Input>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<Accounts_On_Conflict>;
 };
 
@@ -157,13 +159,14 @@ export type Accounts_Bool_Exp = {
   _or?: InputMaybe<Array<Accounts_Bool_Exp>>;
   access_token?: InputMaybe<String_Comparison_Exp>;
   access_token_expires?: InputMaybe<Timestamptz_Comparison_Exp>;
-  compound_id?: InputMaybe<String_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  id?: InputMaybe<Int_Comparison_Exp>;
+  id?: InputMaybe<Bigint_Comparison_Exp>;
+  id_token?: InputMaybe<String_Comparison_Exp>;
   provider_account_id?: InputMaybe<String_Comparison_Exp>;
   provider_id?: InputMaybe<String_Comparison_Exp>;
   provider_type?: InputMaybe<String_Comparison_Exp>;
-  refresh_token?: InputMaybe<String_Comparison_Exp>;
+  scope?: InputMaybe<String_Comparison_Exp>;
+  token_type?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
   user_id?: InputMaybe<Uuid_Comparison_Exp>;
@@ -174,25 +177,26 @@ export enum Accounts_Constraint {
   /** unique or primary key constraint */
   AccountsPkey = 'accounts_pkey',
   /** unique or primary key constraint */
-  CompoundId = 'compound_id'
+  IdToken = 'id_token'
 }
 
 /** input type for incrementing numeric columns in table "accounts" */
 export type Accounts_Inc_Input = {
-  id?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['bigint']>;
 };
 
 /** input type for inserting data into table "accounts" */
 export type Accounts_Insert_Input = {
   access_token?: InputMaybe<Scalars['String']>;
   access_token_expires?: InputMaybe<Scalars['timestamptz']>;
-  compound_id?: InputMaybe<Scalars['String']>;
   created_at?: InputMaybe<Scalars['timestamptz']>;
-  id?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['bigint']>;
+  id_token?: InputMaybe<Scalars['String']>;
   provider_account_id?: InputMaybe<Scalars['String']>;
   provider_id?: InputMaybe<Scalars['String']>;
   provider_type?: InputMaybe<Scalars['String']>;
-  refresh_token?: InputMaybe<Scalars['String']>;
+  scope?: InputMaybe<Scalars['String']>;
+  token_type?: InputMaybe<Scalars['String']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   user_id?: InputMaybe<Scalars['uuid']>;
@@ -203,13 +207,14 @@ export type Accounts_Max_Fields = {
   __typename?: 'accounts_max_fields';
   access_token?: Maybe<Scalars['String']>;
   access_token_expires?: Maybe<Scalars['timestamptz']>;
-  compound_id?: Maybe<Scalars['String']>;
   created_at?: Maybe<Scalars['timestamptz']>;
-  id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['bigint']>;
+  id_token?: Maybe<Scalars['String']>;
   provider_account_id?: Maybe<Scalars['String']>;
   provider_id?: Maybe<Scalars['String']>;
   provider_type?: Maybe<Scalars['String']>;
-  refresh_token?: Maybe<Scalars['String']>;
+  scope?: Maybe<Scalars['String']>;
+  token_type?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
   user_id?: Maybe<Scalars['uuid']>;
 };
@@ -218,13 +223,14 @@ export type Accounts_Max_Fields = {
 export type Accounts_Max_Order_By = {
   access_token?: InputMaybe<Order_By>;
   access_token_expires?: InputMaybe<Order_By>;
-  compound_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  id_token?: InputMaybe<Order_By>;
   provider_account_id?: InputMaybe<Order_By>;
   provider_id?: InputMaybe<Order_By>;
   provider_type?: InputMaybe<Order_By>;
-  refresh_token?: InputMaybe<Order_By>;
+  scope?: InputMaybe<Order_By>;
+  token_type?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user_id?: InputMaybe<Order_By>;
 };
@@ -234,13 +240,14 @@ export type Accounts_Min_Fields = {
   __typename?: 'accounts_min_fields';
   access_token?: Maybe<Scalars['String']>;
   access_token_expires?: Maybe<Scalars['timestamptz']>;
-  compound_id?: Maybe<Scalars['String']>;
   created_at?: Maybe<Scalars['timestamptz']>;
-  id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['bigint']>;
+  id_token?: Maybe<Scalars['String']>;
   provider_account_id?: Maybe<Scalars['String']>;
   provider_id?: Maybe<Scalars['String']>;
   provider_type?: Maybe<Scalars['String']>;
-  refresh_token?: Maybe<Scalars['String']>;
+  scope?: Maybe<Scalars['String']>;
+  token_type?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
   user_id?: Maybe<Scalars['uuid']>;
 };
@@ -249,13 +256,14 @@ export type Accounts_Min_Fields = {
 export type Accounts_Min_Order_By = {
   access_token?: InputMaybe<Order_By>;
   access_token_expires?: InputMaybe<Order_By>;
-  compound_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  id_token?: InputMaybe<Order_By>;
   provider_account_id?: InputMaybe<Order_By>;
   provider_id?: InputMaybe<Order_By>;
   provider_type?: InputMaybe<Order_By>;
-  refresh_token?: InputMaybe<Order_By>;
+  scope?: InputMaybe<Order_By>;
+  token_type?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user_id?: InputMaybe<Order_By>;
 };
@@ -269,7 +277,7 @@ export type Accounts_Mutation_Response = {
   returning: Array<Accounts>;
 };
 
-/** on conflict condition type for table "accounts" */
+/** on_conflict condition type for table "accounts" */
 export type Accounts_On_Conflict = {
   constraint: Accounts_Constraint;
   update_columns?: Array<Accounts_Update_Column>;
@@ -280,13 +288,14 @@ export type Accounts_On_Conflict = {
 export type Accounts_Order_By = {
   access_token?: InputMaybe<Order_By>;
   access_token_expires?: InputMaybe<Order_By>;
-  compound_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  id_token?: InputMaybe<Order_By>;
   provider_account_id?: InputMaybe<Order_By>;
   provider_id?: InputMaybe<Order_By>;
   provider_type?: InputMaybe<Order_By>;
-  refresh_token?: InputMaybe<Order_By>;
+  scope?: InputMaybe<Order_By>;
+  token_type?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
   user_id?: InputMaybe<Order_By>;
@@ -294,7 +303,7 @@ export type Accounts_Order_By = {
 
 /** primary key columns input for table: accounts */
 export type Accounts_Pk_Columns_Input = {
-  id: Scalars['Int'];
+  id: Scalars['bigint'];
 };
 
 /** select columns of table "accounts" */
@@ -304,11 +313,11 @@ export enum Accounts_Select_Column {
   /** column name */
   AccessTokenExpires = 'access_token_expires',
   /** column name */
-  CompoundId = 'compound_id',
-  /** column name */
   CreatedAt = 'created_at',
   /** column name */
   Id = 'id',
+  /** column name */
+  IdToken = 'id_token',
   /** column name */
   ProviderAccountId = 'provider_account_id',
   /** column name */
@@ -316,7 +325,9 @@ export enum Accounts_Select_Column {
   /** column name */
   ProviderType = 'provider_type',
   /** column name */
-  RefreshToken = 'refresh_token',
+  Scope = 'scope',
+  /** column name */
+  TokenType = 'token_type',
   /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
@@ -327,13 +338,14 @@ export enum Accounts_Select_Column {
 export type Accounts_Set_Input = {
   access_token?: InputMaybe<Scalars['String']>;
   access_token_expires?: InputMaybe<Scalars['timestamptz']>;
-  compound_id?: InputMaybe<Scalars['String']>;
   created_at?: InputMaybe<Scalars['timestamptz']>;
-  id?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['bigint']>;
+  id_token?: InputMaybe<Scalars['String']>;
   provider_account_id?: InputMaybe<Scalars['String']>;
   provider_id?: InputMaybe<Scalars['String']>;
   provider_type?: InputMaybe<Scalars['String']>;
-  refresh_token?: InputMaybe<Scalars['String']>;
+  scope?: InputMaybe<Scalars['String']>;
+  token_type?: InputMaybe<Scalars['String']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
   user_id?: InputMaybe<Scalars['uuid']>;
 };
@@ -374,7 +386,7 @@ export type Accounts_Stddev_Samp_Order_By = {
 /** aggregate sum on columns */
 export type Accounts_Sum_Fields = {
   __typename?: 'accounts_sum_fields';
-  id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['bigint']>;
 };
 
 /** order by sum() on columns of table "accounts" */
@@ -389,11 +401,11 @@ export enum Accounts_Update_Column {
   /** column name */
   AccessTokenExpires = 'access_token_expires',
   /** column name */
-  CompoundId = 'compound_id',
-  /** column name */
   CreatedAt = 'created_at',
   /** column name */
   Id = 'id',
+  /** column name */
+  IdToken = 'id_token',
   /** column name */
   ProviderAccountId = 'provider_account_id',
   /** column name */
@@ -401,7 +413,9 @@ export enum Accounts_Update_Column {
   /** column name */
   ProviderType = 'provider_type',
   /** column name */
-  RefreshToken = 'refresh_token',
+  Scope = 'scope',
+  /** column name */
+  TokenType = 'token_type',
   /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
@@ -439,6 +453,19 @@ export type Accounts_Variance_Fields = {
 /** order by variance() on columns of table "accounts" */
 export type Accounts_Variance_Order_By = {
   id?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
+export type Bigint_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['bigint']>;
+  _gt?: InputMaybe<Scalars['bigint']>;
+  _gte?: InputMaybe<Scalars['bigint']>;
+  _in?: InputMaybe<Array<Scalars['bigint']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['bigint']>;
+  _lte?: InputMaybe<Scalars['bigint']>;
+  _neq?: InputMaybe<Scalars['bigint']>;
+  _nin?: InputMaybe<Array<Scalars['bigint']>>;
 };
 
 /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
@@ -540,7 +567,7 @@ export type Mutation_RootDelete_AccountsArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Accounts_By_PkArgs = {
-  id: Scalars['Int'];
+  id: Scalars['bigint'];
 };
 
 
@@ -588,7 +615,7 @@ export type Mutation_RootDelete_UsersArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Users_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 
@@ -752,6 +779,7 @@ export type Mutation_RootUpdate_Tasks_By_PkArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_UsersArgs = {
+  _inc?: InputMaybe<Users_Inc_Input>;
   _set?: InputMaybe<Users_Set_Input>;
   where: Users_Bool_Exp;
 };
@@ -759,6 +787,7 @@ export type Mutation_RootUpdate_UsersArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Users_By_PkArgs = {
+  _inc?: InputMaybe<Users_Inc_Input>;
   _set?: InputMaybe<Users_Set_Input>;
   pk_columns: Users_Pk_Columns_Input;
 };
@@ -845,7 +874,7 @@ export type Projects_Aggregate_Order_By = {
 /** input type for inserting array relation for remote table "projects" */
 export type Projects_Arr_Rel_Insert_Input = {
   data: Array<Projects_Insert_Input>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<Projects_On_Conflict>;
 };
 
@@ -900,6 +929,7 @@ export type Projects_Max_Fields = {
   parent_process?: Maybe<Scalars['String']>;
   parent_task?: Maybe<Scalars['String']>;
   started_at?: Maybe<Scalars['timestamptz']>;
+  status?: Maybe<Scalars['status']>;
   title?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
   user_id?: Maybe<Scalars['uuid']>;
@@ -914,6 +944,7 @@ export type Projects_Max_Order_By = {
   parent_process?: InputMaybe<Order_By>;
   parent_task?: InputMaybe<Order_By>;
   started_at?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user_id?: InputMaybe<Order_By>;
@@ -929,6 +960,7 @@ export type Projects_Min_Fields = {
   parent_process?: Maybe<Scalars['String']>;
   parent_task?: Maybe<Scalars['String']>;
   started_at?: Maybe<Scalars['timestamptz']>;
+  status?: Maybe<Scalars['status']>;
   title?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
   user_id?: Maybe<Scalars['uuid']>;
@@ -943,6 +975,7 @@ export type Projects_Min_Order_By = {
   parent_process?: InputMaybe<Order_By>;
   parent_task?: InputMaybe<Order_By>;
   started_at?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user_id?: InputMaybe<Order_By>;
@@ -957,7 +990,7 @@ export type Projects_Mutation_Response = {
   returning: Array<Projects>;
 };
 
-/** on conflict condition type for table "projects" */
+/** on_conflict condition type for table "projects" */
 export type Projects_On_Conflict = {
   constraint: Projects_Constraint;
   update_columns?: Array<Projects_Update_Column>;
@@ -1066,7 +1099,7 @@ export type Query_Root = {
   projects_aggregate: Projects_Aggregate;
   /** fetch data from the table: "projects" using primary key columns */
   projects_by_pk?: Maybe<Projects>;
-  /** fetch data from the table: "sessions" */
+  /** An array relationship */
   sessions: Array<Sessions>;
   /** An aggregate relationship */
   sessions_aggregate: Sessions_Aggregate;
@@ -1112,7 +1145,7 @@ export type Query_RootAccounts_AggregateArgs = {
 
 
 export type Query_RootAccounts_By_PkArgs = {
-  id: Scalars['Int'];
+  id: Scalars['bigint'];
 };
 
 
@@ -1204,7 +1237,7 @@ export type Query_RootUsers_AggregateArgs = {
 
 
 export type Query_RootUsers_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 
@@ -1233,7 +1266,7 @@ export type Query_RootVerification_Requests_By_PkArgs = {
 /** columns and relationships of "sessions" */
 export type Sessions = {
   __typename?: 'sessions';
-  access_token: Scalars['String'];
+  access_token?: Maybe<Scalars['String']>;
   created_at: Scalars['timestamptz'];
   expires: Scalars['timestamptz'];
   id: Scalars['Int'];
@@ -1292,7 +1325,7 @@ export type Sessions_Aggregate_Order_By = {
 /** input type for inserting array relation for remote table "sessions" */
 export type Sessions_Arr_Rel_Insert_Input = {
   data: Array<Sessions_Insert_Input>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<Sessions_On_Conflict>;
 };
 
@@ -1404,7 +1437,7 @@ export type Sessions_Mutation_Response = {
   returning: Array<Sessions>;
 };
 
-/** on conflict condition type for table "sessions" */
+/** on_conflict condition type for table "sessions" */
 export type Sessions_On_Conflict = {
   constraint: Sessions_Constraint;
   update_columns?: Array<Sessions_Update_Column>;
@@ -1592,7 +1625,7 @@ export type Subscription_Root = {
   projects_aggregate: Projects_Aggregate;
   /** fetch data from the table: "projects" using primary key columns */
   projects_by_pk?: Maybe<Projects>;
-  /** fetch data from the table: "sessions" */
+  /** An array relationship */
   sessions: Array<Sessions>;
   /** An aggregate relationship */
   sessions_aggregate: Sessions_Aggregate;
@@ -1638,7 +1671,7 @@ export type Subscription_RootAccounts_AggregateArgs = {
 
 
 export type Subscription_RootAccounts_By_PkArgs = {
-  id: Scalars['Int'];
+  id: Scalars['bigint'];
 };
 
 
@@ -1730,7 +1763,7 @@ export type Subscription_RootUsers_AggregateArgs = {
 
 
 export type Subscription_RootUsers_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 
@@ -1827,7 +1860,7 @@ export type Tasks_Aggregate_Order_By = {
 /** input type for inserting array relation for remote table "tasks" */
 export type Tasks_Arr_Rel_Insert_Input = {
   data: Array<Tasks_Insert_Input>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<Tasks_On_Conflict>;
 };
 
@@ -1911,6 +1944,7 @@ export type Tasks_Max_Fields = {
   queue?: Maybe<Scalars['String']>;
   role?: Maybe<Scalars['String']>;
   sched_date?: Maybe<Scalars['date']>;
+  status?: Maybe<Scalars['status']>;
   subprocess?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
@@ -1929,6 +1963,7 @@ export type Tasks_Max_Order_By = {
   queue?: InputMaybe<Order_By>;
   role?: InputMaybe<Order_By>;
   sched_date?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
   subprocess?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
@@ -1948,6 +1983,7 @@ export type Tasks_Min_Fields = {
   queue?: Maybe<Scalars['String']>;
   role?: Maybe<Scalars['String']>;
   sched_date?: Maybe<Scalars['date']>;
+  status?: Maybe<Scalars['status']>;
   subprocess?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
@@ -1966,6 +2002,7 @@ export type Tasks_Min_Order_By = {
   queue?: InputMaybe<Order_By>;
   role?: InputMaybe<Order_By>;
   sched_date?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
   subprocess?: InputMaybe<Order_By>;
   title?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
@@ -1981,7 +2018,7 @@ export type Tasks_Mutation_Response = {
   returning: Array<Tasks>;
 };
 
-/** on conflict condition type for table "tasks" */
+/** on_conflict condition type for table "tasks" */
 export type Tasks_On_Conflict = {
   constraint: Tasks_Constraint;
   update_columns?: Array<Tasks_Update_Column>;
@@ -2219,14 +2256,14 @@ export type Users = {
   created_at: Scalars['timestamptz'];
   email: Scalars['String'];
   email_verified?: Maybe<Scalars['timestamptz']>;
-  id: Scalars['String'];
+  id: Scalars['Int'];
   image?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   /** An array relationship */
   projects: Array<Projects>;
   /** An aggregate relationship */
   projects_aggregate: Projects_Aggregate;
-  /** fetch data from the table: "sessions" */
+  /** An array relationship */
   sessions: Array<Sessions>;
   /** An aggregate relationship */
   sessions_aggregate: Sessions_Aggregate;
@@ -2352,9 +2389,17 @@ export type Users_Aggregate = {
 /** aggregate fields of "users" */
 export type Users_Aggregate_Fields = {
   __typename?: 'users_aggregate_fields';
+  avg?: Maybe<Users_Avg_Fields>;
   count: Scalars['Int'];
   max?: Maybe<Users_Max_Fields>;
   min?: Maybe<Users_Min_Fields>;
+  stddev?: Maybe<Users_Stddev_Fields>;
+  stddev_pop?: Maybe<Users_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Users_Stddev_Samp_Fields>;
+  sum?: Maybe<Users_Sum_Fields>;
+  var_pop?: Maybe<Users_Var_Pop_Fields>;
+  var_samp?: Maybe<Users_Var_Samp_Fields>;
+  variance?: Maybe<Users_Variance_Fields>;
 };
 
 
@@ -2362,6 +2407,12 @@ export type Users_Aggregate_Fields = {
 export type Users_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Users_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Users_Avg_Fields = {
+  __typename?: 'users_avg_fields';
+  id?: Maybe<Scalars['Float']>;
 };
 
 /** Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'. */
@@ -2373,7 +2424,7 @@ export type Users_Bool_Exp = {
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   email?: InputMaybe<String_Comparison_Exp>;
   email_verified?: InputMaybe<Timestamptz_Comparison_Exp>;
-  id?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Int_Comparison_Exp>;
   image?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   projects?: InputMaybe<Projects_Bool_Exp>;
@@ -2394,13 +2445,18 @@ export enum Users_Constraint {
   UsersUserIdKey = 'users_user_id_key'
 }
 
+/** input type for incrementing numeric columns in table "users" */
+export type Users_Inc_Input = {
+  id?: InputMaybe<Scalars['Int']>;
+};
+
 /** input type for inserting data into table "users" */
 export type Users_Insert_Input = {
   accounts?: InputMaybe<Accounts_Arr_Rel_Insert_Input>;
   created_at?: InputMaybe<Scalars['timestamptz']>;
   email?: InputMaybe<Scalars['String']>;
   email_verified?: InputMaybe<Scalars['timestamptz']>;
-  id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
   image?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   projects?: InputMaybe<Projects_Arr_Rel_Insert_Input>;
@@ -2417,7 +2473,7 @@ export type Users_Max_Fields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   email?: Maybe<Scalars['String']>;
   email_verified?: Maybe<Scalars['timestamptz']>;
-  id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
   image?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
@@ -2430,7 +2486,7 @@ export type Users_Min_Fields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   email?: Maybe<Scalars['String']>;
   email_verified?: Maybe<Scalars['timestamptz']>;
-  id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
   image?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
@@ -2449,11 +2505,11 @@ export type Users_Mutation_Response = {
 /** input type for inserting object relation for remote table "users" */
 export type Users_Obj_Rel_Insert_Input = {
   data: Users_Insert_Input;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<Users_On_Conflict>;
 };
 
-/** on conflict condition type for table "users" */
+/** on_conflict condition type for table "users" */
 export type Users_On_Conflict = {
   constraint: Users_Constraint;
   update_columns?: Array<Users_Update_Column>;
@@ -2479,7 +2535,7 @@ export type Users_Order_By = {
 
 /** primary key columns input for table: users */
 export type Users_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 /** select columns of table "users" */
@@ -2507,11 +2563,35 @@ export type Users_Set_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']>;
   email?: InputMaybe<Scalars['String']>;
   email_verified?: InputMaybe<Scalars['timestamptz']>;
-  id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
   image?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
   user_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate stddev on columns */
+export type Users_Stddev_Fields = {
+  __typename?: 'users_stddev_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Users_Stddev_Pop_Fields = {
+  __typename?: 'users_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Users_Stddev_Samp_Fields = {
+  __typename?: 'users_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate sum on columns */
+export type Users_Sum_Fields = {
+  __typename?: 'users_sum_fields';
+  id?: Maybe<Scalars['Int']>;
 };
 
 /** update columns of table "users" */
@@ -2533,6 +2613,24 @@ export enum Users_Update_Column {
   /** column name */
   UserId = 'user_id'
 }
+
+/** aggregate var_pop on columns */
+export type Users_Var_Pop_Fields = {
+  __typename?: 'users_var_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Users_Var_Samp_Fields = {
+  __typename?: 'users_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Users_Variance_Fields = {
+  __typename?: 'users_variance_fields';
+  id?: Maybe<Scalars['Float']>;
+};
 
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
@@ -2609,7 +2707,7 @@ export type Verification_Requests_Aggregate_Order_By = {
 /** input type for inserting array relation for remote table "verification_requests" */
 export type Verification_Requests_Arr_Rel_Insert_Input = {
   data: Array<Verification_Requests_Insert_Input>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<Verification_Requests_On_Conflict>;
 };
 
@@ -2719,7 +2817,7 @@ export type Verification_Requests_Mutation_Response = {
   returning: Array<Verification_Requests>;
 };
 
-/** on conflict condition type for table "verification_requests" */
+/** on_conflict condition type for table "verification_requests" */
 export type Verification_Requests_On_Conflict = {
   constraint: Verification_Requests_Constraint;
   update_columns?: Array<Verification_Requests_Update_Column>;
@@ -2872,7 +2970,7 @@ export type CreateUserMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'mutation_root', insert_users_one?: { __typename?: 'users', id: string, name: string, email: string } | null };
+export type CreateUserMutation = { __typename?: 'mutation_root', insert_users_one?: { __typename?: 'users', id: number, name: string, email: string } | null };
 
 export type UpdateUserByEmailMutationVariables = Exact<{
   email: Scalars['String'];
@@ -2880,36 +2978,36 @@ export type UpdateUserByEmailMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserByEmailMutation = { __typename?: 'mutation_root', update_users?: { __typename?: 'users_mutation_response', returning: Array<{ __typename?: 'users', id: string, name: string, email: string, updated_at: any }> } | null };
+export type UpdateUserByEmailMutation = { __typename?: 'mutation_root', update_users?: { __typename?: 'users_mutation_response', returning: Array<{ __typename?: 'users', id: number, name: string, email: string, updated_at: any }> } | null };
 
 export type UpdateUserByPkMutationVariables = Exact<{
-  id: Scalars['String'];
+  id: Scalars['Int'];
   user?: InputMaybe<Users_Set_Input>;
 }>;
 
 
-export type UpdateUserByPkMutation = { __typename?: 'mutation_root', update_users_by_pk?: { __typename?: 'users', id: string, name: string, email: string, updated_at: any } | null };
+export type UpdateUserByPkMutation = { __typename?: 'mutation_root', update_users_by_pk?: { __typename?: 'users', id: number, name: string, email: string, updated_at: any } | null };
 
 export type DeleteUserByEmailMutationVariables = Exact<{
   email: Scalars['String'];
 }>;
 
 
-export type DeleteUserByEmailMutation = { __typename?: 'mutation_root', delete_users?: { __typename?: 'users_mutation_response', returning: Array<{ __typename?: 'users', id: string, name: string, email: string }> } | null };
+export type DeleteUserByEmailMutation = { __typename?: 'mutation_root', delete_users?: { __typename?: 'users_mutation_response', returning: Array<{ __typename?: 'users', id: number, name: string, email: string }> } | null };
 
 export type DeleteUserByPkMutationVariables = Exact<{
-  id: Scalars['String'];
+  id: Scalars['Int'];
 }>;
 
 
-export type DeleteUserByPkMutation = { __typename?: 'mutation_root', delete_users_by_pk?: { __typename?: 'users', id: string, name: string, email: string } | null };
+export type DeleteUserByPkMutation = { __typename?: 'mutation_root', delete_users_by_pk?: { __typename?: 'users', id: number, name: string, email: string } | null };
 
 export type LinkAccountMutationVariables = Exact<{
   account: Accounts_Insert_Input;
 }>;
 
 
-export type LinkAccountMutation = { __typename?: 'mutation_root', insert_accounts_one?: { __typename?: 'accounts', id: number, user_id: any, provider_id: string, provider_type: string, provider_account_id: string, refresh_token?: string | null, access_token?: string | null, access_token_expires?: any | null } | null };
+export type LinkAccountMutation = { __typename?: 'mutation_root', insert_accounts_one?: { __typename?: 'accounts', id: any, scope?: string | null, id_token?: string | null, token_type?: string | null, user_id: any, provider_id: string, provider_type: string, provider_account_id: string, access_token?: string | null, access_token_expires?: any | null } | null };
 
 export type UnlinkAccountMutationVariables = Exact<{
   user_id?: InputMaybe<Scalars['uuid']>;
@@ -2918,21 +3016,21 @@ export type UnlinkAccountMutationVariables = Exact<{
 }>;
 
 
-export type UnlinkAccountMutation = { __typename?: 'mutation_root', delete_accounts?: { __typename?: 'accounts_mutation_response', returning: Array<{ __typename?: 'accounts', id: number, user_id: any, provider_id: string, provider_account_id: string }> } | null };
+export type UnlinkAccountMutation = { __typename?: 'mutation_root', delete_accounts?: { __typename?: 'accounts_mutation_response', returning: Array<{ __typename?: 'accounts', id: any, user_id: any, provider_id: string, provider_account_id: string }> } | null };
 
 export type CreateSessionMutationVariables = Exact<{
   session: Sessions_Insert_Input;
 }>;
 
 
-export type CreateSessionMutation = { __typename?: 'mutation_root', insert_sessions_one?: { __typename?: 'sessions', id: number, user_id: any, expires: any, session_token: string, access_token: string } | null };
+export type CreateSessionMutation = { __typename?: 'mutation_root', insert_sessions_one?: { __typename?: 'sessions', id: number, user_id: any, expires: any, session_token: string, access_token?: string | null } | null };
 
 export type DeleteSessionByIdMutationVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type DeleteSessionByIdMutation = { __typename?: 'mutation_root', delete_sessions?: { __typename?: 'sessions_mutation_response', returning: Array<{ __typename?: 'sessions', id: number, user_id: any, expires: any, session_token: string, access_token: string }> } | null };
+export type DeleteSessionByIdMutation = { __typename?: 'mutation_root', delete_sessions?: { __typename?: 'sessions_mutation_response', returning: Array<{ __typename?: 'sessions', id: number, user_id: any, expires: any, session_token: string, access_token?: string | null }> } | null };
 
 export type UpdateSessionMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -2940,7 +3038,7 @@ export type UpdateSessionMutationVariables = Exact<{
 }>;
 
 
-export type UpdateSessionMutation = { __typename?: 'mutation_root', update_sessions?: { __typename?: 'sessions_mutation_response', returning: Array<{ __typename?: 'sessions', id: number, user_id: any, expires: any, session_token: string, access_token: string }> } | null };
+export type UpdateSessionMutation = { __typename?: 'mutation_root', update_sessions?: { __typename?: 'sessions_mutation_response', returning: Array<{ __typename?: 'sessions', id: number, user_id: any, expires: any, session_token: string, access_token?: string | null }> } | null };
 
 export type CreateVerificationRequestMutationVariables = Exact<{
   object?: InputMaybe<Verification_Requests_Insert_Input>;
@@ -2965,23 +3063,23 @@ export type DeleteVerificationRequestByPkMutationVariables = Exact<{
 export type DeleteVerificationRequestByPkMutation = { __typename?: 'mutation_root', delete_verification_requests_by_pk?: { __typename?: 'verification_requests', id: number, token: string, identifier: string } | null };
 
 export type GetSingleUserQueryVariables = Exact<{
-  id: Scalars['String'];
+  id: Scalars['Int'];
 }>;
 
 
-export type GetSingleUserQuery = { __typename?: 'query_root', users_by_pk?: { __typename?: 'users', id: string, name: string, email: string, image?: string | null, user_id: any, email_verified?: any | null, created_at: any } | null };
+export type GetSingleUserQuery = { __typename?: 'query_root', users_by_pk?: { __typename?: 'users', id: number, name: string, email: string, image?: string | null, user_id: any, email_verified?: any | null, created_at: any } | null };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUsersQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', id: string, name: string, email: string }> };
+export type GetUsersQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', id: number, name: string, email: string }> };
 
 export type GetUserByEmailQueryVariables = Exact<{
   email: Scalars['String'];
 }>;
 
 
-export type GetUserByEmailQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', id: string, name: string, email: string }> };
+export type GetUserByEmailQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', id: number, name: string, email: string }> };
 
 export type GetUserByProviderAccountIdQueryVariables = Exact<{
   provider_account_id?: Scalars['String'];
@@ -2989,14 +3087,22 @@ export type GetUserByProviderAccountIdQueryVariables = Exact<{
 }>;
 
 
-export type GetUserByProviderAccountIdQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', id: string, name: string, email: string, accounts: Array<{ __typename?: 'accounts', provider_id: string, provider_account_id: string }> }> };
+export type GetUserByProviderAccountIdQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', id: number, name: string, email: string, accounts: Array<{ __typename?: 'accounts', provider_id: string, provider_account_id: string }> }> };
+
+export type GetUserByAccountQueryVariables = Exact<{
+  provider_account_id?: Scalars['String'];
+  provider_id?: Scalars['String'];
+}>;
+
+
+export type GetUserByAccountQuery = { __typename?: 'query_root', accounts: Array<{ __typename?: 'accounts', user: { __typename?: 'users', id: number, name: string, image?: string | null, email: string, user_id: any, email_verified?: any | null } }> };
 
 export type GetSessionQueryVariables = Exact<{
   sessionToken?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetSessionQuery = { __typename?: 'query_root', sessions: Array<{ __typename?: 'sessions', user_id: any, expires: any, created_at: any, access_token: string, session_token: string }> };
+export type GetSessionQuery = { __typename?: 'query_root', sessions: Array<{ __typename?: 'sessions', user_id: any, expires: any, created_at: any, access_token?: string | null, session_token: string }> };
 
 export type GetVerificationRequestQueryVariables = Exact<{
   token?: InputMaybe<Scalars['String']>;
@@ -3082,7 +3188,7 @@ export type UpdateUserByEmailMutationHookResult = ReturnType<typeof useUpdateUse
 export type UpdateUserByEmailMutationResult = Apollo.MutationResult<UpdateUserByEmailMutation>;
 export type UpdateUserByEmailMutationOptions = Apollo.BaseMutationOptions<UpdateUserByEmailMutation, UpdateUserByEmailMutationVariables>;
 export const UpdateUserByPkDocument = gql`
-    mutation updateUserByPk($id: String!, $user: users_set_input = {}) {
+    mutation updateUserByPk($id: Int!, $user: users_set_input = {}) {
   update_users_by_pk(pk_columns: {id: $id}, _set: $user) {
     id
     name
@@ -3156,7 +3262,7 @@ export type DeleteUserByEmailMutationHookResult = ReturnType<typeof useDeleteUse
 export type DeleteUserByEmailMutationResult = Apollo.MutationResult<DeleteUserByEmailMutation>;
 export type DeleteUserByEmailMutationOptions = Apollo.BaseMutationOptions<DeleteUserByEmailMutation, DeleteUserByEmailMutationVariables>;
 export const DeleteUserByPkDocument = gql`
-    mutation deleteUserByPk($id: String!) {
+    mutation deleteUserByPk($id: Int!) {
   delete_users_by_pk(id: $id) {
     id
     name
@@ -3194,11 +3300,13 @@ export const LinkAccountDocument = gql`
     mutation linkAccount($account: accounts_insert_input!) {
   insert_accounts_one(object: $account) {
     id
+    scope
+    id_token
+    token_type
     user_id
     provider_id
     provider_type
     provider_account_id
-    refresh_token
     access_token
     access_token_expires
   }
@@ -3502,7 +3610,7 @@ export type DeleteVerificationRequestByPkMutationHookResult = ReturnType<typeof 
 export type DeleteVerificationRequestByPkMutationResult = Apollo.MutationResult<DeleteVerificationRequestByPkMutation>;
 export type DeleteVerificationRequestByPkMutationOptions = Apollo.BaseMutationOptions<DeleteVerificationRequestByPkMutation, DeleteVerificationRequestByPkMutationVariables>;
 export const GetSingleUserDocument = gql`
-    query getSingleUser($id: String!) {
+    query getSingleUser($id: Int!) {
   users_by_pk(id: $id) {
     id
     name
@@ -3659,6 +3767,51 @@ export function useGetUserByProviderAccountIdLazyQuery(baseOptions?: Apollo.Lazy
 export type GetUserByProviderAccountIdQueryHookResult = ReturnType<typeof useGetUserByProviderAccountIdQuery>;
 export type GetUserByProviderAccountIdLazyQueryHookResult = ReturnType<typeof useGetUserByProviderAccountIdLazyQuery>;
 export type GetUserByProviderAccountIdQueryResult = Apollo.QueryResult<GetUserByProviderAccountIdQuery, GetUserByProviderAccountIdQueryVariables>;
+export const GetUserByAccountDocument = gql`
+    query getUserByAccount($provider_account_id: String! = "", $provider_id: String! = "") {
+  accounts(
+    where: {provider_account_id: {_eq: $provider_account_id}, provider_id: {_eq: $provider_id}}
+  ) {
+    user {
+      id
+      name
+      image
+      email
+      user_id
+      email_verified
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetUserByAccountQuery__
+ *
+ * To run a query within a React component, call `useGetUserByAccountQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserByAccountQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserByAccountQuery({
+ *   variables: {
+ *      provider_account_id: // value for 'provider_account_id'
+ *      provider_id: // value for 'provider_id'
+ *   },
+ * });
+ */
+export function useGetUserByAccountQuery(baseOptions?: Apollo.QueryHookOptions<GetUserByAccountQuery, GetUserByAccountQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserByAccountQuery, GetUserByAccountQueryVariables>(GetUserByAccountDocument, options);
+      }
+export function useGetUserByAccountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserByAccountQuery, GetUserByAccountQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserByAccountQuery, GetUserByAccountQueryVariables>(GetUserByAccountDocument, options);
+        }
+export type GetUserByAccountQueryHookResult = ReturnType<typeof useGetUserByAccountQuery>;
+export type GetUserByAccountLazyQueryHookResult = ReturnType<typeof useGetUserByAccountLazyQuery>;
+export type GetUserByAccountQueryResult = Apollo.QueryResult<GetUserByAccountQuery, GetUserByAccountQueryVariables>;
 export const GetSessionDocument = gql`
     query getSession($sessionToken: String = "") {
   sessions(where: {session_token: {_eq: $sessionToken}}) {

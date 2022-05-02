@@ -48,7 +48,7 @@ export default NextAuth({
     }),
   ],
   pages: { signIn: "/auth/signin" },
-  // session: { strategy: "jwt" },
+  session: { strategy: "jwt" },
   debug: true,
   secret,
   // jwt: {
