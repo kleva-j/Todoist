@@ -1,11 +1,4 @@
-import {
-  Stack,
-  Box,
-  Avatar,
-  AvatarBadge,
-  Button,
-  chakra,
-} from "@chakra-ui/react";
+import { Stack, Box, Avatar, AvatarBadge, Button } from "@chakra-ui/react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Flex } from "@chakra-ui/layout";
 import {
@@ -80,16 +73,32 @@ export default function NavBar({ children, isOpen, toggle, ...props }: props) {
               </MenuButton>
               <MenuList color="gray.500" fontSize="15px">
                 <MenuItem icon={<Profile />}>Profile</MenuItem>
-                <MenuItem onClick={() => router.push("/settings")} icon={<SettingsIcon />}>Settings</MenuItem>
+                <MenuItem
+                  onClick={() => router.push("/settings")}
+                  icon={<SettingsIcon />}
+                >
+                  Settings
+                </MenuItem>
                 <MenuDivider />
                 <MenuItem onClick={() => signOut()}>Sign out</MenuItem>
               </MenuList>
             </Menu>
           </Stack>
         ) : (
-          <Button size="xs" variant="outline" onClick={() => signIn()}>
-            Sign in
-          </Button>
+          <Stack
+            spacing={5}
+            align="center"
+            justify={["center", "space-between", "flex-end", "flex-end"]}
+            direction={["column", "row", "row", "row"]}
+            pt={[4, 4, 0, 0]}
+          >
+            <Box color="teal.500" onClick={() => router.push("/about")}>
+              About
+            </Box>
+            <Button size="xs" variant="outline" onClick={() => signIn()}>
+              Sign in
+            </Button>
+          </Stack>
         )}
       </Box>
     </Flex>

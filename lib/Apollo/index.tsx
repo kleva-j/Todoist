@@ -61,7 +61,7 @@ const WithApollo = nextWithApollo(
       const router = useRouter();
       return (
         <ApolloProvider client={props.apollo}>
-          <Page {...props} {...router} />
+          <Page {...props} {...router} name="Index.html" />
         </ApolloProvider>
       );
     },

@@ -8,7 +8,7 @@ export default function Logo(props: props) {
   return (
     <Box {...props}>
       <Text fontSize="lg" color="red" fontWeight="bold" fontFamily="roboto">
-        Logo
+        Taskaider
       </Text>
     </Box>
   )

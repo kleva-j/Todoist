@@ -18,6 +18,10 @@
     "paths": {
       "*": ["/*"],
       "components/*": ["components/*"],
+      "styles/*": ["styles/*"],
+      "layout/*": ["layout/*"],
+      "modules/*": ["modules/*"],
+      "context/*": ["context/*"],
       "lib/*": ["lib/*"],
       "utils/*": ["utils/*"],
       "pages/*": ["pages/*"],

@@ -4,113 +4,61 @@ import {
   Box,
   useColorModeValue,
   Button,
-  Stack,
-  Image,
-  Text,
-  Icon,
+  Flex,
+  HStack,
 } from "@chakra-ui/react";
 
 export default function HeroSection() {
   return (
-    <Box px={8} py={24} mx="auto">
-      <Box
-        w={{ base: "full", md: 11 / 12, xl: 9 / 12 }}
-        mx="auto"
-        textAlign={{ base: "left", md: "center" }}
-      >
-        <chakra.h1
-          mb={6}
-          fontSize={{ base: "4xl", md: "6xl" }}
-          fontWeight="bold"
-          lineHeight="none"
-          letterSpacing={{ base: "normal", md: "tight" }}
-          color={useColorModeValue("gray.900",'gray.100')}
-        >
-          All your{" "}
-          <Text
-            display={{ base: "block", lg: "inline" }}
-            w="full"
-            bgClip="text"
-            bgGradient="linear(to-r, green.400,purple.500)"
-            fontWeight="extrabold"
-          >
-            customer feedback
-          </Text>{" "}
-          in one single place.
-        </chakra.h1>
+    <Flex bg="#1A202C" px={4} py={32} maxW="full">
+      <Box mx="auto" w={{ lg: 8 / 12, xl: 5 / 12 }}>
         <chakra.p
-          px={{ base: 0, lg: 24 }}
-          mb={6}
-          fontSize={{ base: "lg", md: "xl" }}
-          color={useColorModeValue("gray.600",'gray.300')}
+          mb={2}
+          fontSize="xs"
+          fontWeight="semibold"
+          letterSpacing="wide"
+          color="gray.400"
+          textTransform="uppercase"
         >
-          Hellonext is a feature voting software where you can allow your users
-          to vote on features, publish roadmap, and complete your customer
-          feedback loop.
+          For Developers
         </chakra.p>
-        <Stack
-        direction={{base:"column",sm:"row"}}
-          mb={{ base: 4, md: 8 }}
-          spacing={2}
-          justifyContent={{ sm: "left", md: "center" }}
+        <chakra.h1
+          mb={3}
+          fontSize={{ base: "3xl", md: "4xl" }}
+          fontWeight="bold"
+          lineHeight="shorter"
+          color={useColorModeValue("gray.900", "white")}
         >
+          Focus on your apps
+        </chakra.h1>
+        <chakra.p mb={5} color="gray.500" fontSize={{ md: "lg" }}>
+          Today every company needs apps to engage their customers and run their
+          businesses. Step up your ability to build, manage, and deploy great
+          apps at scale with us.
+        </chakra.p>
+        <HStack>
           <Button
             as="a"
+            w={{ base: "full", sm: "auto" }}
             variant="solid"
             colorScheme="brand"
-            display="inline-flex"
-            alignItems="center"
-            justifyContent="center"
-            w={{ base: "full", sm: "auto" }}
-            mb={{ base: 2, sm: 0 }}
             size="lg"
+            mb={{ base: 2, sm: 0 }}
             cursor="pointer"
           >
-            Get Started
-            <Icon boxSize={4} ml={1} viewBox="0 0 20 20" fill="currentColor">
-              <path
-                fillRule="evenodd"
-                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                clipRule="evenodd"
-              />
-            </Icon>
+            Sign up for free
           </Button>
           <Button
             as="a"
-            colorScheme="gray"
-            display="inline-flex"
-            alignItems="center"
-            justifyContent="center"
             w={{ base: "full", sm: "auto" }}
             mb={{ base: 2, sm: 0 }}
             size="lg"
             cursor="pointer"
           >
-            Book a Demo
-            <Icon boxSize={4} ml={1} viewBox="0 0 20 20" fill="currentColor">
-              <path
-                fillRule="evenodd"
-                d="M6.672 1.911a1 1 0 10-1.932.518l.259.966a1 1 0 001.932-.518l-.26-.966zM2.429 4.74a1 1 0 10-.517 1.932l.966.259a1 1 0 00.517-1.932l-.966-.26zm8.814-.569a1 1 0 00-1.415-1.414l-.707.707a1 1 0 101.415 1.415l.707-.708zm-7.071 7.072l.707-.707A1 1 0 003.465 9.12l-.708.707a1 1 0 001.415 1.415zm3.2-5.171a1 1 0 00-1.3 1.3l4 10a1 1 0 001.823.075l1.38-2.759 3.018 3.02a1 1 0 001.414-1.415l-3.019-3.02 2.76-1.379a1 1 0 00-.076-1.822l-10-4z"
-                clipRule="evenodd"
-              />
-            </Icon>
+            Read our blog
           </Button>
-        </Stack>
+        </HStack>
       </Box>
-      <Box
-        w={{ base: "full", md: 10 / 12 }}
-        mx="auto"
-        mt={20}
-        textAlign="center"
-      >
-        <Image
-          w="full"
-          rounded="lg"
-          shadow="2xl"
-          src="https://kutty.netlify.app/hero.jpg"
-          alt="Hellonext feedback boards software screenshot"
-        />
-      </Box>
-    </Box>
+    </Flex>
   );
-};
+}
