@@ -1,5 +1,6 @@
 import {
   useColorModeValue,
+  InputRightElement,
   InputLeftElement,
   useColorMode,
   MenuDivider,
@@ -11,6 +12,7 @@ import {
   MenuList,
   MenuItem,
   HStack,
+  Switch,
   Avatar,
   Input,
   Flex,
@@ -18,13 +20,14 @@ import {
   Text,
   Box,
 } from "@chakra-ui/react";
-import { FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
 import { BsMoon, BsSun, BsPlusCircle } from "react-icons/bs";
+import { FiMenu, FiChevronDown } from "react-icons/fi";
 import { CgMenuGridO } from "react-icons/cg";
 import { FiSearch } from "react-icons/fi";
 import { memo } from "react";
 
 import { NavMenuItem } from "../MenuItem";
+
 import Badge from "components/atoms/Badge";
 
 interface MobileProps extends FlexProps {
@@ -38,8 +41,8 @@ const Navbar = memo(({ onOpen }: MobileProps) => {
       px={4}
       height="16"
       alignItems="center"
-      bg={useColorModeValue("white", "gray.900")}
       borderBottomWidth="1px"
+      bg={useColorModeValue("white", "gray.900")}
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
       justifyContent={{ base: "space-between", md: "flex-end" }}
     >
@@ -78,9 +81,10 @@ const Navbar = memo(({ onOpen }: MobileProps) => {
         <HStack spacing="1">
           <InputGroup>
             <InputLeftElement pointerEvents="none">
-              <FiSearch color="gray.300" />
+              <FiSearch />
             </InputLeftElement>
             <Input type="text" placeholder="Search" />
+            <InputRightElement pointerEvents="none">⌘ F</InputRightElement>
           </InputGroup>
           <IconButton
             isRound={true}
@@ -105,14 +109,6 @@ const Navbar = memo(({ onOpen }: MobileProps) => {
             aria-label="Color Mode Indicator"
             onClick={toggleColorMode}
           />
-          {/* <IconButton
-            isRound={true}
-            icon={<FiBell />}
-            size="md"
-            variant="ghost"
-            aria-label="open menu"
-            ml="0"
-          /> */}
           <Badge count={10} />
         </HStack>
         <Flex alignItems={"center"}>
@@ -143,15 +139,19 @@ const Navbar = memo(({ onOpen }: MobileProps) => {
             >
               <MenuGroup title="Profile">
                 <MenuItem>My Account</MenuItem>
-                <MenuItem>Settings</MenuItem>
                 <MenuItem>Billing</MenuItem>
               </MenuGroup>
 
               <MenuDivider />
 
-              <MenuGroup title="Help">
-                <MenuItem>Docs</MenuItem>
-                <MenuItem>FAQ</MenuItem>
+              <MenuGroup title="Settings">
+                <MenuItem>Notification</MenuItem>
+                <MenuItem>
+                  <HStack align="center" direction="row">
+                    <Text>Dark Mode</Text>
+                    <Switch size="sm" />
+                  </HStack>
+                </MenuItem>
               </MenuGroup>
 
               <MenuDivider />

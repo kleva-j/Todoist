@@ -1,20 +1,22 @@
 import type { AppProps, AppContext } from "next/app";
 
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, ScaleFade } from "@chakra-ui/react";
 import { SessionProvider } from "next-auth/react";
 
 import Layout from "components/organisms/Layout";
 import Seo from "components/organisms/Seo";
-import theme from "styles/theme"
+import theme from "styles/theme";
 import App from "next/app";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps, router }: AppProps) {
   return (
     <SessionProvider session={pageProps.session}>
       <Seo />
       <ChakraProvider resetCSS theme={theme}>
         <Layout>
-          <Component {...pageProps} />
+          <ScaleFade key={router.route} initialScale={0.9} in={true}>
+            <Component {...pageProps} />
+          </ScaleFade>
         </Layout>
       </ChakraProvider>
     </SessionProvider>

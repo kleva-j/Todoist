@@ -1,7 +1,13 @@
-import type { NextPage } from "next";
+import { Scheduler } from "components/molecules/Calendar";
+import { Box } from "@chakra-ui/react";
+import { NextPage } from "next";
 
 const Calendar: NextPage = () => {
-  return <h4>This is the Calendar Component/Page.</h4>;
+  return (
+    <Box py={[2, 6]} mx={[2, 6]}>
+      <Scheduler />
+    </Box>
+  );
 };
 
 export default Calendar;

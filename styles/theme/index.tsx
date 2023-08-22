@@ -23,6 +23,30 @@ const overrides = {
     background: {
       default: "#dfe8ec",
     },
+    _primary: {
+      50: "#3126b9",
+      100: "#4230bd",
+      200: "#503ac0",
+      300: "#5d44c4",
+      400: "#684ec8",
+      500: "#7358cb",
+      600: "#7d62cf",
+      700: "#876cd2",
+      800: "#9176d6",
+      900: "#9a80d9",
+    },
+    _secondary: {
+      50: "#ff6f91",
+      100: "#fd7d99",
+      200: "#fb8ba1",
+      300: "#f997aa",
+      400: "#f5a4b2",
+      500: "#f2b0ba",
+      600: "#eebbc3",
+      700: "#e9c7cc",
+      800: "#e3d2d4",
+      900: "#dddddd",
+    },
     primary: "#3126b9",
     secondary: "#FF6F91",
     highlight: "#00c9A7",
@@ -37,7 +61,7 @@ const overrides = {
   config: {
     initialColorMode: "light",
     useSystemColorMode: false,
-    cssVarPrefix: "txr",
+    cssVarPrefix: "tk",
   },
 };
 

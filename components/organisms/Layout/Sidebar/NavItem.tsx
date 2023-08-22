@@ -1,3 +1,5 @@
+import NextLink from "next/link";
+
 import {
   Flex,
   Icon,
@@ -6,7 +8,7 @@ import {
   Tooltip,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
+import { UseActiveLink } from "components/atoms/UseActiveLink";
 import { IconType } from "react-icons";
 
 import { LinkItemProps } from "./Content";
@@ -17,45 +19,39 @@ interface NavItemProps extends FlexProps, LinkItemProps {
 }
 
 export default function NavItem({ href = "", icon, name }: NavItemProps) {
-  const router = useRouter();
+  const isActive = UseActiveLink(name);
   return (
-    <Link
-      _focus={{ boxShadow: "none" }}
-      style={{ textDecoration: "none" }}
-      {...(href && { onClick: () => router.push(href) })}
-    >
-      <Tooltip label={name} placement="right-end">
-        <Flex
-          p="3"
-          my="4"
-          mx="auto"
-          role="group"
-          align="center"
-          cursor="pointer"
-          borderRadius="lg"
-          _hover={{ bg: "cyan.400", color: "white" }}
-          sx={{ width: "fit-content" }}
-        >
-          {icon && (
-            <Icon
-              as={icon}
-              fontSize="24"
-              color={useColorModeValue("gray.500", "gray.300")}
-              _groupHover={{ color: "white" }}
-            />
-          )}
-        </Flex>
-      </Tooltip>
-    </Link>
+    <NextLink href={href}>
+      <Link _focus={{ boxShadow: "none" }} style={{ textDecoration: "none" }}>
+        <Tooltip label={name} placement="right-end">
+          <Flex
+            p="3"
+            my="4"
+            mx="auto"
+            role="group"
+            align="center"
+            cursor="pointer"
+            borderRadius="lg"
+            border="2px solid"
+            borderColor={
+              isActive ? useColorModeValue("primary", "white") : "transparent"
+            }
+            _hover={{ borderColor: useColorModeValue("primary", "white") }}
+            sx={{ width: "fit-content" }}
+          >
+            {icon && (
+              <Icon
+                as={icon}
+                fontSize="24"
+                color={
+                  isActive ? useColorModeValue("primary", "white") : "gray.500"
+                }
+                _groupHover={{ color: useColorModeValue("primary", "white") }}
+              />
+            )}
+          </Flex>
+        </Tooltip>
+      </Link>
+    </NextLink>
   );
 }
-
-
-// 1. import NextLink from "next/link"
-
-// 2. Then use it like this
-{/* <NextLink href='/home' passHref>
-  <Link>Home</Link>
-</NextLink> */}
-
-// CHECK BACK LATER

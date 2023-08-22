@@ -25,11 +25,11 @@ export interface LinkItemProps {
 }
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Home", icon: FiHome, href: "" },
+  { name: "Home", icon: FiHome, href: "/" },
   { name: "Trending", icon: FiTrendingUp },
   { name: "Explore", icon: FiCompass },
   { name: "Favourites", icon: FiStar },
-  { name: "Settings", icon: FiSettings, href: "/settings/profile" },
+  { name: "Settings", icon: FiSettings, href: "/settings" },
 ];
 
 interface SidebarProps extends BoxProps {
@@ -39,23 +39,22 @@ interface SidebarProps extends BoxProps {
 export default function SidebarContent({ onClose, ...rest }: SidebarProps) {
   return (
     <Box
-      transition="3s ease"
-      bg={useColorModeValue("white", "gray.900")}
-      borderRight="1px"
-      borderRightColor={useColorModeValue("gray.200", "gray.700")}
+      h="full"
       w="80px"
       pos="fixed"
-      h="full"
+      borderRight="1px"
+      bg={useColorModeValue("white", "gray.900")}
+      borderRightColor={useColorModeValue("gray.200", "gray.700")}
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="center">
         <Text
           fontSize="2xl"
-          fontFamily="monospace"
           fontWeight="bold"
+          fontFamily="monospace"
           display={{ base: "none", md: "flex" }}
         >
-          TDR
+          TK
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>

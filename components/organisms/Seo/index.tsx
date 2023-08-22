@@ -1,8 +1,8 @@
 import Head from "next/head";
 
-const DOMAIN = "https://www.jimraptis.com";
+const DOMAIN = "";
 const DEFAULT_OG_IMAGE =
-  "https://storage.googleapis.com/brandflow-bucket/personal/blog/portfolio-og.jpg";
+  "";
 
 export default function Seo({
   title = "Jim's Digital Space ",

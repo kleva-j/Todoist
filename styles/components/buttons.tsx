@@ -13,7 +13,7 @@ export const ButtonStyles = {
       bg: whiten("primary", 20),
       color: 'white',
       _hover: {
-        bg: mode(darken("primary", 20), whiten("primary", 20))(props),
+        bg: mode(whiten("primary", 10), whiten("primary", 20))(props),
       },
     }),
     primaryOutline: () => ({
