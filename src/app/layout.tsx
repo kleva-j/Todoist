@@ -1,8 +1,10 @@
 import type { PropsWithChildren } from "react";
 import type { Metadata } from "next";
 
-import { Providers } from "@/components/providers";
 import { geistMono, geistSans } from "@/lib/fonts";
+import { Providers } from "@/components/providers";
+import { ClerkProvider } from "@clerk/nextjs";
+import { env } from "env.mjs";
 
 import "./globals.css";
 
@@ -17,7 +19,9 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Providers>{children}</Providers>
+        <ClerkProvider publishableKey={env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}>
+          <Providers>{children}</Providers>
+        </ClerkProvider>
       </body>
     </html>
   );

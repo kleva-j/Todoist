@@ -4,13 +4,18 @@ import { z } from "zod";
 export const env = createEnv({
   server: {
     CONVEX_DEPLOYMENT: z.string().min(10),
+    CLERK_SECRET_KEY: z.string().min(10),
   },
   client: {
     NEXT_PUBLIC_CONVEX_URL: z.string().min(10),
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(10),
   },
   runtimeEnv: {
     CONVEX_DEPLOYMENT: process.env.CONVEX_DEPLOYMENT,
     NEXT_PUBLIC_CONVEX_URL: process.env.NEXT_PUBLIC_CONVEX_URL,
+    CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
+      process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
