@@ -23,7 +23,7 @@
       "@/*": ["./src/*"],
       "@/convex/*": ["./convex/*"]
     },
-    "types": ["node", "jest", "@testing-library/jest-dom"]
+    "types": ["node"]
   },
   "include": [
     "next-env.d.ts",
