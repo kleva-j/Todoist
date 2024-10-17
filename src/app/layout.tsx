@@ -19,7 +19,9 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
       <body
         className={`min-h-screen ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ClerkProvider publishableKey={env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}>
+        <ClerkProvider
+          publishableKey={env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY! as string}
+        >
           <Providers>{children}</Providers>
         </ClerkProvider>
       </body>

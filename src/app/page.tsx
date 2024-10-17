@@ -1,6 +1,5 @@
-import Header from "@/components/layout/header";
-
 import { ModeToggle } from "@/components/mode-toggle";
+import { Header } from "@/components/layout/header";
 
 import Image from "next/image";
 import Link from "next/link";
