@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/backend": "^1.14.1",
     "@clerk/elements": "^0.16.2",
     "@clerk/nextjs": "^5.7.3",
     "@radix-ui/react-dropdown-menu": "^2.1.2",
@@ -26,6 +27,7 @@
     "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18",
+    "svix": "^1.37.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7"
   },
