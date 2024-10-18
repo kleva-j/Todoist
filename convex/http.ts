@@ -3,9 +3,9 @@ import type { WebhookEvent } from "@clerk/backend";
 import { httpRouter } from "convex/server";
 import { Webhook } from "svix";
 
+import { type SessionStatus, getTokenId } from "./utils";
 import { httpAction } from "./_generated/server";
 import { internal } from "./_generated/api";
-import { getTokenId } from "./utils";
 
 function ensureEnvironmentVariable(name: string): string {
   const value = process.env[name];
@@ -43,6 +43,22 @@ const handleClerkWebhook = httpAction(async (ctx, request) => {
       // Clerk docs say this is required, but the types say optional?
       const id = getTokenId(event.data.id!);
       await ctx.runMutation(internal.users.deleteUser, { id });
+      break;
+    }
+    case "session.created":
+    case "session.removed":
+    case "session.revoked":
+    case "session.ended": {
+      const { data } = event;
+
+      await ctx.runMutation(internal.sessions.createOrUpdate, {
+        userId: data.user_id,
+        sessionId: data.id,
+        clientId: data.client_id,
+        expireAt: data.expire_at,
+        status: data.status as SessionStatus,
+        lastActiveAt: data.last_active_at,
+      });
       break;
     }
     default: {

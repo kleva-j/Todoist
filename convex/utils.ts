@@ -18,6 +18,8 @@ import {
 
 type CustomCtxType = ActionCtx | QueryCtx;
 
+export type SessionStatus = "active" | "ended" | "removed" | "revoked";
+
 export const getTokenId = (id: string) => `${process.env.CLERK_ISSUER_URL}|${id}`;
 
 export const getUserIdentity = async (ctx: CustomCtxType & { auth: Auth }) =>

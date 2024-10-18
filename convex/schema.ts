@@ -19,17 +19,14 @@ export const Sessions = Table("sessions", {
   ),
   clientId: v.string(),
   sessionId: v.string(),
-  expireAt: v.string(),
-  lastActiveAt: v.string(),
-  httpRequest: v.object({
-    userAgent: v.string(),
-    clientIp: v.string(),
-  }),
+  expireAt: v.number(),
+  lastActiveAt: v.number(),
 });
 
 export default defineSchema({
   users: Users.table.index("by_token", ["tokenIdentifier"]),
   sessions: Sessions.table
     .index("by_user", ["userId"])
-    .index("status", ["status"]),
+    .index("by_status", ["status"])
+    .index("by_sess_id", ["sessionId"]),
 });
