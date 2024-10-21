@@ -16,9 +16,9 @@ export const siteConfig = {
         name: "Sign up",
         href: "/auth/sign-up",
       },
-      console: {
-        name: "Console",
-        href: "/console",
+      dashboard: {
+        name: "Dashboard",
+        href: "/dashboard",
       },
     },
   },

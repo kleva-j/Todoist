@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/lib/site.config";
 
 const signInLink = siteConfig.navigations.links["sign-in"];
-const consoleLink = siteConfig.navigations.links["console"];
+const dashboardLink = siteConfig.navigations.links["dashboard"];
 
 export async function Header() {
   return (
@@ -19,7 +19,7 @@ export async function Header() {
           <SignedIn>
             <div className="flex items-center gap-x-4">
               <Button asChild variant="secondary">
-                <NextLink href={consoleLink.href}>Console</NextLink>
+                <NextLink href={dashboardLink.href}>Dashboard</NextLink>
               </Button>
               <UserButton
                 showName
