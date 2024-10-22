@@ -1,3 +1,7 @@
+import Link from "next/link";
+
+import type { PropsWithChildren } from "react";
+
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 
@@ -6,11 +10,10 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   Breadcrumb,
 } from "@/components/ui/breadcrumb";
 
-export const Header = () => {
+function DashboardHeaderLayout({ children }: PropsWithChildren) {
   return (
     <header className="flex sticky top-0 h-16 shrink-0 items-center gap-2 border-b bg-background">
       <div className="flex items-center gap-2 px-4">
@@ -18,18 +21,18 @@ export const Header = () => {
         <Separator orientation="vertical" className="mr-2 h-4" />
         <Breadcrumb>
           <BreadcrumbList>
+            <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem className="hidden md:block">
-              <BreadcrumbLink href="#">
-                Building Your Application
+              <BreadcrumbLink asChild>
+                <Link href="/dashboard">Dashboard</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
-            <BreadcrumbSeparator className="hidden md:block" />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-            </BreadcrumbItem>
+            {children}
           </BreadcrumbList>
         </Breadcrumb>
       </div>
     </header>
   );
-};
+}
+
+export default DashboardHeaderLayout;
