@@ -1,15 +1,16 @@
-import type { PropsWithChildren } from "react";
+import type { PropsWithChildren, ReactNode } from "react";
 
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/sidebar";
-import { Header } from "@/app/dashboard/header";
 
-function DashboardLayout({ children }: Readonly<PropsWithChildren>) {
+type LayoutProps = Readonly<PropsWithChildren & { header: ReactNode }>;
+
+function DashboardLayout({ children, header }: LayoutProps) {
   return (
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <Header />
+        {header}
         {children}
       </SidebarInset>
     </SidebarProvider>

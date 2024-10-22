@@ -75,12 +75,14 @@ export function NavProjects({ projects }: { projects: ProjectType[] }) {
             </DropdownMenu>
           </SidebarMenuItem>
         ))}
-        <SidebarMenuItem>
-          <SidebarMenuButton>
-            <MoreHorizontal />
-            <span>More</span>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
+        {projects.length > 3 && (
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <MoreHorizontal />
+              <span>More</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        )}
       </SidebarMenu>
     </SidebarGroup>
   );

@@ -1,18 +1,28 @@
 "use client";
 
-import { ChevronRight, type LucideIcon } from "lucide-react";
+import Link from "next/link";
+
+import { usePathname } from "next/navigation";
+
+import {
+  type LucideIcon,
+  ChevronRight,
+  CalendarDays,
+  Calendar,
+  Inbox,
+} from "lucide-react";
 
 import {
   CollapsibleContent,
   CollapsibleTrigger,
   Collapsible,
 } from "@/components/ui/collapsible";
+
 import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarMenuButton,
   SidebarMenuAction,
-  SidebarGroupLabel,
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarGroup,
@@ -33,10 +43,50 @@ type NavMainProps = {
 };
 
 export function NavMain({ items }: NavMainProps) {
+  const pathname = usePathname();
+  const paths = pathname.split("/").filter(Boolean);
+
+  const activePath = paths[1];
+
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton
+            asChild
+            tooltip="Inbox"
+            isActive={!activePath || activePath === "inbox"}
+          >
+            <Link href="/dashboard/inbox">
+              <Inbox />
+              <span>Inbox</span>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton
+            asChild
+            tooltip="Today"
+            isActive={activePath === "today"}
+          >
+            <Link href="/dashboard/today">
+              <Calendar />
+              <span>Today</span>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton
+            asChild
+            tooltip="Upcoming"
+            isActive={activePath === "upcoming"}
+          >
+            <Link href="/dashboard/upcoming">
+              <CalendarDays />
+              <span>Upcoming</span>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
         {items.map((item) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
             <SidebarMenuItem>
@@ -59,9 +109,9 @@ export function NavMain({ items }: NavMainProps) {
                       {item.items?.map((subItem) => (
                         <SidebarMenuSubItem key={subItem.title}>
                           <SidebarMenuSubButton asChild>
-                            <a href={subItem.url}>
+                            <Link href={subItem.url}>
                               <span>{subItem.title}</span>
-                            </a>
+                            </Link>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       ))}
