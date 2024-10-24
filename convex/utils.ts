@@ -8,12 +8,13 @@ import {
   customQuery,
   customCtx,
 } from "convex-helpers/server/customFunctions";
+
 import {
   type ActionCtx,
+  type QueryCtx,
   action,
   mutation,
   query,
-  type QueryCtx,
 } from "./_generated/server";
 
 type CustomCtxType = ActionCtx | QueryCtx;
