@@ -1,24 +1,21 @@
 import type { Doc } from "./_generated/dataModel";
 
 import { internalMutation, QueryCtx } from "./_generated/server";
-
-import schema from "./schema";
+import { Users } from "./schema";
 
 // USER MUTATIONS
-const userFields = schema.tables.users.validator.fields;
-
 export const createOrUpdate = internalMutation({
-  args: userFields,
+  args: Users.withoutSystemFields,
   handler: async (ctx, { tokenIdentifier, ...rest }) => {
     const existingUser = await checkExistingUser(ctx, tokenIdentifier);
     if (!existingUser)
       return ctx.db.insert("users", { tokenIdentifier, ...rest });
-    return ctx.db.patch(existingUser._id, { ...rest });
+    return ctx.db.patch(existingUser._id, { name: rest.name });
   },
 });
 
 export const deleteUser = internalMutation({
-  args: { id: userFields.tokenIdentifier },
+  args: { id: Users.withoutSystemFields.tokenIdentifier },
   handler: async (ctx, { id }) => {
     const existingUser = await checkExistingUser(ctx, id);
     if (!existingUser) throw new Error("User not found");

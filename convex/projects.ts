@@ -1,7 +1,8 @@
+import { paginationOptsValidator } from "convex/server";
+
 import { mutateWithUser, queryWithUser } from "./utils";
 import { internalQuery } from "./_generated/server";
 import { Projects } from "./schema";
-import { paginationOptsValidator } from "convex/server";
 
 // PROJECT QUERIES
 export const getOneByUser = queryWithUser({
