@@ -20,6 +20,7 @@ import type * as labels from "../labels.js";
 import type * as projects from "../projects.js";
 import type * as sessions from "../sessions.js";
 import type * as todos from "../todos.js";
+import type * as triggers from "../triggers.js";
 import type * as users from "../users.js";
 import type * as utils from "../utils.js";
 
@@ -37,6 +38,7 @@ declare const fullApi: ApiFromModules<{
   projects: typeof projects;
   sessions: typeof sessions;
   todos: typeof todos;
+  triggers: typeof triggers;
   users: typeof users;
   utils: typeof utils;
 }>;
