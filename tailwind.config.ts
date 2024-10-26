@@ -79,11 +79,21 @@ const config: Config = {
           from: { height: "var(--radix-collapsible-content-height)" },
           to: { height: "0" },
         },
+        wiggle: {
+          "0%, 100%": { transform: "rotate(-3deg)" },
+          "50%": { transform: "rotate(3deg)" },
+        },
+        spinner: {
+          from: { opacity: "1" },
+          to: { opacity: "0.15" },
+        },
       },
       animation: {
         "caret-blink": "caret-blink 1.25s ease-out infinite",
         "collapsible-down": "collapsible-down 0.2s ease-out",
         "collapsible-up": "collapsible-up 0.2s ease-out",
+        wiggle: "wiggle 1s ease-in-out infinite",
+        "spinner": "spinner 1.2s linear infinite"
       },
     },
   },
