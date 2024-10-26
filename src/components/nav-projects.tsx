@@ -31,7 +31,11 @@ type ProjectType = {
   icon: LucideIcon;
 };
 
-export function NavProjects({ projects }: { projects: ProjectType[] }) {
+export interface NavProjectsProps {
+  projects: ProjectType[];
+}
+
+export function NavProjects({ projects }: NavProjectsProps) {
   const { isMobile } = useSidebar();
 
   return (
@@ -54,22 +58,21 @@ export function NavProjects({ projects }: { projects: ProjectType[] }) {
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                className="w-48"
                 side={isMobile ? "bottom" : "right"}
                 align={isMobile ? "end" : "start"}
               >
-                <DropdownMenuItem>
-                  <Folder className="text-muted-foreground" />
-                  <span>View Project</span>
+                <DropdownMenuItem className="gap-2">
+                  <Folder className="text-muted-foreground size-4" />
+                  <span className="text-sm">View Project</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Share className="text-muted-foreground" />
-                  <span>Share Project</span>
+                <DropdownMenuItem className="gap-2">
+                  <Share className="text-muted-foreground size-4" />
+                  <span className="text-sm">Share Project</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Trash2 className="text-muted-foreground" />
-                  <span>Delete Project</span>
+                <DropdownMenuItem className="gap-2">
+                  <Trash2 className="text-muted-foreground size-4" />
+                  <span className="text-sm">Delete Project</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

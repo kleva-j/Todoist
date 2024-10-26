@@ -22,6 +22,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarMenuButton,
+  SidebarGroupLabel,
   SidebarMenuAction,
   SidebarMenuItem,
   SidebarMenuSub,
@@ -50,6 +51,7 @@ export function NavMain({ items }: NavMainProps) {
 
   return (
     <SidebarGroup>
+      <SidebarGroupLabel>Main</SidebarGroupLabel>
       <SidebarMenu>
         <SidebarMenuItem>
           <SidebarMenuButton

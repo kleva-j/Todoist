@@ -15,7 +15,7 @@ export default function Page({ params }: PageProps) {
     <>
       <BreadcrumbSeparator className="hidden md:block" />
       <BreadcrumbItem>
-        <BreadcrumbPage>{activePath}</BreadcrumbPage>
+        <BreadcrumbPage className="capitalize">{activePath}</BreadcrumbPage>
       </BreadcrumbItem>
     </>
   );
