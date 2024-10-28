@@ -7,7 +7,9 @@
     "convex": "convex dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepublish": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "dependencies": {
     "@clerk/backend": "^1.14.1",
@@ -40,7 +42,8 @@
     "svix": "^1.37.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "@snyk/protect": "latest"
   },
   "devDependencies": {
     "@types/node": "^20.16.13",
@@ -54,5 +57,6 @@
   },
   "engines": {
     "node": ">=18.19.1"
-  }
+  },
+  "snyk": true
 }

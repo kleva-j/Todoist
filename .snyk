@@ -1,0 +1,267 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:hoek:20180212':
+    - badge > joi > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > joi > hoek
+    - badge > hapi > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > hoek
+    - badge > nipple > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > nipple > hoek
+    - badge > hapi > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > boom > hoek
+    - badge > nipple > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > nipple > boom > hoek
+    - badge > hapi > accept > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > accept > hoek
+    - badge > hapi > bossy > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > bossy > hoek
+    - badge > hapi > call > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > call > hoek
+    - badge > hapi > catbox > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > catbox > hoek
+    - badge > hapi > catbox-memory > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > catbox-memory > hoek
+    - badge > joi > topo > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > joi > topo > hoek
+    - badge > hapi > topo > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > topo > hoek
+    - badge > hapi > joi > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > joi > hoek
+    - badge > hapi > iron > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > iron > hoek
+    - badge > hapi > statehood > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > statehood > hoek
+    - badge > hapi > wreck > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > wreck > hoek
+    - badge > hapi > h2o2 > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > h2o2 > hoek
+    - badge > hapi > heavy > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > heavy > hoek
+    - badge > hapi > kilt > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > kilt > hoek
+    - badge > hapi > mimos > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > mimos > hoek
+    - badge > hapi > shot > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > shot > hoek
+    - badge > hapi > subtext > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > subtext > hoek
+    - badge > hapi > vision > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > vision > hoek
+    - badge > hapi > accept > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > accept > boom > hoek
+    - badge > hapi > call > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > call > boom > hoek
+    - badge > hapi > catbox > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > catbox > boom > hoek
+    - badge > hapi > cryptiles > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > cryptiles > boom > hoek
+    - badge > hapi > iron > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > iron > boom > hoek
+    - badge > hapi > statehood > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > statehood > boom > hoek
+    - badge > hapi > wreck > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > wreck > boom > hoek
+    - badge > hapi > h2o2 > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > h2o2 > boom > hoek
+    - badge > hapi > subtext > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > subtext > boom > hoek
+    - badge > hapi > vision > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > vision > boom > hoek
+    - badge > hapi > joi > topo > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > joi > topo > hoek
+    - badge > hapi > h2o2 > joi > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > h2o2 > joi > hoek
+    - badge > hapi > heavy > joi > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > heavy > joi > hoek
+    - badge > hapi > vision > joi > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > vision > joi > hoek
+    - badge > hapi > statehood > iron > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > statehood > iron > hoek
+    - badge > hapi > h2o2 > statehood > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > h2o2 > statehood > hoek
+    - badge > hapi > h2o2 > wreck > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > h2o2 > wreck > hoek
+    - badge > hapi > subtext > content > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > subtext > content > hoek
+    - badge > hapi > subtext > pez > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > subtext > pez > hoek
+    - badge > hapi > subtext > wreck > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > subtext > wreck > hoek
+    - badge > hapi > iron > cryptiles > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > iron > cryptiles > boom > hoek
+    - badge > hapi > statehood > cryptiles > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > statehood > cryptiles > boom > hoek
+    - badge > hapi > statehood > iron > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > statehood > iron > boom > hoek
+    - badge > hapi > h2o2 > statehood > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > h2o2 > statehood > boom > hoek
+    - badge > hapi > h2o2 > wreck > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > h2o2 > wreck > boom > hoek
+    - badge > hapi > subtext > content > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > subtext > content > boom > hoek
+    - badge > hapi > subtext > pez > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > subtext > pez > boom > hoek
+    - badge > hapi > subtext > wreck > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > subtext > wreck > boom > hoek
+    - badge > hapi > h2o2 > joi > topo > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > h2o2 > joi > topo > hoek
+    - badge > hapi > heavy > joi > topo > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > heavy > joi > topo > hoek
+    - badge > hapi > vision > joi > topo > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > vision > joi > topo > hoek
+    - badge > hapi > h2o2 > statehood > iron > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > h2o2 > statehood > iron > hoek
+    - badge > hapi > subtext > pez > content > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > subtext > pez > content > hoek
+    - badge > hapi > subtext > pez > b64 > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > subtext > pez > b64 > hoek
+    - badge > hapi > subtext > pez > nigel > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > subtext > pez > nigel > hoek
+    - badge > hapi > statehood > iron > cryptiles > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > statehood > iron > cryptiles > boom > hoek
+    - badge > hapi > h2o2 > statehood > cryptiles > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > h2o2 > statehood > cryptiles > boom > hoek
+    - badge > hapi > h2o2 > statehood > iron > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > h2o2 > statehood > iron > boom > hoek
+    - badge > hapi > subtext > pez > content > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > subtext > pez > content > boom > hoek
+    - badge > hapi > subtext > pez > nigel > vise > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > subtext > pez > nigel > vise > hoek
+    - badge > hapi > h2o2 > statehood > iron > cryptiles > boom > hoek:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:hoek:20180212'
+        path: badge > hapi > h2o2 > statehood > iron > cryptiles > boom > hoek
+  'npm:semver:20150403':
+    - badge > hapi > semver:
+        patched: '2024-10-28T22:36:07.596Z'
+        id: 'npm:semver:20150403'
+        path: badge > hapi > semver
