@@ -5,6 +5,7 @@ import { ConvexClientProvider } from "@/components/convex-client-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 import { geistMono, geistSans } from "@/lib/fonts";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "sonner";
 import { env } from "env.mjs";
 
 import "./globals.css";
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
             disableTransitionOnChange
           >
             <ConvexClientProvider>{children}</ConvexClientProvider>
+            <Toaster />
           </ThemeProvider>
         </body>
       </html>
