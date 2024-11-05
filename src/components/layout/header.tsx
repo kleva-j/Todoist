@@ -3,10 +3,10 @@ import NextLink from "next/link";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
-import { siteConfig } from "@/lib/site.config";
+import { siteConfig } from "@/config/site";
 
-const signInLink = siteConfig.navigations.links["sign-in"];
 const dashboardLink = siteConfig.navigations.links["dashboard"];
+const signInLink = siteConfig.navigations.links["sign-in"];
 
 export async function Header() {
   return (

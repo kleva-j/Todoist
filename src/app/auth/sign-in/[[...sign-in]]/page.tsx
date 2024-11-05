@@ -6,10 +6,10 @@ import * as Clerk from "@clerk/elements/common";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { siteConfig } from "@/lib/site.config";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icons } from "@/components/ui/icons";
+import { siteConfig } from "@/config/site";
 import {
   CardDescription,
   CardContent,

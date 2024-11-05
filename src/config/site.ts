@@ -23,3 +23,9 @@ export const siteConfig = {
     },
   },
 };
+
+export const placeholderImage = (str: string) => {
+  return `https://placehold.co/400x600/EEE/31343C?font=monaco&text=${encodeURI(
+    str
+  )}`;
+};
