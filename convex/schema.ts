@@ -27,11 +27,11 @@ export const Todos = Table("todos", {
   title: v.string(),
   description: v.optional(v.string()),
   userId: v.string(),
-  projectId: v.id("projects"),
-  labelId: v.id("labels"),
+  projectId: v.optional(v.id("projects")),
+  labelId: v.optional(v.id("labels")),
   priority: v.optional(v.float64()),
   isCompleted: v.boolean(),
-  dueDate: v.number(),
+  dueDate: v.optional(v.number()),
 });
 
 export const SubTasks = Table("subtasks", {

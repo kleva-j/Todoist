@@ -4,8 +4,10 @@ import type { Auth } from "convex/server";
 import type { DataModel } from "./_generated/dataModel";
 
 import { getManyFrom } from "convex-helpers/server/relationships";
+import { Triggers } from "convex-helpers/server/triggers";
 import { ConvexError } from "convex/values";
 import { asyncMap } from "convex-helpers";
+import { pick, pickBy } from "lodash";
 
 import {
   customMutation,
@@ -17,8 +19,8 @@ import {
 import {
   type ActionCtx,
   type QueryCtx,
-  action,
   mutation,
+  action,
   query,
 } from "./_generated/server";
 
@@ -65,6 +67,16 @@ export async function cleanupUserData(ctx: any, userId: string) {
   await Promise.all(cleanupTasks);
 }
 
+const triggers = new Triggers<DataModel>();
+
+triggers.register("users", async (ctx, change) => {
+  if (change.operation === "insert") {
+    await createDefaultProject(ctx, change.newDoc.tokenIdentifier);
+  } else if (change.operation === "delete") {
+    await cleanupUserData(ctx, change.oldDoc.tokenIdentifier);
+  }
+});
+
 export const getTokenId = (id: string) =>
   `${process.env.CLERK_ISSUER_URL}|${id}`;
 
@@ -83,3 +95,19 @@ export const mutateWithUser = customMutation(
   mutation,
   customCtx(getAuthStatus)
 );
+
+/**
+ * Pick only the specified fields from the input object and remove any undefined values.
+ * @param input The input object to pick from
+ * @param fields The fields to pick
+ * @returns The object with the specified fields and undefined values removed.
+ */
+export const sanitizeInput = <T extends Record<string, any>>(
+  input: T,
+  fields: Array<keyof T>
+) => {
+  const sanitizedInput = pick(input, fields);
+  return pickBy(sanitizedInput, (value) => value !== undefined) as {
+    [K in keyof T as T[K] extends undefined ? never : K]: T[K];
+  };
+};

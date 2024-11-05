@@ -1,9 +1,14 @@
-import { mutateWithUser, queryWithUser } from "./utils";
+import { paginationOptsValidator } from "convex/server";
+import { pick, pickBy } from "lodash";
+import { v } from "convex/values";
+
 import { internalQuery } from "./_generated/server";
 import { Todos, SubTasks } from "./schema";
-
-import { paginationOptsValidator } from "convex/server";
-import { v } from "convex/values";
+import {
+  sanitizeInput as sanitize,
+  mutateWithUser,
+  queryWithUser,
+} from "./utils";
 
 // QUERIES
 export const getOneByUser = queryWithUser({
@@ -75,27 +80,39 @@ export const getAll = internalQuery({
 
 // MUTATIONS
 export const create = mutateWithUser({
-  args: Todos.withoutSystemFields,
-  handler: async (ctx, { title, projectId, ...rest }) => {
+  args: {
+    title: v.string(),
+    priority: v.optional(v.number()),
+    description: v.optional(v.string()),
+    isCompleted: v.optional(v.boolean()),
+    dueDate: v.optional(v.number()),
+    projectId: v.optional(v.id("projects")),
+    labelId: v.optional(v.id("labels")),
+  },
+  handler: async (ctx, { title, isCompleted = false, ...rest }) => {
     const userId = ctx.identity.tokenIdentifier;
 
-    const project = await ctx.db
-      .query("projects")
-      .withIndex("by_user", (q) => q.eq("userId", userId))
-      .filter((q) => q.eq(q.field("_id"), projectId))
-      .unique();
+    if (!title) throw new Error("Title is required");
 
-    if (!project) throw new Error("Project does not exist");
+    if (rest.projectId) {
+      const project = await ctx.db
+        .query("projects")
+        .withIndex("by_user", (q) => q.eq("userId", userId))
+        .filter((q) => q.eq(q.field("_id"), rest.projectId))
+        .unique();
 
-    const todo = await ctx.db
-      .query("todos")
-      .withIndex("by_user", (q) => q.eq("userId", userId))
-      .filter((q) => q.eq(q.field("title"), title))
-      .unique();
+      if (!project) throw new Error("Project does not exist");
+    }
 
-    if (todo) throw new Error("Todo already exists");
+    const input = sanitize(rest, [
+      "description",
+      "projectId",
+      "priority",
+      "labelId",
+      "dueDate",
+    ]);
 
-    return ctx.db.insert("todos", { ...rest, userId, title, projectId });
+    return ctx.db.insert("todos", { ...input, userId, title, isCompleted });
   },
 });
 
@@ -119,8 +136,17 @@ export const createSubTask = mutateWithUser({
 });
 
 export const update = mutateWithUser({
-  args: Todos.withSystemFields,
-  handler: async ({ db, identity }, { _id, projectId, labelId, ...rest }) => {
+  args: {
+    _id: Todos._id,
+    priority: v.optional(v.number()),
+    description: v.optional(v.string()),
+    isCompleted: v.optional(v.boolean()),
+    dueDate: v.optional(v.number()),
+    title: v.optional(v.string()),
+    projectId: v.optional(v.id("projects")),
+    labelId: v.optional(v.id("labels")),
+  },
+  handler: async ({ db, identity }, { _id, ...rest }) => {
     const userId = identity.tokenIdentifier;
 
     const todo = await db
@@ -131,17 +157,19 @@ export const update = mutateWithUser({
 
     if (!todo) return null;
 
-    const { title, priority, isCompleted, description, dueDate } = rest;
+    const input = pick(rest, [
+      "title",
+      "priority",
+      "isCompleted",
+      "description",
+      "dueDate",
+      "projectId",
+      "labelId",
+    ]);
 
-    await db.patch(todo._id, {
-      description,
-      priority,
-      title,
-      isCompleted,
-      dueDate,
-      projectId,
-      labelId,
-    });
+    const sanitizedInput = pickBy(input, (value) => value !== undefined);
+
+    await db.patch(todo._id, { ...sanitizedInput });
   },
 });
 
