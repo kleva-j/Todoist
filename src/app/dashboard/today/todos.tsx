@@ -6,7 +6,7 @@ import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 
 export const TodayTodos = () => {
-  const todos = useQuery(api.todos.getRecentTodos, { duration: "24 hours" });
+  const todos = useQuery(api.todos.getTodayTodos);
 
   if (todos === undefined) {
     return (

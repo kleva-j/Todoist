@@ -51,7 +51,7 @@ export function Todolist({ todos }: TodolistProps) {
 
         <CreateTodo>
           <Button
-            className="self-start px-0 hover:bg-transparent"
+            className="self-start px-0 hover:bg-transparent my-1"
             variant="ghost"
           >
             <Plus className="mr-1.5 stroke-red-400 stroke-[1px] size-5" />
