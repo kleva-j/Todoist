@@ -10,6 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
+import { addHours } from "date-fns";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { z } from "zod";
@@ -37,7 +38,7 @@ const formSchema = z.object({
   projectId: z.string().optional(),
   labels: z.array(z.string()),
   isCompleted: z.boolean().default(true),
-  dueDate: z.any(),
+  dueDate: z.date(),
 });
 
 export type CreateFormSchema = z.infer<typeof formSchema>;
@@ -53,7 +54,13 @@ export interface CreateTodosFormProps {
 export function CreateTodosForm(props: CreateTodosFormProps) {
   const { projects, labels, onSubmit } = props;
 
-  const defaultValues = { projects, labels, title: "", isCompleted: false };
+  const defaultValues = {
+    title: "",
+    labels,
+    projects,
+    isCompleted: false,
+    dueDate: addHours(Date.now(), 24),
+  };
 
   const [show, setShow] = useState(false);
   const [expand, setExpand] = useState(false);
@@ -170,9 +177,9 @@ export function CreateTodosForm(props: CreateTodosFormProps) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="lv1">lv1</SelectItem>
-                        <SelectItem value="lv2">lv2</SelectItem>
-                        <SelectItem value="lv3">lv3</SelectItem>
+                        <SelectItem value="1">1</SelectItem>
+                        <SelectItem value="2">2</SelectItem>
+                        <SelectItem value="3">3</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormDescription>

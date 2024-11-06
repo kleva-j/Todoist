@@ -46,6 +46,7 @@ export function CreateTodo({ children }: PropsWithChildren) {
         description: values.description,
         isCompleted: values.isCompleted,
         projectId: values.projectId as Id<"projects">,
+        dueDate: values.dueDate.getTime(),
       }),
       {
         loading: "Creating todo...",

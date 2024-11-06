@@ -1,3 +1,4 @@
+import { differenceInHours } from "date-fns/differenceInHours";
 import { paginationOptsValidator } from "convex/server";
 import { pick, pickBy } from "lodash";
 import { v } from "convex/values";
@@ -33,6 +34,34 @@ export const getOneByUser = queryWithUser({
       .collect();
 
     return { ...todo, subTasks };
+  },
+});
+
+export const getRecentTodos = queryWithUser({
+  args: {
+    duration: v.union(v.literal("24 hours"), v.literal("7 days")),
+    includeSubTasks: v.optional(v.boolean()),
+  },
+  handler: async ({ db, identity }, { duration = "24 hours" }) => {
+    const userId = identity.tokenIdentifier;
+
+    const todos = await db
+      .query("todos")
+      .filter((q) => q.eq(q.field("userId"), userId))
+      .order("desc")
+      .collect();
+
+    const [durVal, durUnitOfTime] = duration.split(" ");
+
+    const recentTodos = todos.filter(({ dueDate }) => {
+      const diffInHours = differenceInHours(new Date(dueDate!), new Date());
+
+      return durUnitOfTime === "hours"
+        ? diffInHours <= Number(durVal)
+        : diffInHours <= Number(durVal) * 24;
+    });
+
+    return recentTodos;
   },
 });
 
