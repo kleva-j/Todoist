@@ -65,6 +65,26 @@ export const getRecentTodos = queryWithUser({
   },
 });
 
+export const getTodayTodos = queryWithUser({
+  handler: async ({ db, identity }) => {
+    const userId = identity.tokenIdentifier;
+
+    const todos = await db
+      .query("todos")
+      .filter((q) => q.eq(q.field("userId"), userId))
+      .order("desc")
+      .collect();
+
+    const todayTodos = todos.filter(({ dueDate }) => {
+      const today = new Date();
+      const diffInHours = differenceInHours(new Date(dueDate!), today);
+      return diffInHours <= 24 && diffInHours >= 0;
+    });
+
+    return todayTodos;
+  },
+});
+
 export const getAllByUser = queryWithUser({
   args: { includeSubTasks: v.optional(v.boolean()) },
   handler: async (ctx, { includeSubTasks }) => {
