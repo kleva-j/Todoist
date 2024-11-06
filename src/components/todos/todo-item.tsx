@@ -17,9 +17,7 @@ export function TodoItem({ todo, handleToggle }: TodoItemProps) {
   const checkId = `todo-${_id}`;
 
   return (
-    <div
-      className="flex flex-col py-1.5 border-b border-zinc-100"
-    >
+    <div className="flex flex-col py-1.5 border-b border-zinc-100 dark:border-zinc-800">
       <div
         className={cn("flex items-center gap-2", { "opacity-50": isCompleted })}
       >
@@ -29,12 +27,12 @@ export function TodoItem({ todo, handleToggle }: TodoItemProps) {
             "font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm cursor-pointer flex gap-1.5 items-center relative",
             { "line-through text-muted-foreground": isCompleted }
           )}
-          onClick={() => handleToggle(_id, !isCompleted)}
         >
           <Checkbox
             id={checkId}
             checked={isCompleted}
-            className={cn("rounded-full size-4", {})}
+            className={cn("rounded-full size-4")}
+            onCheckedChange={() => handleToggle(_id, !isCompleted)}
           />
           <Text className="[&:not(:first-child)]:mt-0">{title}</Text>
         </Label>
