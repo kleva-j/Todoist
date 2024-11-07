@@ -2,9 +2,11 @@ import type { PropsWithChildren } from "react";
 import type { Metadata } from "next";
 
 import { ConvexClientProvider } from "@/components/convex-client-provider";
+import { setDefaultOptions } from "date-fns/setDefaultOptions";
 import { ThemeProvider } from "@/components/theme-provider";
 import { geistMono, geistSans } from "@/lib/fonts";
 import { ClerkProvider } from "@clerk/nextjs";
+import { enGB } from "date-fns/locale";
 import { Toaster } from "sonner";
 import { env } from "env.mjs";
 
@@ -16,6 +18,8 @@ export const metadata: Metadata = {
 };
 
 const publishableKey = env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY! as string;
+
+setDefaultOptions({ locale: enGB });
 
 export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
   return (
