@@ -48,7 +48,7 @@ export const getDateTimeLocal = (timestamp?: Date): string => {
  * @returns A string representation of the date and time
  */
 export const formatDateTime = (datetime: Date | string) => {
-  return new Date(datetime).toLocaleTimeString("en-US", {
+  return new Date(datetime).toLocaleTimeString("en-GB", {
     month: "short",
     day: "numeric",
     year: "numeric",

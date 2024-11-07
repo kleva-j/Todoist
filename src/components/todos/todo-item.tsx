@@ -19,11 +19,12 @@ export function TodoItem({ todo, handleToggle }: TodoItemProps) {
   const { _id, title, isCompleted, dueDate } = todo;
 
   const current = new Date();
+  const formatedDueDate = new Date(dueDate!);
 
-  const diffInHrs = differenceInHours(dueDate!, current);
+  const diffInHrs = differenceInHours(formatedDueDate, current);
   const within2Hr = diffInHrs <= 2 && diffInHrs >= 1;
 
-  const diffInMins = differenceInMinutes(dueDate!, current);
+  const diffInMins = differenceInMinutes(formatedDueDate, current);
   const within1Hr = diffInMins <= 59 && diffInMins >= 1;
 
   const pastDueDate = diffInHrs <= 0 && diffInMins <= 0;
@@ -47,7 +48,7 @@ export function TodoItem({ todo, handleToggle }: TodoItemProps) {
           <Checkbox
             id={checkId}
             checked={isCompleted}
-            className={cn("rounded-full size-4")}
+            className={cn("rounded-full size-4 text-muted")}
             onCheckedChange={() => handleToggle(_id, !isCompleted)}
           />
           <Text className="[&:not(:first-child)]:mt-0 font-medium leading-4">
@@ -70,7 +71,7 @@ export function TodoItem({ todo, handleToggle }: TodoItemProps) {
             {pastDueDate && (
               <RefreshCw className="size-3 text-red-400 cursor-pointer hover:text-red-500 stroke-[2.5px]" />
             )}
-            {intlFormatDistance(dueDate!, current)}
+            {intlFormatDistance(formatedDueDate, current)}
             {(within2Hr || within1Hr) && (
               <AlarmClock className="size-3 cursor-pointer stroke-[2.5px]" />
             )}
