@@ -8,9 +8,9 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
+import { addMinutes } from "date-fns/addMinutes";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { addHours } from "date-fns";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { z } from "zod";
@@ -59,7 +59,7 @@ export function CreateTodosForm(props: CreateTodosFormProps) {
     labels,
     projects,
     isCompleted: false,
-    dueDate: addHours(Date.now(), 24),
+    dueDate: addMinutes(new Date(), 30),
   };
 
   const [show, setShow] = useState(false);
