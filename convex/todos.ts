@@ -1,15 +1,16 @@
 import { differenceInHours } from "date-fns/differenceInHours";
+import { setDefaultOptions } from "date-fns/setDefaultOptions";
 import { paginationOptsValidator } from "convex/server";
+import { isSameDay } from "date-fns/isSameDay";
+import { enGB } from "date-fns/locale";
 import { pick, pickBy } from "lodash";
 import { v } from "convex/values";
 
+import { sanitizeInput, mutateWithUser, queryWithUser } from "./utils";
 import { internalQuery } from "./_generated/server";
 import { Todos, SubTasks } from "./schema";
-import {
-  sanitizeInput as sanitize,
-  mutateWithUser,
-  queryWithUser,
-} from "./utils";
+
+setDefaultOptions({ locale: enGB });
 
 // QUERIES
 export const getOneByUser = queryWithUser({
@@ -75,13 +76,9 @@ export const getTodayTodos = queryWithUser({
       .order("desc")
       .collect();
 
-    const todayTodos = todos.filter(({ dueDate }) => {
-      const today = new Date();
-      const diffInHours = differenceInHours(new Date(dueDate!), today);
-      return diffInHours <= 24 && diffInHours >= 0;
-    });
-
-    return todayTodos;
+    return todos.filter(({ dueDate }) =>
+      isSameDay(new Date(), new Date(dueDate!))
+    );
   },
 });
 
@@ -153,7 +150,7 @@ export const create = mutateWithUser({
       if (!project) throw new Error("Project does not exist");
     }
 
-    const input = sanitize(rest, [
+    const input = sanitizeInput(rest, [
       "description",
       "projectId",
       "priority",
