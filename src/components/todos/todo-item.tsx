@@ -32,7 +32,15 @@ export function TodoItem({ todo, handleToggle }: TodoItemProps) {
   const checkId = `todo-${_id}`;
 
   return (
-    <div className="flex flex-col py-1.5 pb-2 gap-2 border-b border-zinc-100 dark:border-zinc-800">
+    <div
+      className={cn(
+        "flex flex-col py-1.5 pb-2 gap-2 border-b border-zinc-100 dark:border-zinc-800",
+        {
+          "animate-pulse bg-gradient-to-r from-white via-red-50/50 to-white":
+            !isCompleted && pastDueDate,
+        }
+      )}
+    >
       <div
         className={cn("flex items-center gap-2", {
           "opacity-50 [&_p]:font-normal": isCompleted,
