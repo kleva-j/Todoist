@@ -87,16 +87,40 @@ const config: Config = {
           from: { opacity: "1" },
           to: { opacity: "0.15" },
         },
+        "shiny-text": {
+          "0%, 90%, 100%": {
+            "background-position": "calc(-100% - var(--shimmer-width)) 0",
+          },
+          "30%, 60%": {
+            "background-position": "calc(100% + var(--shimmer-width)) 0",
+          },
+        },
+        shimmer: {
+          from: { backgroundPosition: "0 0" },
+          to: { backgroundPosition: "-200% 0" },
+        },
+        "background-position-spin": {
+          "0%": { backgroundPosition: "top center" },
+          "100%": { backgroundPosition: "bottom center" },
+        },
+        "border-beam": {
+          "100%": { "offset-distance": "100%" },
+        },
       },
       animation: {
         "caret-blink": "caret-blink 1.25s ease-out infinite",
         "collapsible-down": "collapsible-down 0.2s ease-out",
         "collapsible-up": "collapsible-up 0.2s ease-out",
         wiggle: "wiggle 1s ease-in-out infinite",
-        "spinner": "spinner 1.2s linear infinite"
+        spinner: "spinner 1.2s linear infinite",
+        "shiny-text": "shiny-text 8s infinite",
+        shimmer: "shimmer 2s linear infinite",
+        "background-position-spin":
+          "background-position-spin 3000ms infinite alternate",
       },
     },
   },
   plugins: [TailwindAnimate],
 };
+
 export default config;

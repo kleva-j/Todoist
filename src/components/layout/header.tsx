@@ -10,7 +10,7 @@ const signInLink = siteConfig.navigations.links["sign-in"];
 
 export async function Header() {
   return (
-    <header className="bg-white shadow-sm dark:bg-black">
+    <header className="bg-white/20 shadow-sm dark:bg-black/10">
       <div className="mx-auto flex max-w-screen-xl items-center justify-between p-4">
         <h1 className="text-2xl font-bold text-neutral-900 dark:text-white">
           {siteConfig.name}
@@ -33,7 +33,11 @@ export async function Header() {
             </div>
           </SignedIn>
           <SignedOut>
-            <Button asChild variant="secondary">
+            <Button
+              asChild
+              variant="secondary"
+              className="rounded-full animate-shimmer border border-black/20 dark:border-slate-800 bg-[linear-gradient(110deg,#f5f5f5,45%,#e5e5e5,55%,#f5f5f5)] bg-[length:200%_100%] dark:bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] text-gray-700 dark:text-slate-400"
+            >
               <NextLink href={signInLink.href}>Sign in</NextLink>
             </Button>
           </SignedOut>

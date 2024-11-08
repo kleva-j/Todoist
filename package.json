@@ -14,6 +14,7 @@
     "@clerk/elements": "^0.16.2",
     "@clerk/nextjs": "^5.7.5",
     "@hookform/resolvers": "^3.9.1",
+    "@radix-ui/react-aspect-ratio": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.1.2",
     "@radix-ui/react-collapsible": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.2",
