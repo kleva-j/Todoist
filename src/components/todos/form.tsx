@@ -1,5 +1,8 @@
 "use client";
 
+import { type Option, AutoComplete } from "@/components/ui/autocomplete";
+import { type Tag, TagInput } from "emblor";
+
 import { CollapsibleContent, Collapsible } from "@/components/ui/collapsible";
 import { InputBlock, Input } from "@/components/ui/input-block";
 import { DateTimePicker } from "@/components/date-picker";
@@ -9,7 +12,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { addMinutes } from "date-fns/addMinutes";
 import { Button } from "@/components/ui/button";
-import { type Tag, TagInput } from "emblor";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -35,7 +37,7 @@ const formSchema = z.object({
   title: z.string(),
   description: z.string().optional(),
   priority: z.string().optional(),
-  projectId: z.string().optional(),
+  project: z.object({ value: z.string(), label: z.string() }).optional(),
   labels: z.array(z.object({ id: z.string(), text: z.string() })),
   isCompleted: z.boolean().default(true),
   dueDate: z.date(),
@@ -46,7 +48,7 @@ export type CreateFormSchema = z.infer<typeof formSchema>;
 const resolver = zodResolver(formSchema);
 
 export interface CreateTodosFormProps {
-  projects: { id: string; name: string }[];
+  projects: Option[];
   labels: Tag[];
   onSubmit: (values: CreateFormSchema) => void;
 }
@@ -112,7 +114,7 @@ export function CreateTodosForm(props: CreateTodosFormProps) {
                     <FormLabel>Description.</FormLabel>
                     <FormControl>
                       <Textarea
-                        rows={3}
+                        rows={2}
                         placeholder="Add a task description"
                         className={cn(
                           "resize-none dark:placeholder:text-zinc-600 px-2 placeholder:text-neutral-400 text-base focus-within:ring-1 focus-visible:ring-1 focus-within:ring-offset-1"
@@ -127,28 +129,18 @@ export function CreateTodosForm(props: CreateTodosFormProps) {
 
               {projects.length > 0 && (
                 <FormField
-                  name="projectId"
+                  name="project"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Select Projects.</FormLabel>
-                      <Select
+                      <FormLabel>Select Project.</FormLabel>
+                      <AutoComplete
+                        value={field.value}
+                        options={projects}
+                        emptyMessage="No results."
+                        placeholder="Select Projects"
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a project." />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {projects.map((project) => (
-                            <SelectItem key={project.id} value={project.id}>
-                              {project.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      />
                       <FormMessage />
                     </FormItem>
                   )}
@@ -169,7 +161,7 @@ export function CreateTodosForm(props: CreateTodosFormProps) {
                         styleClasses={{
                           tagList: { container: "gap-1" },
                           input:
-                            "rounded-lg ring-offset-background transition-shadow placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring/30 focus-visible:ring-offset-1 mb-2",
+                            "rounded-lg ring-offset-background transition-shadow placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring/30 focus-visible:ring-offset-1 mb-2 h-8",
                           tag: {
                             body: "relative h-7 bg-background border border-input hover:bg-background rounded-md font-bold text-xs ps-2 pe-7 space-y-3 capitalize",
                             closeButton:
@@ -183,7 +175,6 @@ export function CreateTodosForm(props: CreateTodosFormProps) {
                         inlineTags={false}
                         animation="bounce"
                         maxTags={5}
-                        showCount
                       />
                     </FormControl>
 
@@ -205,6 +196,7 @@ export function CreateTodosForm(props: CreateTodosFormProps) {
                         setDateTime={field.onChange}
                         onBlur={field.onBlur}
                         autoComplete="off"
+                        className="h-8"
                       />
                       <FormDescription>
                         You can enter the expected completion date and time.
@@ -225,7 +217,7 @@ export function CreateTodosForm(props: CreateTodosFormProps) {
                         defaultValue={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger className="h-8">
                             <SelectValue placeholder="Set a priority" />
                           </SelectTrigger>
                         </FormControl>

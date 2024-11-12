@@ -32,7 +32,7 @@ export function CreateTodo({ children }: PropsWithChildren) {
   const projectQuery = useQuery(api.projects.getAllByUser) ?? [];
   const labelsQuery = useQuery(api.labels.getAllByUser) ?? [];
 
-  const projects = projectQuery.map(({ _id, name }) => ({ id: _id, name }));
+  const projects = projectQuery.map(({ _id, name }) => ({ value: _id, label: name }));
   const labels = labelsQuery.map(({ _id, name }) => ({ id: _id, text: name }));
 
   const createMutation = useMutation(api.todos.create);
@@ -40,14 +40,14 @@ export function CreateTodo({ children }: PropsWithChildren) {
   const handleSubmit = async (values: CreateFormSchema) => {
     if (!values) return;
 
-    const { title, description, isCompleted, dueDate, projectId } = values;
+    const { title, description, isCompleted, dueDate, project } = values;
 
     toast.promise(
       createMutation({
         title,
         description,
         isCompleted,
-        projectId: projectId as Id<"projects">,
+        projectId: project?.value as Id<"projects">,
         dueDate: dueDate.getTime(),
       }),
       {
