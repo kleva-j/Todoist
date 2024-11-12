@@ -36,7 +36,7 @@ export function TodoItem({ todo, handleToggle }: TodoItemProps) {
       className={cn(
         "flex flex-col py-1.5 pb-2 gap-2 border-b border-zinc-100 dark:border-zinc-800",
         {
-          "animate-pulse bg-gradient-to-r from-white via-red-50/50 to-white":
+          "animate-pulse bg-gradient-to-r from-white via-red-50/50 to-white dark:bg-gradient-to-r dark:from-neutral-950/40 dark:via-neutral-950/60 dark:to-neutral-950/40":
             !isCompleted && pastDueDate,
         }
       )}

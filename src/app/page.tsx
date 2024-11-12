@@ -73,7 +73,7 @@ export default function Home() {
                 variant="outline"
                 className="group inline-flex h-10 animate-shimmer items-center justify-center rounded-full border border-black/20 dark:border-slate-800 bg-[linear-gradient(110deg,#f5f5f5,45%,#e5e5e5,55%,#f5f5f5)] bg-[length:200%_100%] dark:bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] px-6 font-medium text-gray-700 dark:text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
               >
-                <NextLink href={signInLink}>Get Started</NextLink>
+                <NextLink href={signInLink.href}>Get Started</NextLink>
                 <ChevronRight className="ml-2 size-4 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
               </Button>
             </div>
@@ -87,7 +87,7 @@ export default function Home() {
             >
               <AspectRatio
                 ratio={16 / 9}
-                className="animate-pulse bg-gradient-to-r from-slate-900 via-black to-slate-900 rounded-2xl overflow-hidden"
+                className="dark:animate-pulse bg-gradient-to-r from-slate-900 via-black to-slate-900 rounded-2xl overflow-hidden"
               >
                 <VideoDialog
                   thumbnailSrc="https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg?auto=compress&cs=tinysrgb&w=600"

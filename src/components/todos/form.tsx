@@ -1,9 +1,11 @@
 "use client";
 
-import { InputBlock, Input, rootVariants } from "@/components/ui/input-block";
+import { type Option, AutoComplete } from "@/components/ui/autocomplete";
+import { type Tag, TagInput } from "emblor";
+
 import { CollapsibleContent, Collapsible } from "@/components/ui/collapsible";
-import { SmartDatetimeInput } from "@/components/ui/date-time-input";
-import { TagsInput } from "@/components/ui/tags-input";
+import { InputBlock, Input } from "@/components/ui/input-block";
+import { DateTimePicker } from "@/components/date-picker";
 import { DialogFooter } from "@/components/ui/dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -35,8 +37,8 @@ const formSchema = z.object({
   title: z.string(),
   description: z.string().optional(),
   priority: z.string().optional(),
-  projectId: z.string().optional(),
-  labels: z.array(z.string()),
+  project: z.object({ value: z.string(), label: z.string() }).optional(),
+  labels: z.array(z.object({ id: z.string(), text: z.string() })),
   isCompleted: z.boolean().default(true),
   dueDate: z.date(),
 });
@@ -46,23 +48,25 @@ export type CreateFormSchema = z.infer<typeof formSchema>;
 const resolver = zodResolver(formSchema);
 
 export interface CreateTodosFormProps {
-  projects: { id: string; name: string }[];
-  labels: string[];
+  projects: Option[];
+  labels: Tag[];
   onSubmit: (values: CreateFormSchema) => void;
 }
 
 export function CreateTodosForm(props: CreateTodosFormProps) {
   const { projects, labels, onSubmit } = props;
 
+  const [activeTagIndex, setActiveTagIndex] = useState<number | null>(null);
+
   const defaultValues = {
     title: "",
     labels,
     projects,
+    priority: "1",
     isCompleted: false,
     dueDate: addMinutes(new Date(), 30),
   };
 
-  const [show, setShow] = useState(false);
   const [expand, setExpand] = useState(false);
 
   const form = useForm<CreateFormSchema>({ resolver, defaultValues });
@@ -74,27 +78,24 @@ export function CreateTodosForm(props: CreateTodosFormProps) {
         className="space-y-4 max-w-3xl mx-auto w-full"
       >
         <FormField
-          control={form.control}
           name="title"
+          control={form.control}
           render={({ field }) => (
             <FormItem>
               <FormControl>
                 <InputBlock
-                  variant="ghost"
-                  className="font-medium w-full"
-                  rightSection={
-                    show ? null : (
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        onClick={() => setShow(true)}
-                      >
-                        Add description
-                      </Button>
-                    )
-                  }
+                  variant={expand ? "default" : "ghost"}
+                  className={cn(
+                    "font-medium focus-within:ring-1 focus-within:ring-offset-1",
+                    { "ring-emerald-500": !expand }
+                  )}
                 >
-                  <Input placeholder="Task Name" type="text" {...field} />
+                  <Input
+                    placeholder="Task Name"
+                    className=""
+                    type="text"
+                    {...field}
+                  />
                 </InputBlock>
               </FormControl>
               <FormMessage />
@@ -102,155 +103,158 @@ export function CreateTodosForm(props: CreateTodosFormProps) {
           )}
         />
 
-        <Collapsible open={show} onOpenChange={setShow}>
-          <CollapsibleContent>
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Add a Task description"
-                      className={cn(
-                        "resize-none h-32 dark:placeholder:text-zinc-600 placeholder:text-zinc-400 text-base border-none",
-                        rootVariants({ variant: "filled" }),
-                        "focus-visible:ring-0"
-                      )}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CollapsibleContent>
-        </Collapsible>
-
         <Collapsible open={expand} onOpenChange={setExpand}>
-          <CollapsibleContent className="space-y-6">
-            <FormField
-              control={form.control}
-              name="projectId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Select Projects.</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a project." />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {projects.map((project) => (
-                        <SelectItem key={project.id} value={project.id}>
-                          {project.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>
-                    Select a project for the task.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="flex gap-4 items-center justify-between">
+          <CollapsibleContent asChild>
+            <div className="flex flex-col gap-y-4 overflow-visible bg-white dark:bg-black">
               <FormField
+                name="description"
                 control={form.control}
-                name="priority"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Priority</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Set a priority" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="1">1</SelectItem>
-                        <SelectItem value="2">2</SelectItem>
-                        <SelectItem value="3">3</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormDescription>
-                      Set a priority rating for the task.
-                    </FormDescription>
+                    <FormLabel>Description.</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        rows={2}
+                        placeholder="Add a task description"
+                        className={cn(
+                          "resize-none dark:placeholder:text-zinc-600 px-2 placeholder:text-neutral-400 text-base focus-within:ring-1 focus-visible:ring-1 focus-within:ring-offset-1"
+                        )}
+                        {...field}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
+              {projects.length > 0 && (
+                <FormField
+                  name="project"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Select Project.</FormLabel>
+                      <AutoComplete
+                        value={field.value}
+                        options={projects}
+                        emptyMessage="No results."
+                        placeholder="Select Projects"
+                        onValueChange={field.onChange}
+                      />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+
               <FormField
                 control={form.control}
-                name="dueDate"
+                name="labels"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Due Date</FormLabel>
-                    <SmartDatetimeInput
-                      name="dueDate"
-                      value={field.value}
-                      onValueChange={field.onChange}
-                      placeholder="e.g. tomorrow at 3pm"
-                    />
-                    <FormDescription>
-                      You can enter the expected completion date and time.
-                    </FormDescription>
+                  <FormItem className="space-y-0">
+                    <FormLabel>Labels</FormLabel>
+                    <FormControl>
+                      <TagInput
+                        tags={field.value}
+                        setTags={field.onChange}
+                        placeholder="Add a label"
+                        styleClasses={{
+                          tagList: { container: "gap-1" },
+                          input:
+                            "rounded-lg ring-offset-background transition-shadow placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring/30 focus-visible:ring-offset-1 mb-2 h-8",
+                          tag: {
+                            body: "relative h-7 bg-background border border-input hover:bg-background rounded-md font-bold text-xs ps-2 pe-7 space-y-3 capitalize",
+                            closeButton:
+                              "absolute -inset-y-px -end-px p-0 rounded-e-lg flex size-7 border border-transparent ring-offset-background transition-colors focus-visible:border-ring focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:ring-offset-2 text-muted-foreground/80 hover:text-foreground",
+                          },
+                        }}
+                        activeTagIndex={activeTagIndex}
+                        setActiveTagIndex={setActiveTagIndex}
+                        inputFieldPosition="top"
+                        interaction="clickable"
+                        inlineTags={false}
+                        animation="bounce"
+                        maxTags={5}
+                      />
+                    </FormControl>
+
                     <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="flex gap-4 items-start justify-between">
+                <FormField
+                  name="dueDate"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem className="w-max">
+                      <FormLabel>Due Date</FormLabel>
+                      <DateTimePicker
+                        name={field.name}
+                        dateTime={field.value}
+                        setDateTime={field.onChange}
+                        onBlur={field.onBlur}
+                        autoComplete="off"
+                        className="h-8"
+                      />
+                      <FormDescription>
+                        You can enter the expected completion date and time.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  name="priority"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem className="max-w-[120px]">
+                      <FormLabel>Priority</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="h-8">
+                            <SelectValue placeholder="Set a priority" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="1">Priority 1</SelectItem>
+                          <SelectItem value="2">Priority 2</SelectItem>
+                          <SelectItem value="3">Priority 3</SelectItem>
+                          <SelectItem value="4">Priority 4</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormDescription>
+                        Set a priority rating for the task.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="isCompleted"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center gap-x-2 space-y-0 py-2">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>Mark as Completed</FormLabel>
+                    </div>
                   </FormItem>
                 )}
               />
             </div>
-
-            <FormField
-              control={form.control}
-              name="labels"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Labels</FormLabel>
-                  <FormControl>
-                    <TagsInput
-                      value={field.value}
-                      onValueChange={field.onChange}
-                      placeholder="Select labels."
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="isCompleted"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>Mark as done</FormLabel>
-                    <FormDescription>
-                      You can manage your mobile notifications in the mobile
-                      settings page.
-                    </FormDescription>
-                    <FormMessage />
-                  </div>
-                </FormItem>
-              )}
-            />
           </CollapsibleContent>
         </Collapsible>
 

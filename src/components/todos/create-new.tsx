@@ -32,26 +32,28 @@ export function CreateTodo({ children }: PropsWithChildren) {
   const projectQuery = useQuery(api.projects.getAllByUser) ?? [];
   const labelsQuery = useQuery(api.labels.getAllByUser) ?? [];
 
-  const projects = projectQuery.map(({ _id, name }) => ({ id: _id, name }));
-  const labels = labelsQuery.map(({ name }) => name);
+  const projects = projectQuery.map(({ _id, name }) => ({ value: _id, label: name }));
+  const labels = labelsQuery.map(({ _id, name }) => ({ id: _id, text: name }));
 
   const createMutation = useMutation(api.todos.create);
 
   const handleSubmit = async (values: CreateFormSchema) => {
     if (!values) return;
 
+    const { title, description, isCompleted, dueDate, project } = values;
+
     toast.promise(
       createMutation({
-        title: values.title,
-        description: values.description,
-        isCompleted: values.isCompleted,
-        projectId: values.projectId as Id<"projects">,
-        dueDate: values.dueDate.getTime(),
+        title,
+        description,
+        isCompleted,
+        projectId: project?.value as Id<"projects">,
+        dueDate: dueDate.getTime(),
       }),
       {
-        loading: "Creating todo...",
         success: "Todo created successfully",
         error: "Failed to create todo",
+        loading: "Creating todo...",
       }
     );
 
@@ -61,7 +63,7 @@ export function CreateTodo({ children }: PropsWithChildren) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent>
+      <DialogContent className="p-4">
         <DialogHeader>
           <DialogTitle>
             <Breadcrumb>
