@@ -42,13 +42,16 @@ export function CreateTodo({ children }: PropsWithChildren) {
 
     const { title, description, isCompleted, dueDate, project } = values;
 
+
     toast.promise(
       createMutation({
         title,
         description,
         isCompleted,
-        projectId: project?.value as Id<"projects">,
         dueDate: dueDate.getTime(),
+        priority: Number(values.priority),
+        projectId: project?.value as Id<"projects">,
+        labelId: values.labels[0]?.id as Id<"labels">,
       }),
       {
         success: "Todo created successfully",

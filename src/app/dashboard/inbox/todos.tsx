@@ -7,8 +7,10 @@ import { useQuery } from "convex/react";
 
 export const InboxTodos = () => {
   const todos = useQuery(api.todos.getAllByUser, {});
+  const labels = useQuery(api.labels.getAllByUser);
+  const projects = useQuery(api.projects.getAllByUser);
 
-  if (todos === undefined) {
+  if (todos === undefined || labels === undefined || projects === undefined) {
     return (
       <div className="flex flex-col gap-1 py-4">
         <div className="flex flex-1 mt-6">
@@ -18,5 +20,5 @@ export const InboxTodos = () => {
     );
   }
 
-  return <Todolist todos={todos} />;
+  return <Todolist todos={todos} labels={labels} projects={projects} />;
 };
