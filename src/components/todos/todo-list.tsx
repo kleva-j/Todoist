@@ -1,7 +1,7 @@
 "use client";
 
 import type { Id } from "@/convex/_generated/dataModel";
-import type { Todos } from "@/types";
+import type { Projects, Todos, Labels } from "@/types";
 
 import { CreateTodo } from "@/components/todos/create-new";
 import { AnimatePresence, motion } from "framer-motion";
@@ -15,12 +15,17 @@ import { toast } from "sonner";
 
 export interface TodolistProps {
   todos: Todos;
+  labels: Labels;
+  projects: Projects;
 }
 
-export function Todolist({ todos }: TodolistProps) {
+export function Todolist({ todos, projects, labels }: TodolistProps) {
   const groups = Object.groupBy(todos ?? [], (item) =>
     item.isCompleted ? "completed" : "inCompleted"
   );
+
+  const projectsById = Object.groupBy(projects ?? [], (item) => item._id);
+  const labelsById = Object.groupBy(labels ?? [], (item) => item._id);
 
   const updateMutation = useMutation(api.todos.update);
 
@@ -36,16 +41,21 @@ export function Todolist({ todos }: TodolistProps) {
   return (
     <div className="flex flex-col gap-1 py-4">
       <AnimatePresence mode="popLayout">
-        {groups.inCompleted?.map((todo) => (
+        {groups.inCompleted?.map(({ projectId, labelId, ...todo }) => (
           <motion.div
-            key={todo._id}
             layout
+            key={todo._id}
             initial={{ opacity: 0, x: -300, scale: 0.5 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 200, scale: 1.2 }}
             transition={{ duration: 0.6, type: "spring" }}
           >
-            <TodoItem todo={todo} handleToggle={toggleCompleted} />
+            <TodoItem
+              todo={todo}
+              handleToggle={toggleCompleted}
+              label={labelId ? labelsById[labelId]?.[0] : undefined}
+              project={projectId ? projectsById[projectId]?.[0] : undefined}
+            />
           </motion.div>
         ))}
 
@@ -59,16 +69,21 @@ export function Todolist({ todos }: TodolistProps) {
           </Button>
         </CreateTodo>
 
-        {groups.completed?.map((todo) => (
+        {groups.completed?.map(({ projectId, labelId, ...todo }) => (
           <motion.div
-            key={todo._id}
             layout
+            key={todo._id}
             initial={{ opacity: 0, x: -300, scale: 0.5 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 200, scale: 1.2 }}
             transition={{ duration: 0.6, type: "spring" }}
           >
-            <TodoItem todo={todo} handleToggle={toggleCompleted} />
+            <TodoItem
+              todo={todo}
+              handleToggle={toggleCompleted}
+              label={labelId ? labelsById[labelId]?.[0] : undefined}
+              project={projectId ? projectsById[projectId]?.[0] : undefined}
+            />
           </motion.div>
         ))}
       </AnimatePresence>
