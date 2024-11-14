@@ -3,6 +3,7 @@
 import Link from "next/link";
 
 import { MoreHorizontal, Trash2, Folder, Share, Frame } from "lucide-react";
+import { CreateProject } from "@/components/projects/create-new";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 
@@ -31,7 +32,10 @@ export function NavProjects() {
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Projects</SidebarGroupLabel>
+      <SidebarGroupLabel className="justify-between">
+        Projects
+        <CreateProject />
+      </SidebarGroupLabel>
       <SidebarMenu>
         {projects === undefined ? (
           Array.from({ length: 3 }).map((_, index) => (
