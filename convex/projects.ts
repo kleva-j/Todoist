@@ -46,8 +46,8 @@ export const getAll = internalQuery({
 
 // PROJECT MUTATIONS
 export const create = mutateWithUser({
-  args: Projects.withoutSystemFields,
-  handler: async (ctx, { name, ...rest }) => {
+  args: { name: Projects.doc.fields.name },
+  handler: async (ctx, { name }) => {
     const userId = ctx.identity.tokenIdentifier;
 
     const project = await ctx.db
@@ -58,7 +58,7 @@ export const create = mutateWithUser({
 
     if (project) throw new Error("Project already exists");
 
-    return ctx.db.insert("projects", { ...rest, userId, name });
+    return ctx.db.insert("projects", { type: "user", userId, name });
   },
 });
 
