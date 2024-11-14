@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 
+import { CreateLabel } from "@/components/labels/create-new";
 import { LayoutGrid, ChevronRight } from "lucide-react";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
+import { useState } from "react";
 
 import {
   CollapsibleContent,
@@ -25,13 +27,16 @@ import {
 export const LabelSidebarMenu = () => {
   const labels = useQuery(api.labels.getAllByUser);
 
+  const [open, setOpen] = useState(true);
+
   return (
-    <Collapsible asChild defaultOpen>
+    <Collapsible asChild defaultOpen open={open} onOpenChange={setOpen}>
       <SidebarMenuItem>
         <CollapsibleTrigger asChild>
           <SidebarMenuButton tooltip="Filters & Labels">
             <LayoutGrid />
             <span>Filters & Labels</span>
+            <CreateLabel handleEffect={() => setOpen(true)} />
             <SidebarMenuAction asChild className="data-[state=open]:rotate-90">
               <div>
                 <ChevronRight />

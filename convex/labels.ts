@@ -45,8 +45,8 @@ export const getAll = internalQuery({
 
 // LABELS MUTATIONS
 export const create = mutateWithUser({
-  args: Labels.withoutSystemFields,
-  handler: async ({ db, identity }, { name, ...rest }) => {
+  args: { name: Labels.doc.fields.name },
+  handler: async ({ db, identity }, { name }) => {
     const userId = identity.tokenIdentifier;
 
     const label = await db
@@ -57,7 +57,7 @@ export const create = mutateWithUser({
 
     if (label) throw new Error("Label already exists");
 
-    return db.insert("labels", { ...rest, userId, name });
+    return db.insert("labels", { type: "user", userId, name });
   },
 });
 
