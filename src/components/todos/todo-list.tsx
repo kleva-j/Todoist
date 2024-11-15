@@ -10,8 +10,20 @@ import { CircleCheckBig, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { api } from "@/convex/_generated/api";
 import { useMutation } from "convex/react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+
+import {
+  AlertDialogDescription,
+  AlertDialogContent,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialog,
+} from "@/components/ui/alert-dialog";
 
 export interface TodolistProps {
   todos: Todos;
@@ -20,28 +32,61 @@ export interface TodolistProps {
 }
 
 export function Todolist({ todos, projects, labels }: TodolistProps) {
-  const groups = Object.groupBy(todos ?? [], (item) =>
-    item.isCompleted ? "completed" : "inCompleted"
+  const todoGroups = Object.groupBy(todos ?? [], (todo) =>
+    todo.isCompleted ? "completed" : "inCompleted"
   );
 
-  const projectsById = Object.groupBy(projects ?? [], (item) => item._id);
-  const labelsById = Object.groupBy(labels ?? [], (item) => item._id);
+  const [deletionAlertOpen, setDeletionAlertOpen] = useState(false);
+  const [deletionAlertData, setDeletionAlertData] = useState<{ id: Id<"todos"> } | null>(null);
+
+  const projectsById = Object.groupBy(projects ?? [], (project) => project._id);
+  const labelsById = Object.groupBy(labels ?? [], (label) => label._id);
 
   const updateMutation = useMutation(api.todos.update);
+  const deleteMutation = useMutation(api.todos.remove);
 
   const toggleCompleted = (id: Id<"todos">, isCompleted: boolean) => {
-    toast.promise(updateMutation({ _id: id, isCompleted }), {
-      success: isCompleted ? "Todo completed" : "Todo reverted",
-      error: "An error occurred",
-      loading: "Updating...",
-      duration: 1000,
-    });
+    toast.promise(
+      updateMutation({ _id: id, isCompleted }),
+      {
+        success: isCompleted ? "Todo completed" : "Todo reverted",
+        error: "An error occurred",
+        loading: "Updating...",
+        duration: 1000,
+      }
+    );
+  };
+
+  const deleteTodo = (id: Id<"todos">) => {
+    setDeletionAlertData({ id });
+    setDeletionAlertOpen(true);
+  };
+
+  const closeDeletionAlert = () => {
+    setDeletionAlertOpen(false);
+    setDeletionAlertData(null);
+  };
+
+  const confirmDeletion = () => {
+    if (!deletionAlertData) return;
+
+    toast.promise(
+      deleteMutation({ todoId: deletionAlertData.id }),
+      {
+        success: "Todo deleted",
+        error: "An error occurred",
+        loading: "Deleting...",
+        duration: 1000,
+      }
+    );
+
+    closeDeletionAlert();
   };
 
   return (
     <div className="flex flex-col gap-1 py-4">
       <AnimatePresence mode="popLayout">
-        {groups.inCompleted?.map(({ projectId, labelId, ...todo }) => (
+        {todoGroups.inCompleted?.map((todo) => (
           <motion.div
             layout
             key={todo._id}
@@ -52,9 +97,10 @@ export function Todolist({ todos, projects, labels }: TodolistProps) {
           >
             <TodoItem
               todo={todo}
+              handleDelete={deleteTodo}
               handleToggle={toggleCompleted}
-              label={labelId ? labelsById[labelId]?.[0] : undefined}
-              project={projectId ? projectsById[projectId]?.[0] : undefined}
+              label={todo.labelId ? labelsById[todo.labelId]?.[0] : undefined}
+              project={todo.projectId ? projectsById[todo.projectId]?.[0] : undefined}
             />
           </motion.div>
         ))}
@@ -69,7 +115,7 @@ export function Todolist({ todos, projects, labels }: TodolistProps) {
           </Button>
         </CreateTodo>
 
-        {groups.completed?.map(({ projectId, labelId, ...todo }) => (
+        {todoGroups.completed?.map((todo) => (
           <motion.div
             layout
             key={todo._id}
@@ -80,25 +126,43 @@ export function Todolist({ todos, projects, labels }: TodolistProps) {
           >
             <TodoItem
               todo={todo}
+              handleDelete={deleteTodo}
               handleToggle={toggleCompleted}
-              label={labelId ? labelsById[labelId]?.[0] : undefined}
-              project={projectId ? projectsById[projectId]?.[0] : undefined}
+              label={todo.labelId ? labelsById[todo.labelId]?.[0] : undefined}
+              project={todo.projectId ? projectsById[todo.projectId]?.[0] : undefined}
             />
           </motion.div>
         ))}
       </AnimatePresence>
 
       <div className="flex items-center gap-1 border-b py-2 text-xs italic border-zinc-100 dark:border-zinc-800 text-foreground/60">
-        <>
-          <CircleCheckBig
-            className={cn("size-4", {
-              "text-emerald-400": groups.completed?.length,
-            })}
-          />
-          <span>+ {groups.completed?.length ?? 0}</span>
-          <span>Completed Task(s)</span>
-        </>
+        <CircleCheckBig
+          className={cn("size-4", {
+            "text-emerald-400": todoGroups.completed?.length,
+          })}
+        />
+        <span>+ {todoGroups.completed?.length ?? 0}</span>
+        <span>Completed Task(s)</span>
       </div>
+
+      <AlertDialog open={deletionAlertOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this todo?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={closeDeletionAlert}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDeletion}>
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

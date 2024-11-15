@@ -22,11 +22,12 @@ export interface TodoItemProps {
   todo: TodoItem;
   project: Project | undefined;
   label: TodoLabel | undefined;
+  handleDelete: (id: Id<"todos">) => void;
   handleToggle: (id: Id<"todos">, isCompleted: boolean) => void;
 }
 
-export function TodoItem(props: TodoItemProps) {
-  const { todo, handleToggle, project, label } = props;
+export function TodoItem({ handleToggle, handleDelete, ...props }: TodoItemProps) {
+  const { todo, project, label } = props;
   const { _id, title, isCompleted, dueDate } = todo;
 
   const priority = {
@@ -86,7 +87,7 @@ export function TodoItem(props: TodoItemProps) {
           {!isCompleted && (
             <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer duration-300 bg-slate-200/30 dark:bg-white/[.1] px-1 py-0.5 rounded-md">
               <PenLine className="size-3 text-gray-500 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-400 duration-300" />
-              <Trash2 className="size-3 stroke-red-300 hover:stroke-red-400 duration-300" />
+              <Trash2 className="size-3 stroke-red-300 hover:stroke-red-400 duration-300" onClick={() => handleDelete(_id)} />
             </div>
           )}
         </div>
