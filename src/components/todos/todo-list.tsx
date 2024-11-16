@@ -3,6 +3,7 @@
 import type { Id } from "@/convex/_generated/dataModel";
 import type { Projects, Todos, Labels } from "@/types";
 
+import { CompletedTodoItem } from "@/components/todos/completed-todo-item";
 import { CreateTodo } from "@/components/todos/create-new";
 import { AnimatePresence, motion } from "framer-motion";
 import { TodoItem } from "@/components/todos/todo-item";
@@ -37,7 +38,9 @@ export function Todolist({ todos, projects, labels }: TodolistProps) {
   );
 
   const [deletionAlertOpen, setDeletionAlertOpen] = useState(false);
-  const [deletionAlertData, setDeletionAlertData] = useState<{ id: Id<"todos"> } | null>(null);
+  const [deletionAlertData, setDeletionAlertData] = useState<{
+    id: Id<"todos">;
+  } | null>(null);
 
   const projectsById = Object.groupBy(projects ?? [], (project) => project._id);
   const labelsById = Object.groupBy(labels ?? [], (label) => label._id);
@@ -46,15 +49,12 @@ export function Todolist({ todos, projects, labels }: TodolistProps) {
   const deleteMutation = useMutation(api.todos.remove);
 
   const toggleCompleted = (id: Id<"todos">, isCompleted: boolean) => {
-    toast.promise(
-      updateMutation({ _id: id, isCompleted }),
-      {
-        success: isCompleted ? "Todo completed" : "Todo reverted",
-        error: "An error occurred",
-        loading: "Updating...",
-        duration: 1000,
-      }
-    );
+    toast.promise(updateMutation({ _id: id, isCompleted }), {
+      success: isCompleted ? "Todo completed" : "Todo reverted",
+      error: "An error occurred",
+      loading: "Updating...",
+      duration: 2000,
+    });
   };
 
   const deleteTodo = (id: Id<"todos">) => {
@@ -70,17 +70,35 @@ export function Todolist({ todos, projects, labels }: TodolistProps) {
   const confirmDeletion = () => {
     if (!deletionAlertData) return;
 
-    toast.promise(
-      deleteMutation({ todoId: deletionAlertData.id }),
-      {
-        success: "Todo deleted",
-        error: "An error occurred",
-        loading: "Deleting...",
-        duration: 1000,
-      }
-    );
+    toast.promise(deleteMutation({ todoId: deletionAlertData.id }), {
+      success: "Todo deleted",
+      error: "An error occurred",
+      loading: "Deleting...",
+      duration: 2000,
+    });
 
     closeDeletionAlert();
+  };
+
+  const updateTodo = (id: Id<"todos">, values: Partial<Todos[number]>) => {
+    toast.promise(updateMutation({ _id: id, ...values }), {
+      success: "Todo updated",
+      error: "An error occurred",
+      loading: "Updating...",
+      duration: 2000,
+    });
+  };
+
+  const updateProject = (id: Id<"todos">, projectId: Id<"projects">) => {
+    updateTodo(id, { projectId });
+  };
+
+  const updateLabel = (id: Id<"todos">, labelId: Id<"labels">) => {
+    updateTodo(id, { labelId });
+  };
+
+  const updatePriority = (id: Id<"todos">, priority: number) => {
+    updateTodo(id, { priority });
   };
 
   return (
@@ -97,10 +115,17 @@ export function Todolist({ todos, projects, labels }: TodolistProps) {
           >
             <TodoItem
               todo={todo}
+              labels={labels}
+              projects={projects}
               handleDelete={deleteTodo}
+              updateLabel={updateLabel}
+              updateProject={updateProject}
               handleToggle={toggleCompleted}
+              updatePriority={updatePriority}
               label={todo.labelId ? labelsById[todo.labelId]?.[0] : undefined}
-              project={todo.projectId ? projectsById[todo.projectId]?.[0] : undefined}
+              project={
+                todo.projectId ? projectsById[todo.projectId]?.[0] : undefined
+              }
             />
           </motion.div>
         ))}
@@ -124,12 +149,10 @@ export function Todolist({ todos, projects, labels }: TodolistProps) {
             exit={{ opacity: 0, x: 200, scale: 1.2 }}
             transition={{ duration: 0.6, type: "spring" }}
           >
-            <TodoItem
+            <CompletedTodoItem
               todo={todo}
               handleDelete={deleteTodo}
               handleToggle={toggleCompleted}
-              label={todo.labelId ? labelsById[todo.labelId]?.[0] : undefined}
-              project={todo.projectId ? projectsById[todo.projectId]?.[0] : undefined}
             />
           </motion.div>
         ))}
