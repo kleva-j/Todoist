@@ -1,12 +1,13 @@
-import type { TodoItem, Project, Label as TodoLabel } from "@/types";
+import type { TodoItem, Project, Label as TodoLabel, Label } from "@/types";
 import type { Id } from "@/convex/_generated/dataModel";
 
 import { differenceInMinutes } from "date-fns/differenceInMinutes";
 import { intlFormatDistance } from "date-fns/intlFormatDistance";
+import { Label as LabelComponent } from "@/components/ui/label";
 import { differenceInHours } from "date-fns/differenceInHours";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Text } from "@/components/ui/typography";
-import { Label } from "@/components/ui/label";
+import { parseInt } from "lodash";
 import { cn } from "@/lib/utils";
 import {
   AlarmClock,
@@ -18,24 +19,51 @@ import {
   Tag,
 } from "lucide-react";
 
+import {
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+  SelectItem,
+  Select,
+} from "@/components/ui/select";
+
+const priorityOptions = {
+  "1": { label: "Low", value: 1, cn: "text-sky-500" },
+  "2": { label: "Medium", value: 2, cn: "text-yellow-500" },
+  "3": { label: "High", value: 3, cn: "text-amber-500" },
+  "4": { label: "Urgent", value: 4, cn: "text-red-500" },
+};
+
+type PriorityKey = keyof typeof priorityOptions;
+
 export interface TodoItemProps {
   todo: TodoItem;
+  labels: Label[];
+  projects: Project[];
   project: Project | undefined;
   label: TodoLabel | undefined;
   handleDelete: (id: Id<"todos">) => void;
+  updatePriority: (id: Id<"todos">, priority: number) => void;
   handleToggle: (id: Id<"todos">, isCompleted: boolean) => void;
+  updateLabel: (id: Id<"todos">, labelId: Id<"labels">) => void;
+  updateProject: (id: Id<"todos">, projectId: Id<"projects">) => void;
 }
 
-export function TodoItem({ handleToggle, handleDelete, ...props }: TodoItemProps) {
-  const { todo, project, label } = props;
+export function TodoItem({
+  project: currentProject,
+  label: currentLabel,
+  updatePriority,
+  updateProject,
+  handleDelete,
+  handleToggle,
+  updateLabel,
+  projects,
+  labels,
+  todo,
+}: TodoItemProps) {
   const { _id, title, isCompleted, dueDate } = todo;
 
-  const priority = {
-    "1": { label: "Low", cn: "text-sky-500" },
-    "2": { label: "Medium", cn: "text-yellow-500" },
-    "3": { label: "High", cn: "text-amber-500" },
-    "4": { label: "Urgent", cn: "text-red-500" },
-  }[String(todo.priority!)];
+  const priority = priorityOptions[String(todo.priority!) as PriorityKey];
 
   const current = new Date();
   const formatedDueDate = new Date(dueDate!);
@@ -51,14 +79,22 @@ export function TodoItem({ handleToggle, handleDelete, ...props }: TodoItemProps
   return (
     <div
       id={`todo-${_id}`}
-      className="flex flex-col py-1.5 pb-2 gap-2 border-b border-zinc-200/50 dark:border-zinc-800 group"
+      className={cn(
+        "flex flex-col py-1.5 pb-2 border-b gap-2 border-zinc-200/50 dark:border-zinc-800 group",
+        {
+          "gap-0.5":
+            todo.projectId !== undefined ||
+            todo.labelId !== undefined ||
+            todo.priority !== undefined,
+        }
+      )}
     >
       <div
         className={cn("flex items-center gap-2", {
           "opacity-50 [&_p]:font-normal": isCompleted,
         })}
       >
-        <Label
+        <LabelComponent
           className={cn(
             "font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm cursor-pointer flex gap-1.5 items-center relative",
             { "line-through text-muted-foreground": isCompleted }
@@ -69,7 +105,7 @@ export function TodoItem({ handleToggle, handleDelete, ...props }: TodoItemProps
             className={cn("rounded-full size-4 text-muted")}
             onCheckedChange={() => handleToggle(_id, !isCompleted)}
           />
-        </Label>
+        </LabelComponent>
 
         <div className="flex gap-3 flex-1 items-center">
           <Text
@@ -87,13 +123,16 @@ export function TodoItem({ handleToggle, handleDelete, ...props }: TodoItemProps
           {!isCompleted && (
             <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer duration-300 bg-slate-200/30 dark:bg-white/[.1] px-1 py-0.5 rounded-md">
               <PenLine className="size-3 text-gray-500 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-400 duration-300" />
-              <Trash2 className="size-3 stroke-red-300 hover:stroke-red-400 duration-300" onClick={() => handleDelete(_id)} />
+              <Trash2
+                className="size-3 stroke-red-300 hover:stroke-red-400 duration-300"
+                onClick={() => handleDelete(_id)}
+              />
             </div>
           )}
         </div>
       </div>
       {!isCompleted && (
-        <div className="flex flex-1 justify-between ml-6">
+        <div className="flex flex-1 justify-between items-center ml-6">
           <Text
             className={cn(
               "text-foreground/50 text-xs font-normal leading-none flex gap-1",
@@ -114,21 +153,73 @@ export function TodoItem({ handleToggle, handleDelete, ...props }: TodoItemProps
           </Text>
           <div className="flex gap-3 items-center">
             {priority && (
-              <Text className="[&:not(:first-child)]:mt-0 text-[11px] leading-none flex items-center gap-1">
-                <Flag className={cn("size-2.5", priority?.cn)} />
-                {priority?.label}
-              </Text>
+              <Select
+                onValueChange={(value) => updatePriority(_id, parseInt(value))}
+                defaultValue={String(priority.value)}
+              >
+                <SelectTrigger className="h-6">
+                  <SelectValue />
+                </SelectTrigger>
+
+                <SelectContent>
+                  {[1, 2, 3, 4].map((value) => {
+                    const priority =
+                      priorityOptions[String(value) as PriorityKey];
+                    return (
+                      <SelectItem
+                        key={`priority-${value}`}
+                        value={String(value)}
+                      >
+                        <Text className="[&:not(:first-child)]:mt-0 text-[11px] leading-none flex items-center gap-1">
+                          <Flag className={cn("size-2.5", priority?.cn)} />
+                          {priority.label}
+                        </Text>
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
             )}
-            {project && (
-              <Text className="[&:not(:first-child)]:mt-0 leading-none text-xs flex items-center text-purple-500">
-                <Hash className="mr-1 size-3" />
-                {project.name}
-              </Text>
+            {currentProject && (
+              <Select
+                onValueChange={(value: Id<"projects">) =>
+                  updateProject(_id, value)
+                }
+                defaultValue={currentProject?._id}
+              >
+                <SelectTrigger className="h-6 px-1.5">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {projects.map(({ _id, name }) => (
+                    <SelectItem defaultChecked key={_id} value={_id}>
+                      <Text className="[&:not(:first-child)]:mt-0 leading-none text-xs flex items-center text-purple-500">
+                        <Hash className="mr-1 size-3" />
+                        {name}
+                      </Text>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             )}
-            {label && (
-              <Text className="[&:not(:first-child)]:mt-0 leading-none text-xs flex items-center m-0 text-neutral-500 dark:text-neutral-300">
-                <Tag className="mr-1 size-2.5 text-sky-400" /> {label.name}
-              </Text>
+            {currentLabel && (
+              <Select
+                onValueChange={(value: Id<"labels">) => updateLabel(_id, value)}
+                defaultValue={currentLabel?._id}
+              >
+                <SelectTrigger className="h-6">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {labels.map(({ _id, name }) => (
+                    <SelectItem defaultChecked key={_id} value={_id}>
+                      <Text className="[&:not(:first-child)]:mt-0 leading-none text-xs flex items-center m-0 text-neutral-500 dark:text-neutral-300">
+                        <Tag className="mr-1 size-2.5 text-sky-400" /> {name}
+                      </Text>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             )}
           </div>
         </div>
