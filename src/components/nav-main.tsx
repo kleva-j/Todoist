@@ -1,6 +1,5 @@
 "use client";
 
-import Dynamic from "next/dynamic";
 import Link from "next/link";
 
 import { CalendarDays, Calendar, Inbox } from "lucide-react";
@@ -13,10 +12,6 @@ import {
   SidebarGroup,
   SidebarMenu,
 } from "@/components/ui/sidebar";
-
-const LabelSidebarMenu = Dynamic(() =>
-  import("@/components/label-sidebar-menu").then((mod) => mod.LabelSidebarMenu)
-);
 
 export function NavMain() {
   const pathname = usePathname();
@@ -62,7 +57,6 @@ export function NavMain() {
             </Link>
           </SidebarMenuButton>
         </SidebarMenuItem>
-        <LabelSidebarMenu />
       </SidebarMenu>
     </SidebarGroup>
   );
