@@ -101,6 +101,10 @@ export function Todolist({ todos, projects, labels }: TodolistProps) {
     updateTodo(id, { priority });
   };
 
+  const updateDueDate = (id: Id<"todos">, dueDate: Date) => {
+    updateTodo(id, { dueDate: dueDate.getTime() });
+  };
+
   return (
     <div className="flex flex-col gap-1 py-4">
       <AnimatePresence mode="popLayout">
@@ -120,6 +124,7 @@ export function Todolist({ todos, projects, labels }: TodolistProps) {
               handleDelete={deleteTodo}
               updateLabel={updateLabel}
               updateProject={updateProject}
+              updateDueDate={updateDueDate}
               handleToggle={toggleCompleted}
               updatePriority={updatePriority}
               label={todo.labelId ? labelsById[todo.labelId]?.[0] : undefined}
