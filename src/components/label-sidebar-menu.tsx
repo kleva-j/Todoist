@@ -2,71 +2,76 @@
 
 import Link from "next/link";
 
+import { MoreHorizontal, Trash2, Frame } from "lucide-react";
 import { CreateLabel } from "@/components/labels/create-new";
-import { LayoutGrid, ChevronRight } from "lucide-react";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
-import { useState } from "react";
 
 import {
-  CollapsibleContent,
-  CollapsibleTrigger,
-  Collapsible,
-} from "@/components/ui/collapsible";
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+  DropdownMenuItem,
+  DropdownMenu,
+} from "@/components/ui/dropdown-menu";
 
 import {
-  SidebarMenuSubButton,
   SidebarMenuSkeleton,
-  SidebarMenuSubItem,
   SidebarMenuAction,
+  SidebarGroupLabel,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
+  SidebarGroup,
+  SidebarMenu,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
-export const LabelSidebarMenu = () => {
+export const NavLabelMenu = () => {
   const labels = useQuery(api.labels.getAllByUser);
 
-  const [open, setOpen] = useState(true);
+  const { isMobile } = useSidebar();
 
   return (
-    <Collapsible asChild defaultOpen open={open} onOpenChange={setOpen}>
-      <SidebarMenuItem>
-        <CollapsibleTrigger asChild>
-          <SidebarMenuButton tooltip="Filters & Labels">
-            <LayoutGrid />
-            <span>Filters & Labels</span>
-            <CreateLabel handleEffect={() => setOpen(true)} />
-            <SidebarMenuAction asChild className="data-[state=open]:rotate-90">
-              <div>
-                <ChevronRight />
-                <span className="sr-only">Toggle</span>
-              </div>
-            </SidebarMenuAction>
-          </SidebarMenuButton>
-        </CollapsibleTrigger>
-        {labels === undefined ? (
-          Array.from({ length: 3 }).map((_, index) => (
-            <SidebarMenuSub key={index}>
-              <SidebarMenuSkeleton />
-            </SidebarMenuSub>
-          ))
-        ) : Array.isArray(labels) ? (
-          <CollapsibleContent>
-            <SidebarMenuSub>
-              {labels?.map((item) => (
-                <SidebarMenuSubItem key={item.name}>
-                  <SidebarMenuSubButton asChild>
-                    <Link href={"#"} className="capitalize">
-                      #<span>{item.name}</span>
-                    </Link>
-                  </SidebarMenuSubButton>
-                </SidebarMenuSubItem>
-              ))}
-            </SidebarMenuSub>
-          </CollapsibleContent>
-        ) : null}
-      </SidebarMenuItem>
-    </Collapsible>
+    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+      <SidebarGroupLabel className="justify-between">
+        Filters & Labels
+        {labels !== undefined ? <CreateLabel /> : null}
+      </SidebarGroupLabel>
+      <SidebarMenu>
+        {labels === undefined
+          ? Array.from({ length: 3 }).map((_, index) => (
+              <SidebarMenuSub key={index}>
+                <SidebarMenuSkeleton />
+              </SidebarMenuSub>
+            ))
+          : labels.map(({ name }) => (
+              <SidebarMenuItem key={name}>
+                <SidebarMenuButton asChild>
+                  <Link href={"#"}>
+                    <Frame />
+                    <span>{name}</span>
+                  </Link>
+                </SidebarMenuButton>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <SidebarMenuAction showOnHover>
+                      <MoreHorizontal />
+                      <span className="sr-only">More</span>
+                    </SidebarMenuAction>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    side={isMobile ? "bottom" : "right"}
+                    align={isMobile ? "end" : "start"}
+                  >
+                    <DropdownMenuItem className="gap-2">
+                      <Trash2 className="text-muted-foreground size-4" />
+                      <span className="text-sm">Delete Label</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </SidebarMenuItem>
+            ))}
+      </SidebarMenu>
+    </SidebarGroup>
   );
 };
