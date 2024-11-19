@@ -1,13 +1,17 @@
-import type { TodoItem, Project, Label as TodoLabel, Label } from "@/types";
+import type { TodoItem, Project, Label } from "@/types";
 import type { Id } from "@/convex/_generated/dataModel";
 
+import { DateTimePickerPopover } from "@/components/date-picker/popover";
 import { differenceInMinutes } from "date-fns/differenceInMinutes";
 import { intlFormatDistance } from "date-fns/intlFormatDistance";
 import { Label as LabelComponent } from "@/components/ui/label";
 import { differenceInHours } from "date-fns/differenceInHours";
+import { isSameMinute } from "date-fns/isSameMinute";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Text } from "@/components/ui/typography";
+import { Button } from "@/components/ui/button";
 import { parseInt } from "lodash";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import {
   AlarmClock,
@@ -35,14 +39,16 @@ const priorityOptions = {
 };
 
 type PriorityKey = keyof typeof priorityOptions;
+type DateTime = Date | undefined;
 
 export interface TodoItemProps {
   todo: TodoItem;
   labels: Label[];
   projects: Project[];
   project: Project | undefined;
-  label: TodoLabel | undefined;
+  label: Label | undefined;
   handleDelete: (id: Id<"todos">) => void;
+  updateDueDate: (id: Id<"todos">, dueDate: Date) => void;
   updatePriority: (id: Id<"todos">, priority: number) => void;
   handleToggle: (id: Id<"todos">, isCompleted: boolean) => void;
   updateLabel: (id: Id<"todos">, labelId: Id<"labels">) => void;
@@ -53,6 +59,7 @@ export function TodoItem({
   project: currentProject,
   label: currentLabel,
   updatePriority,
+  updateDueDate,
   updateProject,
   handleDelete,
   handleToggle,
@@ -75,6 +82,23 @@ export function TodoItem({
   const within1Hr = diffInMins <= 59 && diffInMins >= 1;
 
   const pastDueDate = diffInHrs <= 0 && diffInMins <= 0;
+
+  const [endDateTime, setEndDateTime] = useState<DateTime>(formatedDueDate);
+
+  const handleOpen = (value?: boolean) => {
+    if (!value) {
+      const isValueChanged = endDateTime !== formatedDueDate;
+      const withinSameMinutes = isSameMinute(
+        endDateTime as Date,
+        formatedDueDate
+      );
+
+      if (isValueChanged && !withinSameMinutes) {
+        // @ts-expect-error: Temporary workaround for type mismatch in external library
+        updateDueDate(_id, endDateTime);
+      }
+    }
+  };
 
   return (
     <div
@@ -133,24 +157,38 @@ export function TodoItem({
       </div>
       {!isCompleted && (
         <div className="flex flex-1 justify-between items-center ml-6">
-          <Text
-            className={cn(
-              "text-foreground/50 text-xs font-normal leading-none flex gap-1",
-              {
-                "text-yellow-400": within2Hr,
-                "text-orange-400": within1Hr,
-                "text-destructive dark:text-red-500": pastDueDate,
-              }
-            )}
+          <DateTimePickerPopover
+            dateTime={endDateTime}
+            setDateTime={setEndDateTime}
+            setInputValue={() => {}}
+            onOpen={handleOpen}
           >
-            {pastDueDate && (
-              <RefreshCw className="size-3 text-red-400 cursor-pointer hover:text-red-500 stroke-[2.5px]" />
-            )}
-            {intlFormatDistance(formatedDueDate, current)}
-            {(within2Hr || within1Hr) && (
-              <AlarmClock className="size-3 cursor-pointer stroke-[2.5px]" />
-            )}
-          </Text>
+            <Button
+              className="p-0 leading-none h-min group hover:bg-transparent"
+              variant="ghost"
+            >
+              <Text
+                className={cn(
+                  "text-foreground/50 text-xs font-normal leading-none flex gap-1",
+                  {
+                    "text-yellow-400 group-hover:text-yellow-500": within2Hr,
+                    "text-orange-400 group-hover:text-orange-500": within1Hr,
+                    "text-destructive dark:text-red-500 group-hover:text-red-500 dark:group-hover:text-red-400":
+                      pastDueDate,
+                  }
+                )}
+              >
+                {pastDueDate && (
+                  <RefreshCw className="size-3 text-red-400 cursor-pointer group-hover:text-red-500 stroke-[2.5px]" />
+                )}
+                {intlFormatDistance(formatedDueDate, current)}
+                {(within2Hr || within1Hr) && (
+                  <AlarmClock className="size-3 cursor-pointer stroke-[2.5px]" />
+                )}
+              </Text>
+            </Button>
+          </DateTimePickerPopover>
+
           <div className="flex gap-3 items-center">
             {priority && (
               <Select
