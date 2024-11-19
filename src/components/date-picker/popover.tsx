@@ -1,59 +1,60 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-import { useMediaQuery } from "@/hooks/use-media-query"
-import { Calendar } from "@/components/ui/calendar"
+import { generateDateString } from "@/components/date-picker/utils";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { TimePicker } from "@/components/time-picker";
+import { Calendar } from "@/components/ui/calendar";
+
 import {
-  Drawer,
-  DrawerContent,
   DrawerDescription,
+  DrawerContent,
+  DrawerTrigger,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer"
+  Drawer,
+} from "@/components/ui/drawer";
+
 import {
-  Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-
-import { generateDateString } from "@/components/date-picker/utils"
-import { TimePicker } from "@/components/time-picker"
+  Popover,
+} from "@/components/ui/popover";
 
 interface DateTimePickerPopoverProps {
-  children: React.ReactNode
-  onOpen: () => void
-  dateTime: Date | undefined
-  setDateTime: React.Dispatch<React.SetStateAction<Date | undefined>>
-  setInputValue: React.Dispatch<React.SetStateAction<string>>
+  children: React.ReactNode;
+  dateTime: Date | undefined;
+  onOpen: (value?: boolean) => void;
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
+  setDateTime: React.Dispatch<React.SetStateAction<Date | undefined>>;
 }
 
 export function DateTimePickerPopover({
-  children,
   onOpen,
+  children,
   dateTime,
   setDateTime,
   setInputValue,
 }: DateTimePickerPopoverProps) {
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false)
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const isDesktop = useMediaQuery("(min-width: 640px)")
+  const isDesktop = useMediaQuery("(min-width: 640px)");
 
   useEffect(() => {
     if (dateTime) {
-      setInputValue(generateDateString(dateTime))
+      setInputValue(generateDateString(dateTime));
     }
-  }, [dateTime, setInputValue])
+  }, [dateTime, setInputValue]);
 
   if (!isDesktop) {
     return (
       <Drawer
         open={isDrawerOpen}
         onOpenChange={(value) => {
-          onOpen()
-          setIsDrawerOpen(value)
+          onOpen(value);
+          setIsDrawerOpen(value);
         }}
         shouldScaleBackground
       >
@@ -77,15 +78,15 @@ export function DateTimePickerPopover({
           </div>
         </DrawerContent>
       </Drawer>
-    )
+    );
   }
 
   return (
     <Popover
       open={isPopoverOpen}
       onOpenChange={(value) => {
-        onOpen()
-        setIsPopoverOpen(value)
+        onOpen(value);
+        setIsPopoverOpen(value);
       }}
     >
       <PopoverTrigger asChild>{children}</PopoverTrigger>
@@ -101,5 +102,5 @@ export function DateTimePickerPopover({
         </div>
       </PopoverContent>
     </Popover>
-  )
+  );
 }
