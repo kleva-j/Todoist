@@ -38,6 +38,18 @@ export const getOneByUser = queryWithUser({
   },
 });
 
+export const getSubTaskByTodo = queryWithUser({
+  args: { todoId: Todos._id },
+  handler: async (ctx, { todoId }) => {
+    const subTasks = await ctx.db
+      .query("subtasks")
+      .withIndex("by_todo", (q) => q.eq("todoId", todoId))
+      .collect();
+
+    return subTasks;
+  },
+});
+
 export const getRecentTodos = queryWithUser({
   args: {
     duration: v.union(v.literal("24 hours"), v.literal("7 days")),

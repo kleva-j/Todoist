@@ -1,5 +1,6 @@
 import type { Doc } from "@/convex/_generated/dataModel";
 
+export type SubTask = Doc<"subtasks">;
 export type Project = Doc<"projects">;
 export type TodoItem = Doc<"todos">;
 export type Label = Doc<"labels">;

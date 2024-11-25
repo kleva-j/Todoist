@@ -4,6 +4,7 @@ import type { Id } from "@/convex/_generated/dataModel";
 import type { Projects, Todos, Labels } from "@/types";
 
 import { CompletedTodoItem } from "@/components/todos/completed-todo-item";
+import { TodoContent } from "@/components/todos/todo-content";
 import { CreateTodo } from "@/components/todos/create-new";
 import { AnimatePresence, motion } from "framer-motion";
 import { TodoItem } from "@/components/todos/todo-item";
@@ -108,32 +109,48 @@ export function Todolist({ todos, projects, labels }: TodolistProps) {
   return (
     <div className="flex flex-col gap-1 py-4">
       <AnimatePresence mode="popLayout">
-        {todoGroups.inCompleted?.map((todo) => (
-          <motion.div
-            layout
-            key={todo._id}
-            initial={{ opacity: 0, x: -300, scale: 0.5 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: 200, scale: 1.2 }}
-            transition={{ duration: 0.6, type: "spring" }}
-          >
-            <TodoItem
-              todo={todo}
-              labels={labels}
-              projects={projects}
-              handleDelete={deleteTodo}
-              updateLabel={updateLabel}
-              updateProject={updateProject}
-              updateDueDate={updateDueDate}
-              handleToggle={toggleCompleted}
-              updatePriority={updatePriority}
-              label={todo.labelId ? labelsById[todo.labelId]?.[0] : undefined}
-              project={
-                todo.projectId ? projectsById[todo.projectId]?.[0] : undefined
-              }
-            />
-          </motion.div>
-        ))}
+        {todoGroups.inCompleted?.map((todo) => {
+          const project = todo.projectId
+            ? projectsById[todo.projectId]?.[0]
+            : undefined;
+          const label = todo.labelId
+            ? labelsById[todo.labelId]?.[0]
+            : undefined;
+          return (
+            <motion.div
+              key={todo._id}
+              layout
+              initial={{ opacity: 0, x: -300, scale: 0.5 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 200, scale: 1.2 }}
+              transition={{ duration: 0.6, type: "spring" }}
+            >
+              <TodoItem
+                todo={todo}
+                label={label}
+                labels={labels}
+                project={project}
+                projects={projects}
+                handleDelete={deleteTodo}
+                updateLabel={updateLabel}
+                updateProject={updateProject}
+                updateDueDate={updateDueDate}
+                handleToggle={toggleCompleted}
+                updatePriority={updatePriority}
+              >
+                <TodoContent
+                  labels={labels}
+                  projects={projects}
+                  updateLabel={updateLabel}
+                  updateProject={updateProject}
+                  updateDueDate={updateDueDate}
+                  updatePriority={updatePriority}
+                  todo={{ ...todo, label, project }}
+                />
+              </TodoItem>
+            </motion.div>
+          );
+        })}
 
         <CreateTodo>
           <Button

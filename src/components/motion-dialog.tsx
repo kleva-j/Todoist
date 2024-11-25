@@ -1,6 +1,12 @@
 "use client";
 
-import { AnimatePresence, motion, MotionConfig } from "framer-motion";
+import {
+  type Variant,
+  AnimatePresence,
+  motion,
+  MotionConfig,
+} from "framer-motion";
+
 import { useOnClickOutside } from "@/hooks/use-click-outside";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
@@ -16,6 +22,7 @@ import {
   useRef,
   useId,
 } from "react";
+import { XIcon } from "lucide-react";
 
 interface MotionDialogProps extends PropsWithChildren {
   className?: string;
@@ -27,6 +34,20 @@ interface MotionDialogSharedProps extends PropsWithChildren {
   className?: string;
   style?: React.CSSProperties;
 }
+
+interface MotionDialogDescriptionProps extends MotionDialogSharedProps {
+  disableLayoutAnimation?: boolean;
+  variants?: {
+    initial: Variant;
+    animate: Variant;
+    exit: Variant;
+  };
+}
+
+type MotionDialogCloseProps = Omit<
+  MotionDialogDescriptionProps,
+  "disableLayoutAnimation"
+>;
 
 interface DialogContextType {
   open: boolean;
@@ -46,7 +67,7 @@ function useDialogContext() {
 }
 
 function MotionDialog(props: MotionDialogProps) {
-  const { className, children, onOpenChange, defaultOpen = false } = props;
+  const { children, onOpenChange, defaultOpen = false } = props;
 
   const [open, setIsOpen] = useState(defaultOpen);
 
@@ -71,7 +92,7 @@ function MotionDialog(props: MotionDialogProps) {
   return (
     <DialogContext.Provider value={contextValue}>
       <MotionConfig transition={{ type: "spring", duration: 0.4 }}>
-        <div className={className}>{children}</div>
+        {children}
       </MotionConfig>
     </DialogContext.Provider>
   );
@@ -187,7 +208,7 @@ function DialogContent({
     <motion.div
       ref={containerRef}
       layoutId={`dialog-${uniqueId}`}
-      className={cn("overflow-hidden", className)}
+      className={cn("overflow-hidden p-4 rounded", className)}
       style={style}
       role="dialog"
       aria-modal="true"
@@ -248,9 +269,62 @@ function DialogTitle({ children, className, style }: MotionDialogSharedProps) {
   );
 }
 
+function DialogDescription(props: MotionDialogDescriptionProps) {
+  const { children, className, variants, disableLayoutAnimation } = props;
+  const { uniqueId } = useDialogContext();
+
+  const key = `dialog-description-${uniqueId}`;
+
+  return (
+    <motion.div
+      id={key}
+      key={key}
+      layoutId={
+        disableLayoutAnimation
+          ? undefined
+          : `dialog-description-content-${uniqueId}`
+      }
+      className={cn("text-xs text-muted-foreground", className)}
+      variants={variants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function DialogClose(props: MotionDialogCloseProps) {
+  const { children, className, variants } = props;
+  const { onOpenChange, uniqueId } = useDialogContext();
+
+  const handleClose = useCallback(() => {
+    onOpenChange(false);
+  }, [onOpenChange]);
+
+  return (
+    <motion.button
+      onClick={handleClose}
+      type="button"
+      aria-label="Close dialog"
+      key={`dialog-close-${uniqueId}`}
+      className={cn("absolute right-6 top-6", className)}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={variants}
+    >
+      {children || <XIcon size={24} />}
+    </motion.button>
+  );
+}
+
+MotionDialog.Description = DialogDescription;
 MotionDialog.Container = DialogContainer;
 MotionDialog.Trigger = DialogTrigger;
 MotionDialog.Content = DialogContent;
 MotionDialog.Title = DialogTitle;
+MotionDialog.Close = DialogClose;
 
 export { MotionDialog };
