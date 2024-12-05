@@ -8,7 +8,6 @@ import { differenceInMinutes } from "date-fns/differenceInMinutes";
 import { intlFormatDistance } from "date-fns/intlFormatDistance";
 import { Label as LabelComponent } from "@/components/ui/label";
 import { differenceInHours } from "date-fns/differenceInHours";
-import { MotionDialog } from "@/components/motion-dialog";
 import { isSameMinute } from "date-fns/isSameMinute";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Text } from "@/components/ui/typography";
@@ -47,6 +46,7 @@ export interface TodoItemProps extends PropsWithChildren {
   todo: TodoItem;
   labels: Label[];
   projects: Project[];
+  onClick: () => void;
   label: Label | undefined;
   project: Project | undefined;
   handleDelete: (id: Id<"todos">) => void;
@@ -66,7 +66,7 @@ export function TodoItem({
   handleDelete,
   handleToggle,
   updateLabel,
-  children,
+  onClick,
   projects,
   labels,
   todo,
@@ -135,23 +135,19 @@ export function TodoItem({
         </LabelComponent>
 
         <div className="flex gap-3 flex-1 items-center">
-          <MotionDialog>
-            <MotionDialog.Trigger>
-              <Text
-                className={cn(
-                  "[&:not(:first-child)]:mt-0 font-medium leading-4 peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm cursor-pointer",
-                  {
-                    "line-through text-muted-foreground": isCompleted,
-                    "animate-pulse bg-gradient-to-r from-white via-red-50/50 to-white dark:bg-gradient-to-r dark:from-neutral-950/40 dark:via-neutral-950/60 dark:to-neutral-950/40":
-                      !isCompleted && isPastDueDate,
-                  }
-                )}
-              >
-                {title}
-              </Text>
-            </MotionDialog.Trigger>
-            {children}
-          </MotionDialog>
+          <Text
+            className={cn(
+              "[&:not(:first-child)]:mt-0 font-medium leading-4 peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm cursor-pointer",
+              {
+                "line-through text-muted-foreground": isCompleted,
+                "animate-pulse bg-gradient-to-r from-white via-red-50/50 to-white dark:bg-gradient-to-r dark:from-neutral-950/40 dark:via-neutral-950/60 dark:to-neutral-950/40":
+                  !isCompleted && isPastDueDate,
+              }
+            )}
+            onClick={onClick}
+          >
+            {title}
+          </Text>
           {!isCompleted && (
             <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer duration-300 bg-slate-200/30 dark:bg-white/[.1] px-1 py-0.5 rounded-md">
               <PenLine className="size-3 text-gray-500 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-400 duration-300" />

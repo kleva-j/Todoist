@@ -3,12 +3,13 @@
 import {
   type Variant,
   AnimatePresence,
-  motion,
   MotionConfig,
+  motion,
 } from "framer-motion";
 
 import { useOnClickOutside } from "@/hooks/use-click-outside";
 import { createPortal } from "react-dom";
+import { XIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import {
@@ -22,7 +23,6 @@ import {
   useRef,
   useId,
 } from "react";
-import { XIcon } from "lucide-react";
 
 interface MotionDialogProps extends PropsWithChildren {
   className?: string;

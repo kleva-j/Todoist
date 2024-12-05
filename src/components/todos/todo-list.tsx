@@ -4,7 +4,6 @@ import type { Id } from "@/convex/_generated/dataModel";
 import type { Projects, Todos, Labels } from "@/types";
 
 import { CompletedTodoItem } from "@/components/todos/completed-todo-item";
-import { TodoContent } from "@/components/todos/todo-content";
 import { CreateTodo } from "@/components/todos/create-new";
 import { AnimatePresence, motion } from "framer-motion";
 import { TodoItem } from "@/components/todos/todo-item";
@@ -31,9 +30,15 @@ export interface TodolistProps {
   todos: Todos;
   labels: Labels;
   projects: Projects;
+  labelsById: Partial<Record<Id<"labels">, Labels>>;
+  projectsById: Partial<Record<Id<"projects">, Projects>>;
+  onTodoItemClick: (todoId: Id<"todos">) => void;
 }
 
-export function Todolist({ todos, projects, labels }: TodolistProps) {
+export function Todolist(props: TodolistProps) {
+  const { todos, labels, projects, onTodoItemClick, labelsById, projectsById } =
+    props;
+
   const todoGroups = Object.groupBy(todos ?? [], (todo) =>
     todo.isCompleted ? "completed" : "inCompleted"
   );
@@ -42,9 +47,6 @@ export function Todolist({ todos, projects, labels }: TodolistProps) {
   const [deletionAlertData, setDeletionAlertData] = useState<{
     id: Id<"todos">;
   } | null>(null);
-
-  const projectsById = Object.groupBy(projects ?? [], (project) => project._id);
-  const labelsById = Object.groupBy(labels ?? [], (label) => label._id);
 
   const updateMutation = useMutation(api.todos.update);
   const deleteMutation = useMutation(api.todos.remove);
@@ -137,17 +139,8 @@ export function Todolist({ todos, projects, labels }: TodolistProps) {
                 updateDueDate={updateDueDate}
                 handleToggle={toggleCompleted}
                 updatePriority={updatePriority}
-              >
-                <TodoContent
-                  labels={labels}
-                  projects={projects}
-                  updateLabel={updateLabel}
-                  updateProject={updateProject}
-                  updateDueDate={updateDueDate}
-                  updatePriority={updatePriority}
-                  todo={{ ...todo, label, project }}
-                />
-              </TodoItem>
+                onClick={() => onTodoItemClick(todo._id)}
+              />
             </motion.div>
           );
         })}

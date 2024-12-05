@@ -1,14 +1,63 @@
 "use client";
 
+import type { Id } from "@/convex/_generated/dataModel";
+import type { Project, Label } from "@/types";
+
+import { TodoItemDialog } from "@/components/todos/todo-item-dialog";
+import { DialogContent, Dialog } from "@/components/ui/dialog";
 import { LoadingSkeleton } from "@/components/todos/loader";
 import { Todolist } from "@/components/todos/todo-list";
 import { api } from "@/convex/_generated/api";
+import { useMemo, useState } from "react";
 import { useQuery } from "convex/react";
+import { waitFor } from "@/lib/utils";
+import { useQueryState } from "nuqs";
 
 export const InboxTodos = () => {
+  const projects = useQuery(api.projects.getAllByUser);
   const todos = useQuery(api.todos.getAllByUser, {});
   const labels = useQuery(api.labels.getAllByUser);
-  const projects = useQuery(api.projects.getAllByUser);
+
+  const projectsById = Object.groupBy(projects ?? [], (project) => project._id);
+  const labelsById = Object.groupBy(labels ?? [], (label) => label._id);
+  const todosById = Object.groupBy(todos ?? [], (todo) => todo._id);
+
+  const [queryState, setQueryState] = useQueryState("tid");
+  const [open, setOpen] = useState(false);
+
+  const onOpenChange = (open: boolean) => {
+    setOpen(open);
+
+    waitFor(() => !open).then(() => setQueryState(null));
+  };
+
+  const handleTodoItemClick = (todoId: Id<"todos">) => {
+    setQueryState(todoId);
+    setOpen(true);
+  };
+
+  const todo = useMemo(() => {
+    const matchingTodo = todosById[queryState as Id<"todos">]?.[0];
+
+    if (!matchingTodo) return null;
+
+    return {
+      ...matchingTodo,
+      project:
+        matchingTodo.projectId &&
+        projectsById[matchingTodo.projectId as Id<"projects">]
+          ? (
+              projectsById[
+                matchingTodo.projectId as Id<"projects">
+              ] as Project[]
+            )[0]
+          : undefined,
+      label:
+        matchingTodo.labelId && labelsById[matchingTodo.labelId as Id<"labels">]
+          ? (labelsById[matchingTodo.labelId as Id<"labels">] as Label[])[0]
+          : undefined,
+    };
+  }, [queryState, todosById, projectsById, labelsById]);
 
   if (todos === undefined || labels === undefined || projects === undefined) {
     return (
@@ -20,5 +69,22 @@ export const InboxTodos = () => {
     );
   }
 
-  return <Todolist todos={todos} labels={labels} projects={projects} />;
+  return (
+    <>
+      <Todolist
+        todos={todos}
+        labels={labels}
+        projects={projects}
+        labelsById={labelsById}
+        projectsById={projectsById}
+        onTodoItemClick={handleTodoItemClick}
+      />
+
+      <Dialog open={open && !!todo} onOpenChange={onOpenChange}>
+        <DialogContent className="p-4">
+          <TodoItemDialog todo={todo} labels={labels} projects={projects} />
+        </DialogContent>
+      </Dialog>
+    </>
+  );
 };
