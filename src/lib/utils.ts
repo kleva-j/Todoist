@@ -57,3 +57,24 @@ export const formatDateTime = (datetime: Date | string) => {
     hour12: true,
   });
 };
+
+/**
+ * Waits for a given condition to be true and resolves when it is.
+ *
+ * @param conditionFn - A function that returns a boolean indicating whether the condition is true.
+ * @param ms - The amount of time to wait between checks.
+ * @returns A promise that resolves when the condition is true.
+ */
+export const waitFor = (
+  conditionFn: () => boolean,
+  ms: number = 100
+): Promise<void> => {
+  return new Promise((resolve) => {
+    const interval = setInterval(() => {
+      if (conditionFn()) {
+        clearInterval(interval);
+        resolve();
+      }
+    }, ms);
+  });
+};

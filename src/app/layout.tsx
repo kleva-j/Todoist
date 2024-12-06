@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { ConvexClientProvider } from "@/components/convex-client-provider";
 import { setDefaultOptions } from "date-fns/setDefaultOptions";
 import { ThemeProvider } from "@/components/theme-provider";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { geistMono, geistSans } from "@/lib/fonts";
 import { ClerkProvider } from "@clerk/nextjs";
 import { enGB } from "date-fns/locale";
@@ -34,7 +35,9 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
             defaultTheme="system"
             disableTransitionOnChange
           >
-            <ConvexClientProvider>{children}</ConvexClientProvider>
+            <ConvexClientProvider>
+              <NuqsAdapter>{children}</NuqsAdapter>
+            </ConvexClientProvider>
             <Toaster />
           </ThemeProvider>
         </body>

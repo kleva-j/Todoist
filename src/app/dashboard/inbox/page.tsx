@@ -1,7 +1,9 @@
 import Dynamic from "next/dynamic";
 
+import { FilterGroups } from "@/types";
+
 const Todolist = Dynamic(() =>
-  import("@/app/dashboard/inbox/todos").then((mod) => mod.InboxTodos)
+  import("@/app/dashboard/todos").then((mod) => mod.Todos)
 );
 
 export default function InboxPage() {
@@ -11,7 +13,7 @@ export default function InboxPage() {
         <div className="flex items-center justify-between">
           <h1 className="text-lg font-semibold md:text-2xl">Inbox</h1>
         </div>
-        <Todolist />
+        <Todolist filterGroup={FilterGroups.inbox} />
       </div>
     </main>
   );

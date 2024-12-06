@@ -52,7 +52,7 @@ export const getSubTaskByTodo = queryWithUser({
 
 export const getRecentTodos = queryWithUser({
   args: {
-    duration: v.union(v.literal("24 hours"), v.literal("7 days")),
+    duration: v.optional(v.union(v.literal("24 hours"), v.literal("7 days"))),
     includeSubTasks: v.optional(v.boolean()),
   },
   handler: async ({ db, identity }, { duration = "24 hours" }) => {
@@ -79,7 +79,10 @@ export const getRecentTodos = queryWithUser({
 });
 
 export const getTodayTodos = queryWithUser({
-  handler: async ({ db, identity }) => {
+  args: {
+    includeSubTasks: v.optional(v.boolean()),
+  },
+  handler: async ({ db, identity }, { includeSubTasks }) => {
     const userId = identity.tokenIdentifier;
 
     const todos = await db
@@ -88,9 +91,27 @@ export const getTodayTodos = queryWithUser({
       .order("desc")
       .collect();
 
-    return todos.filter(({ dueDate }) =>
+    const todayTodos = todos.filter(({ dueDate }) =>
       isSameDay(new Date(), new Date(dueDate!))
     );
+
+    if (!includeSubTasks) return todayTodos;
+
+    const payload = [];
+
+    for (const todo of todayTodos) {
+      const subTask = await db
+        .query("subtasks")
+        .withIndex("by_todo", (q) => q.eq("todoId", todo._id))
+        .order("desc")
+        .collect();
+
+      const group = { ...todo, subTask };
+
+      payload.push(group);
+    }
+
+    return payload;
   },
 });
 
