@@ -1,22 +1,29 @@
 "use client";
 
+import type { Project, Label, FilterGroups } from "@/types";
 import type { Id } from "@/convex/_generated/dataModel";
-import type { Project, Label } from "@/types";
 
 import { TodoItemDialog } from "@/components/todos/todo-item-dialog";
 import { DialogContent, Dialog } from "@/components/ui/dialog";
 import { LoadingSkeleton } from "@/components/todos/loader";
 import { Todolist } from "@/components/todos/todo-list";
-import { api } from "@/convex/_generated/api";
+import { queryFunctionGroups } from "@/lib/constants";
 import { useMemo, useState } from "react";
 import { useQuery } from "convex/react";
 import { waitFor } from "@/lib/utils";
 import { useQueryState } from "nuqs";
 
-export const InboxTodos = () => {
-  const projects = useQuery(api.projects.getAllByUser);
-  const todos = useQuery(api.todos.getAllByUser, {});
-  const labels = useQuery(api.labels.getAllByUser);
+export interface TodosProps {
+  filterGroup: FilterGroups;
+}
+
+export const Todos = ({ filterGroup }: TodosProps) => {
+  const { projectsQuery, labelsQuery, todosQuery } =
+    queryFunctionGroups[filterGroup];
+
+  const projects = useQuery(projectsQuery, {});
+  const labels = useQuery(labelsQuery, {});
+  const todos = useQuery(todosQuery, {});
 
   const projectsById = Object.groupBy(projects ?? [], (project) => project._id);
   const labelsById = Object.groupBy(labels ?? [], (label) => label._id);
@@ -25,7 +32,7 @@ export const InboxTodos = () => {
   const [queryState, setQueryState] = useQueryState("tid");
   const [open, setOpen] = useState(false);
 
-  const onOpenChange = (open: boolean) => {
+  const handleOpenChange = (open: boolean) => {
     setOpen(open);
 
     waitFor(() => !open).then(() => setQueryState(null));
@@ -36,7 +43,7 @@ export const InboxTodos = () => {
     setOpen(true);
   };
 
-  const todo = useMemo(() => {
+  const selectedTodo = useMemo(() => {
     const matchingTodo = todosById[queryState as Id<"todos">]?.[0];
 
     if (!matchingTodo) return null;
@@ -80,9 +87,13 @@ export const InboxTodos = () => {
         onTodoItemClick={handleTodoItemClick}
       />
 
-      <Dialog open={open && !!todo} onOpenChange={onOpenChange}>
+      <Dialog open={open && !!selectedTodo} onOpenChange={handleOpenChange}>
         <DialogContent className="p-4">
-          <TodoItemDialog todo={todo} labels={labels} projects={projects} />
+          <TodoItemDialog
+            projects={projects}
+            todo={selectedTodo}
+            labels={labels}
+          />
         </DialogContent>
       </Dialog>
     </>

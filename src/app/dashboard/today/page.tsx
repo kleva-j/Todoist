@@ -1,7 +1,9 @@
 import Dynamic from "next/dynamic";
 
+import { FilterGroups } from "@/types";
+
 const Todolist = Dynamic(() =>
-  import("@/app/dashboard/today/todos").then((mod) => mod.TodayTodos)
+  import("@/app/dashboard/todos").then((mod) => mod.Todos)
 );
 
 export default function TodayPage() {
@@ -11,7 +13,7 @@ export default function TodayPage() {
         <div className="flex items-center justify-between">
           <h1 className="text-lg font-semibold md:text-2xl">Today</h1>
         </div>
-        <Todolist />
+        <Todolist filterGroup={FilterGroups.today} />
       </div>
     </main>
   );
