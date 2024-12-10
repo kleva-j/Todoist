@@ -14,6 +14,7 @@ export type Labels = Label[];
 export enum FilterGroups {
   today = "today",
   inbox = "inbox",
+  upcoming = "upcoming",
 }
 
 export type QueryGroup = {

@@ -13,4 +13,9 @@ export const queryFunctionGroups: FilterQueryFunctions = {
     labelsQuery: api.labels.getAllByUser,
     todosQuery: api.todos.getRecentTodos,
   },
+  upcoming: {
+    projectsQuery: api.projects.getAllByUser,
+    labelsQuery: api.labels.getAllByUser,
+    todosQuery: api.todos.getAllByUser,
+  }
 };
