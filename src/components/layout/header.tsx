@@ -8,7 +8,7 @@ import { siteConfig } from "@/config/site";
 const dashboardLink = siteConfig.navigations.links["dashboard"];
 const signInLink = siteConfig.navigations.links["sign-in"];
 
-export async function Header() {
+export function Header() {
   return (
     <header className="bg-white/20 shadow-sm dark:bg-black/10">
       <div className="mx-auto flex max-w-screen-xl items-center justify-between p-4">
