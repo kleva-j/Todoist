@@ -21,7 +21,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@/convex/*": ["./convex/*"]
+      "@/convex/*": ["./convex/*"],
+      "@/dashboard/*": ["./src/app/dashboard/*"]
     },
     "types": ["node"]
   },
