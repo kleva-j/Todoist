@@ -78,3 +78,19 @@ export const waitFor = (
     }, ms);
   });
 };
+
+/**
+ * Converts a string to sentence case.
+ *
+ * @param str - The string to convert
+ * @returns The string in sentence case
+ */
+export function toSentenceCase(str: string): string {
+  return str
+    .replace(/_/g, " ")
+    .replace(/([A-Z])/g, " $1")
+    .toLowerCase()
+    .replace(/^\w/, (c) => c.toUpperCase())
+    .replace(/\s+/g, " ")
+    .trim();
+}

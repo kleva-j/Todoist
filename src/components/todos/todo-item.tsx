@@ -3,6 +3,7 @@ import type { Id } from "@/convex/_generated/dataModel";
 
 import { type PropsWithChildren, useState } from "react";
 
+import { useDashboardContext } from "@/app/dashboard/_components/context";
 import { DateTimePickerPopover } from "@/components/date-picker/popover";
 import { differenceInMinutes } from "date-fns/differenceInMinutes";
 import { intlFormatDistance } from "date-fns/intlFormatDistance";
@@ -103,6 +104,8 @@ export function TodoItem({
     }
   };
 
+  const { viewOptionMap } = useDashboardContext();
+
   return (
     <div
       id={`todo-${_id}`}
@@ -194,7 +197,7 @@ export function TodoItem({
           </DateTimePickerPopover>
 
           <div className="flex gap-3 items-center">
-            {priority && (
+            {priority && viewOptionMap["priority"] && (
               <Select
                 onValueChange={(value) => updatePriority(_id, parseInt(value))}
                 defaultValue={String(priority.value)}
@@ -222,7 +225,7 @@ export function TodoItem({
                 </SelectContent>
               </Select>
             )}
-            {currentProject && (
+            {currentProject && viewOptionMap["project"] && (
               <Select
                 onValueChange={(value: Id<"projects">) =>
                   updateProject(_id, value)
@@ -244,7 +247,7 @@ export function TodoItem({
                 </SelectContent>
               </Select>
             )}
-            {currentLabel && (
+            {currentLabel && viewOptionMap["label"] && (
               <Select
                 onValueChange={(value: Id<"labels">) => updateLabel(_id, value)}
                 defaultValue={currentLabel?._id}
