@@ -4,6 +4,7 @@ import type { Id } from "@/convex/_generated/dataModel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DateTimePickerPopover } from "@/components/date-picker/popover";
 import { formatRelative } from "date-fns/formatRelative";
+import { TodoDesc } from "@/components/todos/todo-desc";
 import { SubTasks } from "@/components/todos/subtasks";
 import { isSameMinute } from "date-fns/isSameMinute";
 import { Text } from "@/components/ui/typography";
@@ -71,6 +72,10 @@ export const TodoItemDialog = (props: TodoItemDialogProps) => {
 
   const updateMutation = useMutation(api.todos.update);
 
+  const [isTextAreaVisible, setTextAreaVisible] = useState(
+    todo?.description && todo?.description?.length > 0
+  );
+
   if (todo) {
     const updateTodo = (values: Partial<TodoItem>) => {
       if (!todo) return;
@@ -98,6 +103,12 @@ export const TodoItemDialog = (props: TodoItemDialogProps) => {
           updateTodo({ dueDate: datetime.getTime() });
         }
       }
+    };
+
+    const showTextarea = todo.description && todo.description.length > 0;
+
+    const toggleVisibility = () => {
+      setTextAreaVisible((prev) => !prev);
     };
 
     return (
@@ -282,23 +293,25 @@ export const TodoItemDialog = (props: TodoItemDialogProps) => {
                 Description
               </Text>
             </div>
-            {todo.description && todo.description.length > 0 ? (
-              <div className="text-xs text-muted-foreground">
-                <Text className="[&:not(:first-child)]:mt-0 text-sm">
-                  {todo.description}
-                </Text>
-              </div>
-            ) : (
+            {!isTextAreaVisible ? (
               <Button
                 className="w-max p-0 hover:bg-transparent border px-2 rounded-lg border-dashed border-neutral-400 text-sm h-6"
                 variant="ghost"
+                onClick={() => toggleVisibility()}
               >
                 <PlusCircle className="mr-1.5 stroke-[1px] size-4" />
                 Add
               </Button>
-            )}
+            ) : null}
           </div>
         </div>
+
+        {showTextarea || isTextAreaVisible ? (
+          <TodoDesc
+            description={todo.description ?? ""}
+            onDescUpdate={(description) => updateTodo({ description })}
+          />
+        ) : null}
 
         <Tabs defaultValue="subtasks" className="w-full">
           <TabsList>
@@ -320,4 +333,6 @@ export const TodoItemDialog = (props: TodoItemDialogProps) => {
       </div>
     );
   }
+
+  return null;
 };
