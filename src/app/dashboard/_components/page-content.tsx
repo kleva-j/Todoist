@@ -1,16 +1,52 @@
-"use client";
+import { SelectViewOptions } from "@/dashboard/_components/select-view-options";
+import { SelectOptions } from "@/dashboard/_components/select-options";
+import { TodoListWrapper } from "@/dashboard/_components/wrapper";
+import { currentUser } from "@clerk/nextjs/server";
+import { Text } from "@/components/ui/typography";
+import { format } from "date-fns/format";
 
-import Dynamic from "next/dynamic";
+export async function Page() {
+  const user = await currentUser();
 
-import { useDashboardContext } from "@/dashboard/_components/context";
-import { FilterGroups } from "@/types";
+  if (!user) return null;
 
-const Todolist = Dynamic(() =>
-  import("@/app/dashboard/todos").then((mod) => mod.Todos)
-);
+  const today = new Date();
 
-export const PageContent = () => {
-  const { activeFilterOption } = useDashboardContext();
+  const [meridian, hours] = format(today, "aaa hh").split(" ");
 
-  return <Todolist filterGroup={FilterGroups[activeFilterOption ?? "inbox"]} />;
-};
+  return (
+    <main className="flex flex-1 flex-col gap-4 p-4 lg-px-8">
+      <div className="xl:px-40">
+        <div className="flex justify-between">
+          <div className="flex items-start justify-between flex-col">
+            <Text
+              as="h1"
+              variant="h3"
+              className="text-lg font-semibold md:text-xl capitalize"
+            >
+              Good{" "}
+              {meridian === "am"
+                ? "Morning"
+                : parseInt(String(hours)) >= 17
+                  ? "Evening"
+                  : "Afternoon"}
+              , {user.firstName}! 👋
+            </Text>
+            <Text
+              as="span"
+              variant="h4"
+              className="font-light text-base text-neutral-500 dark:text-neutral-400"
+            >
+              Today, {format(today, "eee PPP")}
+            </Text>
+          </div>
+          <div className="flex gap-1">
+            <SelectOptions />
+            <SelectViewOptions />
+          </div>
+        </div>
+        <TodoListWrapper />
+      </div>
+    </main>
+  );
+}
