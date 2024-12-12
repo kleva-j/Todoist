@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import type { FilterGroups } from "@/types";
+import { usePathname, useRouter } from "next/navigation";
+import { FilterGroups } from "@/types";
 
 import {
   type PropsWithChildren,
@@ -8,6 +10,7 @@ import {
   useContext,
   useEffect,
   useState,
+  useMemo,
 } from "react";
 
 export type FilterOption = keyof typeof FilterGroups;
@@ -46,9 +49,20 @@ export interface DashboardProviderProps extends PropsWithChildren {
 export const DashboardProvider = (props: DashboardProviderProps) => {
   const { defaultFilterOption, children } = props;
 
-  const [activeFilterOption, setActiveFilterOption] = useState(
-    defaultFilterOption ?? filterOptions[0]
-  );
+  const router = useRouter();
+
+  const activePath = usePathname().split("/").filter(Boolean)[1] as
+    | FilterOption
+    | undefined;
+
+  const activeFilterOption = useMemo(() => {
+    const defaults = defaultFilterOption ?? filterOptions[0];
+    if (!activePath) return defaults;
+    return filterOptions.includes(activePath) ? activePath : defaults;
+  }, [activePath]);
+
+  const setActiveFilterOption = (option: FilterOption | undefined) =>
+    router.push(`/dashboard/${option}`);
 
   const [viewOptionMap, setViewOptionMap] = useState<ViewOptionMap>(
     () =>
