@@ -13,6 +13,7 @@ import { api } from "@/convex/_generated/api";
 import { useMutation } from "convex/react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { groupBy } from "lodash";
 import { toast } from "sonner";
 
 import {
@@ -39,7 +40,7 @@ export function Todolist(props: TodolistProps) {
   const { todos, labels, projects, onTodoItemClick, labelsById, projectsById } =
     props;
 
-  const todoGroups = Object.groupBy(todos ?? [], (todo) =>
+  const todoGroups = groupBy(todos ?? [], (todo) =>
     todo.isCompleted ? "completed" : "inCompleted"
   );
 

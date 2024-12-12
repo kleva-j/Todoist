@@ -12,6 +12,7 @@ import { useMemo, useState } from "react";
 import { useQuery } from "convex/react";
 import { waitFor } from "@/lib/utils";
 import { useQueryState } from "nuqs";
+import { groupBy } from "lodash";
 
 export interface TodosProps {
   filterGroup: FilterGroups;
@@ -25,9 +26,9 @@ export const Todos = ({ filterGroup }: TodosProps) => {
   const labels = useQuery(labelsQuery, {});
   const todos = useQuery(todosQuery, {});
 
-  const projectsById = Object.groupBy(projects ?? [], (project) => project._id);
-  const labelsById = Object.groupBy(labels ?? [], (label) => label._id);
-  const todosById = Object.groupBy(todos ?? [], (todo) => todo._id);
+  const projectsById = groupBy(projects ?? [], (project) => project._id);
+  const labelsById = groupBy(labels ?? [], (label) => label._id);
+  const todosById = groupBy(todos ?? [], (todo) => todo._id);
 
   const [queryState, setQueryState] = useQueryState("tid");
   const [open, setOpen] = useState(false);
