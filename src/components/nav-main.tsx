@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 
-import { CalendarDays, Calendar, Inbox } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { Inbox } from "lucide-react";
 
 import {
   SidebarMenuButton,
@@ -25,35 +25,11 @@ export function NavMain() {
           <SidebarMenuButton
             asChild
             tooltip="Inbox"
-            isActive={!activePath || activePath === "inbox"}
+            isActive={activePath === "dashboard"}
           >
-            <Link href="/dashboard/inbox">
+            <Link href="/dashboard">
               <Inbox />
-              <span>Inbox</span>
-            </Link>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-        <SidebarMenuItem>
-          <SidebarMenuButton
-            asChild
-            tooltip="Today"
-            isActive={activePath === "today"}
-          >
-            <Link href="/dashboard/today">
-              <Calendar />
-              <span>Today</span>
-            </Link>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-        <SidebarMenuItem>
-          <SidebarMenuButton
-            asChild
-            tooltip="Upcoming"
-            isActive={activePath === "upcoming"}
-          >
-            <Link href="/dashboard/upcoming">
-              <CalendarDays />
-              <span>Upcoming</span>
+              <span>Dashboard</span>
             </Link>
           </SidebarMenuButton>
         </SidebarMenuItem>
