@@ -94,3 +94,47 @@ export function toSentenceCase(str: string): string {
     .replace(/\s+/g, " ")
     .trim();
 }
+
+/**
+ * Groups an array of objects by the value of a given key.
+ *
+ * @param collection - The array of objects to group.
+ * @param key - The key to group by.
+ * @returns An object with the values of the key as keys and an array of objects with that value as the value.
+ *
+ * @example
+ * const users = [
+ *   { name: 'John', age: 25 },
+ *   { name: 'Jane', age: 25 },
+ *   { name: 'Bob', age: 30 },
+ * ];
+ * const groupedUsers = groupBy(users, 'age');
+ * // groupedUsers is { '25': [{ name: 'John', age: 25 }, { name: 'Jane', age: 25 }], '30': [{ name: 'Bob', age: 30 }] }
+ */
+export function groupByKey<
+  T extends Record<string, unknown>,
+  K extends keyof T,
+>(collection: T[], key: K): Record<string, T[]> {
+  return collection.reduce(
+    (map, item) => {
+      const value = String(item[key]);
+      (map[value] || (map[value] = [])).push(item);
+      return map;
+    },
+    {} as Record<string, T[]>
+  );
+}
+
+export function groupBy<T, K extends keyof T | (string | number | symbol)>(
+  collection: T[],
+  cb: (item: T) => K
+): Record<string, T[]> {
+  return collection.reduce(
+    (map, item) => {
+      const value = cb(item);
+      (map[value] || (map[value] = [])).push(item);
+      return map;
+    },
+    {} as Record<K, T[]>
+  );
+}
