@@ -10,9 +10,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@clerk/backend": "^1.16.4",
+    "@clerk/backend": "^2.4.0",
     "@clerk/elements": "^0.16.2",
-    "@clerk/nextjs": "^5.7.5",
+    "@clerk/nextjs": "^6.21.0",
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-alert-dialog": "^1.1.2",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
