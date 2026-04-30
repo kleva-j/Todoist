@@ -12,7 +12,7 @@
   "dependencies": {
     "@clerk/backend": "^2.4.0",
     "@clerk/elements": "^0.16.2",
-    "@clerk/nextjs": "^6.21.0",
+    "@clerk/nextjs": "^6.39.3",
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-alert-dialog": "^1.1.2",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
